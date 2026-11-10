@@ -1,0 +1,138 @@
+{
+  "categoryMetrics": [
+    {
+      "id": "sayur_buah",
+      "title": "Sisa sayur & buah",
+      "value": "618 kg",
+      "valueNum": 618,
+      "percentage": "58% alokasi total",
+      "badge": "Kompos",
+      "icon": "Sprout"
+    },
+    {
+      "id": "sisa_produksi",
+      "title": "Sisa produksi",
+      "value": "344 kg",
+      "valueNum": 344,
+      "percentage": "31% alokasi total",
+      "badge": "BSF / Maggot",
+      "icon": "Archive"
+    },
+    {
+      "id": "makanan_olahan",
+      "title": "Makanan olahan",
+      "value": "98 kg",
+      "valueNum": 98,
+      "percentage": "9% alokasi total",
+      "badge": "BSF",
+      "icon": "Utensils"
+    },
+    {
+      "id": "campuran_terpilah",
+      "title": "Campuran terpilah",
+      "value": "42 kg",
+      "valueNum": 42,
+      "percentage": "4% alokasi total",
+      "badge": "Kompos",
+      "icon": "Layers"
+    }
+  ],
+  "dailyChart": {
+    "metadata": {
+      "rataRata": "42,4 kg/hari",
+      "puncak": "58 kg (18 Nov)",
+      "totalAkumulasi": "1.102 kg"
+    },
+    "data": [
+      { "tanggal": "01 Nov", "berat": 35 },
+      { "tanggal": "03 Nov", "berat": 38 },
+      { "tanggal": "05 Nov", "berat": 42 },
+      { "tanggal": "07 Nov", "berat": 40 },
+      { "tanggal": "09 Nov", "berat": 45 },
+      { "tanggal": "11 Nov", "berat": 41 },
+      { "tanggal": "13 Nov", "berat": 46 },
+      { "tanggal": "15 Nov", "berat": 48 },
+      { "tanggal": "17 Nov", "berat": 52 },
+      { "tanggal": "18 Nov", "berat": 58, "isPeak": true },
+      { "tanggal": "20 Nov", "berat": 44 },
+      { "tanggal": "22 Nov", "berat": 47 },
+      { "tanggal": "24 Nov", "berat": 43 },
+      { "tanggal": "26 Nov", "berat": 39 }
+    ]
+  },
+  "partnerRecap": [
+    {
+      "id": "PR-01",
+      "nama": "Dapur Sehat Purwokerto",
+      "initials": "DS",
+      "sub": "Kec. Purwokerto Timur",
+      "peran": "Mitra Sumber",
+      "totalBatch": 11,
+      "dilaporkan": 134,
+      "diterima": 128,
+      "ditolak": 6,
+      "tingkatPenerimaan": 95.5,
+      "status": "Progress"
+    },
+    {
+      "id": "PR-02",
+      "nama": "Katering Berkah Ibu",
+      "initials": "KB",
+      "sub": "Kec. Purwokerto Selatan",
+      "peran": "Mitra Sumber",
+      "totalBatch": 9,
+      "dilaporkan": 112,
+      "diterima": 108,
+      "ditolak": 4,
+      "tingkatPenerimaan": 96.4,
+      "status": "Progress"
+    },
+    {
+      "id": "PR-03",
+      "nama": "Warung Bu Slamet",
+      "initials": "WS",
+      "sub": "Kec. Purwokerto Barat",
+      "peran": "Mitra Sumber",
+      "totalBatch": 4,
+      "dilaporkan": 48,
+      "diterima": 48,
+      "ditolak": 0,
+      "tingkatPenerimaan": 100.0,
+      "status": "Progress"
+    },
+    {
+      "id": "PR-04",
+      "nama": "Kompos Tani Lestari",
+      "initials": "KT",
+      "sub": "Unit Pengomposan Sentral",
+      "peran": "Mitra Pengolah",
+      "totalBatch": 14,
+      "dilaporkan": null,
+      "diterima": 682,
+      "ditolak": 0,
+      "tingkatPenerimaan": 100.0,
+      "status": "Fasilitas Utama"
+    },
+    {
+      "id": "PR-05",
+      "nama": "Rumah Maggot Banyumas",
+      "initials": "RM",
+      "sub": "Biokonversi BSF Sub-sektor",
+      "peran": "Mitra Pengolah",
+      "totalBatch": 10,
+      "dilaporkan": null,
+      "diterima": 420,
+      "ditolak": 0,
+      "tingkatPenerimaan": 100.0,
+      "status": "Fasilitas BSF"
+    }
+  ],
+  "summaryTotal": {
+    "label": "TOTAL TERKONSOLIDASI (BULAN BERJALAN)",
+    "dilaporkan": "1.284 kg",
+    "diterima": "1.102 kg",
+    "ditolak": "46 kg",
+    "tingkatPenerimaan": "96,4%",
+    "status": "Audited"
+  }
+}

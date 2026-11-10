@@ -1,0 +1,101 @@
+{
+  "kpiCards": [
+    {
+      "id": "kpi_klasifikasi",
+      "header": "Klasifikasi Aktif",
+      "value": "4 Kategori Standar",
+      "subtext": "100% Sesuai SNI Pakan",
+      "icon": "Layers",
+      "subtextSuccess": true
+    },
+    {
+      "id": "kpi_fasilitas",
+      "header": "Fasilitas Hilir",
+      "value": "2 Jalur Pemanfaatan",
+      "subtext": "3 Mitra Pengolah Terdaftar",
+      "icon": "GitFork",
+      "subtextSuccess": false
+    },
+    {
+      "id": "kpi_validasi",
+      "header": "Standar Validasi",
+      "value": "Fisik Timbangan & Wadah",
+      "subtext": "Audit Manual Tingkat Fasilitas",
+      "icon": "Scale",
+      "subtextSuccess": false
+    },
+    {
+      "id": "kpi_satuan",
+      "header": "Unit Satuan Baku",
+      "value": "Kilogram (kg)",
+      "subtext": "Tunggal Seluruh Wilayah",
+      "icon": "Package",
+      "subtextSuccess": false
+    }
+  ],
+  "kategoriMaterial": [
+    {
+      "id": "CAT-ORG-01",
+      "nama": "Sisa sayur & buah",
+      "icon": "Sprout",
+      "deskripsi": "Sawi, kubis, kulit jeruk, kulit pisang, sisa kupasan buah segar",
+      "badges": ["Kadar air tinggi", "Pemisahan kontainer basah"],
+      "active": true
+    },
+    {
+      "id": "CAT-ORG-02",
+      "nama": "Sisa produksi",
+      "icon": "Archive",
+      "deskripsi": "Kulit, cacahan, ampas kedelai, sisa industri rumahan boga",
+      "badges": ["Material curah seragam", "Prioritas pakan maggot"],
+      "active": true
+    },
+    {
+      "id": "CAT-ORG-03",
+      "nama": "Makanan olahan",
+      "icon": "Utensils",
+      "deskripsi": "Sisa prasmanan, nasi, lauk pauk kering, potongan roti",
+      "badges": ["Non-kuah berlebih", "Maksimal 24 jam simpan"],
+      "active": true
+    },
+    {
+      "id": "CAT-ORG-04",
+      "nama": "Campuran",
+      "icon": "Layers",
+      "deskripsi": "Residu organik pasar tercampur tanpa pemilahan spesifik",
+      "badges": ["Wajib periksa kontaminasi", "Alokasi Kompos Aerobik"],
+      "active": true
+    }
+  ],
+  "jalurPemanfaatan": [
+    {
+      "id": "PTH-CMP-01",
+      "nama": "Kompos Aerobik",
+      "subtitle": "Dekomposisi Mikroba • ID: PTH-CMP-01",
+      "icon": "Sprout",
+      "active": true,
+      "deskripsi": "Dikelola oleh TPST dan kelompok tani lokal untuk dekomposisi organik berbasis sayur, buah, dan residu selulosa tinggi.",
+      "karakteristik": "Kadar air sedang, bebas kontaminasi plastik/kaca, rasio karbon-nitrogen seimbang.",
+      "facilitiesCount": "2 Fasilitas",
+      "facilities": ["● Kompos Tani Lestari", "● Bank Sampah Mandiri"],
+      "footer": "Kapasitas Harian: Terdaftar dalam log"
+    },
+    {
+      "id": "PTH-MGT-02",
+      "nama": "BSF / Maggot (Black Soldier Fly)",
+      "subtitle": "Biokonversi Protein • ID: PTH-MGT-02",
+      "icon": "Bug",
+      "active": true,
+      "deskripsi": "Biokonversi protein larva lalat tentara hitam untuk material tinggi protein dan ampas organik padat.",
+      "karakteristik": "Ampas tahu, sisa katering non-minyak berlebih, buah manis lunak, limbah pasar sayur.",
+      "facilitiesCount": "1 Fasilitas Utama",
+      "facilities": ["● Rumah Maggot Banyumas"],
+      "footer": "Alokasi Otomatis: Prioritas 1"
+    }
+  ],
+  "parameterTeknis": {
+    "toleransiMassa": 2.5,
+    "maksimalWaktuJam": 12,
+    "satuanBaku": "Kilogram (kg)"
+  }
+}

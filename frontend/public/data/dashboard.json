@@ -1,0 +1,137 @@
+{
+  "metrics": {
+    "totalWeight": {
+      "value": "1.284 kg",
+      "badge": "+8,4% vs pekan lalu",
+      "footer": "Kapasitas agregat 24 batch masuk"
+    },
+    "accepted": {
+      "value": "1.102 kg",
+      "badge": "85,8% tingkat konversi",
+      "footer": "Fasilitas aktif 3 TPST & Maggot"
+    },
+    "rejected": {
+      "value": "46 kg",
+      "badge": "3,5% deviasi kualitas",
+      "footer": "Kategori utama Kontaminasi anorganik"
+    },
+    "activeBatches": {
+      "value": "18 lot",
+      "badge": "12 dalam proses",
+      "footer": "Verifikasi awal 6 slot tersedia"
+    }
+  },
+  "weeklyChart": [
+    {
+      "week": "Minggu 1",
+      "kompos": 190,
+      "bsf": 110
+    },
+    {
+      "week": "Minggu 2",
+      "kompos": 220,
+      "bsf": 135
+    },
+    {
+      "week": "Minggu 3",
+      "kompos": 240,
+      "bsf": 160
+    },
+    {
+      "week": "Minggu 4 (Berjalan)",
+      "kompos": 160,
+      "bsf": 85
+    }
+  ],
+  "utilizationRoutes": [
+    {
+      "id": "kompos",
+      "title": "Kompos aerobik",
+      "weight": "682 kg",
+      "percentage": 61.8,
+      "subtext": "Residu hijau basah",
+      "color": "#176B4D"
+    },
+    {
+      "id": "bsf",
+      "title": "BSF / Maggot",
+      "weight": "420 kg",
+      "percentage": 38.2,
+      "subtext": "Tinggi protein & buah manis",
+      "color": "#2563EB"
+    }
+  ],
+  "recentBatches": [
+    {
+      "id": "BT-2611-001",
+      "source": "Pasar Wage Purwokerto",
+      "category": "Sisa Sayuran & Buah",
+      "weight": "320 kg",
+      "route": "Kompos",
+      "status": "Tersedia"
+    },
+    {
+      "id": "BT-2611-002",
+      "source": "Hotel Grand Banyumas",
+      "category": "Sisa Dapur Basah",
+      "weight": "180 kg",
+      "route": "BSF / Maggot",
+      "status": "Diproses"
+    },
+    {
+      "id": "BT-2611-003",
+      "source": "Resto Pringgading",
+      "category": "Minyak Jelantah & Lemak",
+      "weight": "95 kg",
+      "route": "BSF / Maggot",
+      "status": "Dijadwalkan"
+    },
+    {
+      "id": "BT-2611-004",
+      "source": "Pasar Manis",
+      "category": "Sayuran Tercampur",
+      "weight": "240 kg",
+      "route": "Kompos",
+      "status": "Perlu revisi"
+    },
+    {
+      "id": "BT-2611-005",
+      "source": "Katering Berkah Jaya",
+      "category": "Sisa Nasi & Roti",
+      "weight": "110 kg",
+      "route": "BSF / Maggot",
+      "status": "Diterima di tujuan"
+    },
+    {
+      "id": "BT-2611-006",
+      "source": "TPST Kranji Indah",
+      "category": "Dedaunan Taman",
+      "weight": "157 kg",
+      "route": "Kompos",
+      "status": "Selesai"
+    }
+  ],
+  "pendingPartners": [
+    {
+      "id": "PTR-001",
+      "name": "Dapur Organik Berkah",
+      "type": "Sumber",
+      "location": "Purwokerto Timur",
+      "category": "Restoran & Katering"
+    },
+    {
+      "id": "PTR-002",
+      "name": "Maggot Farm Karan",
+      "type": "Pengolah",
+      "location": "Karanglewas",
+      "category": "Biokonversi Larva BSF"
+    },
+    {
+      "id": "PTR-003",
+      "name": "Katering Bu Joko",
+      "type": "Sumber",
+      "location": "Purwokerto Selatan",
+      "category": "Jasa Boga & Residu Olahan"
+    }
+  ]
+}

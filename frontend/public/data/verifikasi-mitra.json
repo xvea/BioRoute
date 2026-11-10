@@ -1,0 +1,131 @@
+[
+  {
+    "id": "PTR-2026-001",
+    "nama": "Dapur Organik Berkah",
+    "pj": "Hendra Setiawan",
+    "telepon": "0812-3456-7890",
+    "jenis": "Mitra Sumber",
+    "lokasi": "Purwokerto Timur",
+    "alamatLengkap": "Jl. Supriyadi No. 42, Kel. Arcawinangun, Kec. Purwokerto Timur, Kab. Banyumas",
+    "koordinat": "-7.4241, 109.2301",
+    "markerLabel": "Fasilitas Dapur",
+    "pengajuan": "08 Nov 2026, 14:20 WIB",
+    "status": "Menunggu",
+    "estimasiTimbulan": "15–25 kg / hari",
+    "kategoriMaterial": [
+      {
+        "title": "Sisa sayur & buah",
+        "desc": "Organik basah dapur",
+        "icon": "Sprout"
+      },
+      {
+        "title": "Sisa produksi",
+        "desc": "Kulit, cacahan, ampas",
+        "icon": "Package"
+      }
+    ],
+    "dokumen": [
+      {
+        "nama": "NIB / Izin Usaha Mikro",
+        "sub": "PDF • Validasi OSS RBA",
+        "status": "Terlampir"
+      },
+      {
+        "nama": "Foto Fisik Dapur & Pemilahan",
+        "sub": "JPG • 3 Sudut Fasilitas",
+        "status": "Terlampir"
+      },
+      {
+        "nama": "Surat Pernyataan Pemilahan",
+        "sub": "PDF • Bermaterai 10.000",
+        "status": "Terlampir"
+      }
+    ]
+  },
+  {
+    "id": "PTR-2026-002",
+    "nama": "Maggot Farm Karan",
+    "pj": "Budi Prasetyo",
+    "telepon": "0821-9876-5432",
+    "jenis": "Mitra Pengolah",
+    "lokasi": "Karanglewas",
+    "alamatLengkap": "Jl. Raya Karanglewas Kidul No. 18, Kec. Karanglewas, Kab. Banyumas",
+    "koordinat": "-7.4195, 109.2012",
+    "markerLabel": "Fasilitas Biokonversi BSF",
+    "pengajuan": "07 Nov 2026, 10:15 WIB",
+    "status": "Menunggu",
+    "estimasiTimbulan": "150–250 kg / hari",
+    "kategoriMaterial": [
+      {
+        "title": "Limbah organik basah",
+        "desc": "Substrat pakan larva BSF",
+        "icon": "Bug"
+      },
+      {
+        "title": "Sisa buah & protein",
+        "desc": "Nutrisi percepatan prepupa",
+        "icon": "Package"
+      }
+    ],
+    "dokumen": [
+      {
+        "nama": "Izin Lingkungan & Lokasi TPST",
+        "sub": "PDF • Rekomendasi DLH",
+        "status": "Terlampir"
+      },
+      {
+        "nama": "Dokumentasi Biopond BSF",
+        "sub": "JPG • Kapasitas 2 Ton",
+        "status": "Terlampir"
+      },
+      {
+        "nama": "KTP & NPWP Penanggung Jawab",
+        "sub": "PDF • Terverifikasi Dukcapil",
+        "status": "Terlampir"
+      }
+    ]
+  },
+  {
+    "id": "PTR-2026-003",
+    "nama": "Katering Bu Joko",
+    "pj": "Siti Rahmawati",
+    "telepon": "0857-1122-3344",
+    "jenis": "Mitra Sumber",
+    "lokasi": "Purwokerto Selatan",
+    "alamatLengkap": "Jl. Gerilya Barat No. 88, Kel. Tanjung, Kec. Purwokerto Selatan, Kab. Banyumas",
+    "koordinat": "-7.4412, 109.2274",
+    "markerLabel": "Fasilitas Produksi Boga",
+    "pengajuan": "06 Nov 2026, 16:45 WIB",
+    "status": "Menunggu",
+    "estimasiTimbulan": "20–35 kg / hari",
+    "kategoriMaterial": [
+      {
+        "title": "Sisa sayur & buah",
+        "desc": "Pra-pengolahan masakan",
+        "icon": "Sprout"
+      },
+      {
+        "title": "Sisa produksi",
+        "desc": "Kadar air sedang terpilah",
+        "icon": "Package"
+      }
+    ],
+    "dokumen": [
+      {
+        "nama": "Sertifikat Laik Higiene Sanitasi",
+        "sub": "PDF • Dinas Kesehatan",
+        "status": "Terlampir"
+      },
+      {
+        "nama": "Foto Wadah Khusus Residu",
+        "sub": "JPG • Drum Terpisah Bertutup",
+        "status": "Terlampir"
+      },
+      {
+        "nama": "Surat Komitmen Jadwal Angkut",
+        "sub": "PDF • Format DLH Banyumas",
+        "status": "Terlampir"
+      }
+    ]
+  }
+]

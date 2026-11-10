@@ -1,0 +1,316 @@
+[
+  {
+    "id": "BR-2611-005",
+    "refId": "#905",
+    "sumber": "Dapur Sehat Purwokerto",
+    "pj": "Rina Marlina",
+    "alamat": "Jl. HR Bunyamin No. 42, Grendeng, Pwt Utara",
+    "lokasiSubtext": "Grendeng, Pwt Utara",
+    "kategori": "Sisa sayur & buah",
+    "kategoriDetail": "Sisa sayur & buah (bukan olahan berlemak)",
+    "berat": "12 kg",
+    "beratAngka": 12,
+    "jalur": "Kompos",
+    "status": "Tersedia",
+    "waktuPengajuan": "24 Nov 2026, 08:30 WIB",
+    "metodePenjemputan": "Diambil pengolah",
+    "dokumentasi": {
+      "wadah": "Wadah ember organik terpilah",
+      "wadahFormat": "Format: JPG • 2.1 MB",
+      "timbangan": "Timbangan fisik mitra sumber (12 kg)",
+      "timbanganDetail": "Tervalidasi timbang digital"
+    },
+    "auditHistory": [
+      {
+        "step": "Dicatat oleh Mitra Sumber",
+        "time": "08:30 WIB",
+        "subtext": "Input manifest dan foto material terunggah",
+        "status": "done"
+      },
+      {
+        "step": "Verifikasi Administratif",
+        "time": "08:45 WIB",
+        "subtext": "Pemeriksaan konsistensi jenis residu & riwayat",
+        "status": "done"
+      },
+      {
+        "step": "Alokasi Pengolah Terbuka",
+        "time": "Sekarang",
+        "subtext": "Menunggu pemilihan mitra pengolah regional",
+        "status": "current"
+      }
+    ],
+    "pengolahSekitar": [
+      {
+        "id": "PGL-01",
+        "nama": "Kompos Tani Lestari",
+        "jarak": "2,1 km",
+        "jalur": "Kompos",
+        "sisaKapasitas": "65 kg/hari"
+      },
+      {
+        "id": "PGL-02",
+        "nama": "Rumah Maggot Banyumas",
+        "jarak": "3,4 km",
+        "jalur": "BSF / Maggot",
+        "sisaKapasitas": "40 kg/hari"
+      }
+    ]
+  },
+  {
+    "id": "BR-2611-004",
+    "refId": "#904",
+    "sumber": "Resto Pringgading",
+    "pj": "Agus Pratama",
+    "alamat": "Jl. DI Panjaitan No. 12, Purwokerto Kidul",
+    "lokasiSubtext": "Purwokerto Kidul",
+    "kategori": "Sisa olahan dapur",
+    "kategoriDetail": "Ampas nasi, kuah kental, sayuran rebus",
+    "berat": "18 kg",
+    "beratAngka": 18,
+    "jalur": "BSF / Maggot",
+    "status": "Diproses",
+    "waktuPengajuan": "24 Nov 2026, 07:45 WIB",
+    "metodePenjemputan": "Diantar mandiri",
+    "dokumentasi": {
+      "wadah": "Tong tertutup kedap udara",
+      "wadahFormat": "Format: JPG • 1.8 MB",
+      "timbangan": "Timbangan digital portabel (18 kg)",
+      "timbanganDetail": "Deviasi sensor 0.1%"
+    },
+    "auditHistory": [
+      {
+        "step": "Dicatat oleh Mitra Sumber",
+        "time": "07:45 WIB",
+        "subtext": "Pengisian batch harian restoran",
+        "status": "done"
+      },
+      {
+        "step": "Verifikasi Administratif",
+        "time": "08:00 WIB",
+        "subtext": "Disetujui operator shift pagi",
+        "status": "done"
+      },
+      {
+        "step": "Proses Pengolahan Berjalan",
+        "time": "08:15 WIB",
+        "subtext": "Substrat diterima biopond larva BSF",
+        "status": "current"
+      }
+    ],
+    "pengolahSekitar": [
+      {
+        "id": "PGL-02",
+        "nama": "Rumah Maggot Banyumas",
+        "jarak": "3,4 km",
+        "jalur": "BSF / Maggot",
+        "sisaKapasitas": "40 kg/hari"
+      },
+      {
+        "id": "PGL-03",
+        "nama": "BioKonversi Purwokerto",
+        "jarak": "4,2 km",
+        "jalur": "BSF / Maggot",
+        "sisaKapasitas": "80 kg/hari"
+      }
+    ]
+  },
+  {
+    "id": "BR-2611-003",
+    "refId": "#903",
+    "sumber": "Pasar Manis Purwokerto",
+    "pj": "Slamet Riyadi",
+    "alamat": "Jl. Gatot Subroto No. 5, Purwokerto Barat",
+    "lokasiSubtext": "Purwokerto Barat",
+    "kategori": "Sisa sayur & buah",
+    "kategoriDetail": "Cacahan sawi, kol, dan kulit pepaya pasar",
+    "berat": "15 kg",
+    "beratAngka": 15,
+    "jalur": "Kompos",
+    "status": "Tersedia",
+    "waktuPengajuan": "23 Nov 2026, 17:10 WIB",
+    "metodePenjemputan": "Diambil pengolah",
+    "dokumentasi": {
+      "wadah": "Kantung karung goni organik",
+      "wadahFormat": "Format: JPG • 2.4 MB",
+      "timbangan": "Timbangan gantung analog terkalibrasi",
+      "timbanganDetail": "Sertifikasi Metrologi Legal"
+    },
+    "auditHistory": [
+      {
+        "step": "Dicatat oleh Mitra Sumber",
+        "time": "17:10 WIB",
+        "subtext": "Pembersihan lapak sore hari",
+        "status": "done"
+      },
+      {
+        "step": "Verifikasi Administratif",
+        "time": "17:30 WIB",
+        "subtext": "Kadar air sesuai standar pengomposan",
+        "status": "done"
+      },
+      {
+        "step": "Alokasi Pengolah Terbuka",
+        "time": "Sekarang",
+        "subtext": "Tersedia untuk klaster kompos aerasi",
+        "status": "current"
+      }
+    ],
+    "pengolahSekitar": [
+      {
+        "id": "PGL-01",
+        "nama": "Kompos Tani Lestari",
+        "jarak": "2,1 km",
+        "jalur": "Kompos",
+        "sisaKapasitas": "65 kg/hari"
+      }
+    ]
+  },
+  {
+    "id": "BR-2611-002",
+    "refId": "#902",
+    "sumber": "Katering Sedap Rasa",
+    "pj": "Dewi Lestari",
+    "alamat": "Jl. Overste Isdiman No. 25, Purwokerto Lor",
+    "lokasiSubtext": "Purwokerto Lor",
+    "kategori": "Sisa olahan dapur",
+    "kategoriDetail": "Residu kupasan bawang & potongan sayur mayur",
+    "berat": "9 kg",
+    "beratAngka": 9,
+    "jalur": "BSF / Maggot",
+    "status": "Dijadwalkan",
+    "waktuPengajuan": "23 Nov 2026, 15:30 WIB",
+    "metodePenjemputan": "Diambil pengolah",
+    "dokumentasi": {
+      "wadah": "Ember food-grade tertutup",
+      "wadahFormat": "Format: JPG • 1.5 MB",
+      "timbangan": "Timbangan digital dapur (9 kg)",
+      "timbanganDetail": "Akurasi 50 gram"
+    },
+    "auditHistory": [
+      {
+        "step": "Dicatat oleh Mitra Sumber",
+        "time": "15:30 WIB",
+        "subtext": "Penyelesaian pesanan prasmanan siang",
+        "status": "done"
+      },
+      {
+        "step": "Verifikasi Administratif",
+        "time": "16:00 WIB",
+        "subtext": "Verifikasi foto & berat disetujui",
+        "status": "done"
+      },
+      {
+        "step": "Dijadwalkan Penjemputan",
+        "time": "24 Nov, 09:00",
+        "subtext": "Driver armada pengolah ditugaskan",
+        "status": "current"
+      }
+    ],
+    "pengolahSekitar": [
+      {
+        "id": "PGL-02",
+        "nama": "Rumah Maggot Banyumas",
+        "jarak": "3,4 km",
+        "jalur": "BSF / Maggot",
+        "sisaKapasitas": "40 kg/hari"
+      }
+    ]
+  },
+  {
+    "id": "BR-2611-001",
+    "refId": "#901",
+    "sumber": "Hotel Grand Banyumas",
+    "pj": "Kurniawan",
+    "alamat": "Jl. Dr. Angka No. 99, Purwokerto Timur",
+    "lokasiSubtext": "Purwokerto Timur",
+    "kategori": "Limbah pasar",
+    "kategoriDetail": "Sisa potongan prasmanan sarapan pagi",
+    "berat": "7 kg",
+    "beratAngka": 7,
+    "jalur": "Kompos",
+    "status": "Perlu revisi",
+    "waktuPengajuan": "23 Nov 2026, 11:20 WIB",
+    "metodePenjemputan": "Diantar mandiri",
+    "dokumentasi": {
+      "wadah": "Plastik kresek bening bertutup",
+      "wadahFormat": "Format: JPG • 2.0 MB",
+      "timbangan": "Timbangan digital hotel (7 kg)",
+      "timbanganDetail": "Ditemukan tusuk gigi kayu anorganik"
+    },
+    "auditHistory": [
+      {
+        "step": "Dicatat oleh Mitra Sumber",
+        "time": "11:20 WIB",
+        "subtext": "Material terdaftar di portal",
+        "status": "done"
+      },
+      {
+        "step": "Pemberitahuan Revisi",
+        "time": "11:45 WIB",
+        "subtext": "Perlu pemilahan ulang kontaminan anorganik",
+        "status": "current"
+      }
+    ],
+    "pengolahSekitar": [
+      {
+        "id": "PGL-01",
+        "nama": "Kompos Tani Lestari",
+        "jarak": "2,1 km",
+        "jalur": "Kompos",
+        "sisaKapasitas": "65 kg/hari"
+      }
+    ]
+  },
+  {
+    "id": "BR-2611-000",
+    "refId": "#900",
+    "sumber": "Taman Andhang Pangrenan",
+    "pj": "Wahyudi",
+    "alamat": "Jl. Pahlawan No. 1, Karangklesem",
+    "lokasiSubtext": "Karangklesem, Pwt Selatan",
+    "kategori": "Dedaunan & ranting",
+    "kategoriDetail": "Guguran daun kering & seresah pangkasan taman",
+    "berat": "5 kg",
+    "beratAngka": 5,
+    "jalur": "Kompos",
+    "status": "Selesai",
+    "waktuPengajuan": "23 Nov 2026, 09:15 WIB",
+    "metodePenjemputan": "Diambil pengolah",
+    "dokumentasi": {
+      "wadah": "Keranjang bambu ventilasi",
+      "wadahFormat": "Format: JPG • 1.9 MB",
+      "timbangan": "Timbangan duduk kebun (5 kg)",
+      "timbanganDetail": "Kondisi kering bebas batu"
+    },
+    "auditHistory": [
+      {
+        "step": "Dicatat oleh Mitra Sumber",
+        "time": "09:15 WIB",
+        "subtext": "Selesai penyapuan area taman",
+        "status": "done"
+      },
+      {
+        "step": "Verifikasi Administratif",
+        "time": "09:30 WIB",
+        "subtext": "Sesuai standar residu cokelat",
+        "status": "done"
+      },
+      {
+        "step": "Diterima Pengolah",
+        "time": "10:15 WIB",
+        "subtext": "Masuk bak fermentasi anaerobik",
+        "status": "done"
+      }
+    ],
+    "pengolahSekitar": [
+      {
+        "id": "PGL-01",
+        "nama": "Kompos Tani Lestari",
+        "jarak": "2,1 km",
+        "jalur": "Kompos",
+        "sisaKapasitas": "65 kg/hari"
+      }
+    ]
+  }
+]
