@@ -35,7 +35,7 @@ function isValidJWT(token) {
  * - Enforces authentication on protected routes (/(main)/* such as /dashboard)
  * - Redirects authenticated users from /login and / to /dashboard
  */
-export function middleware(request) {
+export function proxy(request) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get('token')?.value;
   const hasValidToken = isValidJWT(token);
