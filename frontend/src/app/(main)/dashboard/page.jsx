@@ -26,6 +26,8 @@ import {
   Tooltip,
   LabelList,
 } from 'recharts';
+import StatusBadge from '@/components/ui/StatusBadge';
+import ErrorState from '@/components/ui/ErrorState';
 
 const emptySubscribe = () => () => {};
 
@@ -37,33 +39,7 @@ function useIsMounted() {
   );
 }
 
-/**
- * Status Badge Component for Batches
- */
-function BatchStatusBadge({ status }) {
-  const statusStyles = {
-    Tersedia: 'bg-[#EAF5F0] text-[#16805D] border-[#16805D]/20',
-    Diproses: 'bg-[#FEF3C7] text-[#B7791F] border-[#B7791F]/20',
-    Dijadwalkan: 'bg-[#EFF6FF] text-[#2563EB] border-[#2563EB]/20',
-    'Perlu revisi': 'bg-[#FEE2E2] text-[#C2413B] border-[#C2413B]/20',
-    'Diterima di tujuan': 'bg-[#EAF5F0] text-[#16805D] border-[#16805D]/20',
-    Selesai: 'bg-[#F4F6F5] text-[#66736C] border-[#E5EAE7]',
-  };
-
-  const style = statusStyles[status] || 'bg-[#F4F6F5] text-[#66736C] border-[#E5EAE7]';
-
-  return (
-    <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${style}`}
-    >
-      {status}
-    </span>
-  );
-}
-
-/**
- * Custom Tooltip for Recharts
- */
+// Custom Tooltip for Recharts
 function CustomChartTooltip({ active, payload, label }) {
   if (active && payload && payload.length) {
     return (
@@ -205,29 +181,11 @@ export default function DashboardPage() {
   // 2. Error State (Clear accessible card with Retry button)
   if (error) {
     return (
-      <section
-        role="alert"
-        aria-live="assertive"
-        className="max-w-xl mx-auto my-12 p-6 rounded-2xl bg-white border border-red-200 shadow-sm text-center"
-      >
-        <div className="w-12 h-12 rounded-full bg-red-50 text-[#C2413B] flex items-center justify-center mx-auto mb-4">
-          <AlertTriangle className="w-6 h-6" aria-hidden="true" />
-        </div>
-        <h2 className="text-lg font-bold text-[#17231D]">
-          Gagal Memuat Data Operasional
-        </h2>
-        <p className="text-xs text-[#66736C] mt-2 mb-6 leading-relaxed">
-          {error}
-        </p>
-        <button
-          type="button"
-          onClick={handleRetry}
-          className="inline-flex items-center gap-2 bg-[#176B4D] hover:bg-[#104D38] text-white px-5 py-2.5 rounded-xl text-xs font-semibold shadow-xs hover:shadow transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] cursor-pointer"
-        >
-          <RefreshCw className="w-3.5 h-3.5" aria-hidden="true" />
-          <span>Coba Muat Ulang</span>
-        </button>
-      </section>
+      <ErrorState
+        judul="Gagal Memuat Data Operasional"
+        pesan={error}
+        onRetry={handleRetry}
+      />
     );
   }
 
@@ -266,9 +224,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6 bg-white">
       
-      {/* ========================================================= */}
       {/* HEADER SECTION                                            */}
-      {/* ========================================================= */}
       <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
         <div>
           <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">
@@ -297,9 +253,7 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      {/* ========================================================= */}
       {/* METRIC CARDS ROW (4 COLUMNS GRID)                         */}
-      {/* ========================================================= */}
       <section
         aria-label="Metrik Utama Operasional"
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5"
@@ -397,9 +351,7 @@ export default function DashboardPage() {
         </article>
       </section>
 
-      {/* ========================================================= */}
       {/* MIDDLE SECTION (7:5 DESKTOP GRID)                         */}
-      {/* ========================================================= */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Left Card: Berat per minggu (kg) */}
@@ -563,9 +515,7 @@ export default function DashboardPage() {
 
       </section>
 
-      {/* ========================================================= */}
       {/* BOTTOM SECTION (BATCHES & VERIFICATION)                   */}
-      {/* ========================================================= */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Left Card: Batch terbaru (7 cols) */}
@@ -621,7 +571,7 @@ export default function DashboardPage() {
                       {batch.route}
                     </td>
                     <td className="py-3">
-                      <BatchStatusBadge status={batch.status} />
+                      <StatusBadge status={batch.status} />                      
                     </td>
                     <td className="py-3 text-right">
                       <button

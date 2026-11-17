@@ -13,59 +13,21 @@ import {
   Info,
   FileText,
   CheckSquare,
-  CheckCircle2,
-  AlertTriangle,
   ChevronLeft,
   ChevronRight,
   Check,
   Building2,
   Archive,
 } from 'lucide-react';
+import StatusBadge from '@/components/ui/StatusBadge';
+import RouteBadge from '@/components/ui/RouteBadge';
+import Toast from '@/components/ui/Toast';
+import ErrorState from '@/components/ui/ErrorState';
+import useToast from '@/hooks/useToast';
+import { STATUS_BATCH } from '@/lib/constants';
 
-/**
- * Status Badge for Batches
- */
-function BatchStatusBadge({ status }) {
-  const statusStyles = {
-    Tersedia: 'bg-[#EAF5F0] text-[#16805D] border-[#16805D]/20',
-    Selesai: 'bg-[#EAF5F0] text-[#16805D] border-[#16805D]/20',
-    Diproses: 'bg-[#FEF3C7] text-[#B7791F] border-[#B7791F]/20',
-    Dijadwalkan: 'bg-[#EFF6FF] text-[#2563EB] border-[#2563EB]/20',
-    'Perlu revisi': 'bg-[#FEE2E2] text-[#C2413B] border-[#C2413B]/20',
-  };
 
-  const style = statusStyles[status] || 'bg-[#F4F6F5] text-[#66736C] border-[#E5EAE7]';
-
-  return (
-    <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${style}`}
-    >
-      {status}
-    </span>
-  );
-}
-
-/**
- * Route Badge (Kompos vs BSF)
- */
-function RouteBadge({ jalur }) {
-  const isKompos = jalur === 'Kompos';
-  return (
-    <span
-      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
-        isKompos
-          ? 'bg-[#EAF5F0] text-[#16805D] border border-[#16805D]/15'
-          : 'bg-[#EFF6FF] text-[#2563EB] border border-[#2563EB]/15'
-      }`}
-    >
-      {jalur}
-    </span>
-  );
-}
-
-/**
- * Pulse Skeleton matching exact layout dimensions
- */
+// Pulse Skeleton matching exact layout dimensions
 function BatchSkeleton() {
   return (
     <div className="space-y-6 animate-pulse bg-white" aria-busy="true" aria-label="Memuat data batch material">
@@ -118,22 +80,20 @@ export default function BatchPage() {
   const [error, setError] = useState(null);
   const [retryCount, setRetryCount] = useState(0);
 
-  // Filter States
+// Filter States
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('Semua Status');
   const [categoryFilter, setCategoryFilter] = useState('Semua Kategori');
   const [routeFilter, setRouteFilter] = useState('Semua Jalur');
   const [dateRange, setDateRange] = useState('26 Nov 2026');
 
-  // Selected processor for offering in Section 5
+// Selected processor for offering in Section 5
   const [selectedProcessorId, setSelectedProcessorId] = useState('PGL-01');
 
-  // Toast feedback
-  const [toast, setToast] = useState(null);
+// Toast feedback
+  const { toast, tampilkanToast } = useToast();
 
-  /**
-   * Fetch batch records dynamically from /data/batch-material.json
-   */
+// Fetch batch records dynamically from /data/batch-material.json
   useEffect(() => {
     let active = true;
 
@@ -175,18 +135,14 @@ export default function BatchPage() {
     };
   }, [retryCount]);
 
-  /**
-   * Functional Retry Action
-   */
+// Functional Retry Action
   const handleRetry = () => {
     setIsLoading(true);
     setError(null);
     setRetryCount((prev) => prev + 1);
   };
 
-  /**
-   * Reset All Filters to Defaults
-   */
+// Reset All Filters to Defaults
   const handleResetFilters = () => {
     setSearchQuery('');
     setStatusFilter('Semua Status');
@@ -195,9 +151,7 @@ export default function BatchPage() {
     setDateRange('26 Nov 2026');
   };
 
-  /**
-   * Filtered Batches based on controls
-   */
+// Filtered Batches based on controls
   const filteredBatches = useMemo(() => {
     return batches.filter((batch) => {
       // Search by Code or Source
@@ -234,41 +188,36 @@ export default function BatchPage() {
     return batches.find((b) => b.id === selectedBatchId) || filteredBatches[0] || batches[0];
   }, [batches, selectedBatchId, filteredBatches]);
 
-  /**
-   * Action: Approve & Offer to Processor
-   */
+//  Action: Approve & Offer to Processor
   const handleApproveAndOffer = (batch) => {
     const processor = batch.pengolahSekitar?.find((p) => p.id === selectedProcessorId) || batch.pengolahSekitar?.[0];
     const processorName = processor?.nama || 'Pengolah Terpilih';
 
     setBatches((prev) =>
       prev.map((b) =>
-        b.id === batch.id ? { ...b, status: 'Diproses' } : b
+        // TODO: status yang benar setelah disetujui admin adalah TERSEDIA.
+        b.id === batch.id ? { ...b, status: STATUS_BATCH.DIPROSES } : b
       )
     );
 
-    setToast({
-      type: 'success',
-      message: `Batch ${batch.id} (${batch.berat}) berhasil disetujui & ditawarkan ke "${processorName}".`,
-    });
-    setTimeout(() => setToast(null), 4000);
+    tampilkanToast(
+      'success',
+      `Batch ${batch.id} (${batch.berat}) berhasil disetujui & ditawarkan ke "${processorName}".`
+    );
   };
 
-  /**
-   * Action: Request Revision
-   */
+// Action: Request Revision
   const handleRequestRevision = (batch) => {
     setBatches((prev) =>
       prev.map((b) =>
-        b.id === batch.id ? { ...b, status: 'Perlu revisi' } : b
+        b.id === batch.id ? { ...b, status: STATUS_BATCH.PERLU_REVISI } : b
       )
     );
 
-    setToast({
-      type: 'warning',
-      message: `Permintaan revisi manifest telah dikirimkan ke mitra sumber "${batch.sumber}".`,
-    });
-    setTimeout(() => setToast(null), 4000);
+    tampilkanToast(
+      'warning',
+      `Permintaan revisi manifest telah dikirimkan ke mitra sumber "${batch.sumber}".`
+    );
   };
 
   // 1. Loading State
@@ -279,29 +228,11 @@ export default function BatchPage() {
   // 2. Error State with Functional Retry Button
   if (error) {
     return (
-      <section
-        role="alert"
-        aria-live="assertive"
-        className="max-w-xl mx-auto my-12 p-8 rounded-2xl bg-white border border-red-200 shadow-sm text-center"
-      >
-        <div className="w-12 h-12 rounded-full bg-red-50 text-[#C2413B] flex items-center justify-center mx-auto mb-4">
-          <AlertTriangle className="w-6 h-6" aria-hidden="true" />
-        </div>
-        <h2 className="text-lg font-bold text-[#17231D]">
-          Gagal Memuat Data Batch Material
-        </h2>
-        <p className="text-xs text-[#66736C] mt-2 mb-6 leading-relaxed">
-          {error}
-        </p>
-        <button
-          type="button"
-          onClick={handleRetry}
-          className="inline-flex items-center gap-2 bg-[#176B4D] hover:bg-[#104D38] text-white px-5 py-2.5 rounded-xl text-xs font-semibold shadow-xs hover:shadow transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] cursor-pointer"
-        >
-          <RefreshCw className="w-3.5 h-3.5" aria-hidden="true" />
-          <span>Coba Lagi</span>
-        </button>
-      </section>
+      <ErrorState
+        judul="Gagal Memuat Data Batch Material"
+        pesan={error}
+        onRetry={handleRetry}
+      />
     );
   }
 
@@ -313,28 +244,9 @@ export default function BatchPage() {
     <div className="space-y-6 bg-white">
       
       {/* Toast Alert Feedback */}
-      {toast && (
-        <aside
-          role="status"
-          aria-live="polite"
-          className={`fixed bottom-6 right-6 z-50 p-4 rounded-xl shadow-xl border flex items-center gap-3 text-xs font-medium max-w-md animate-fade-in ${
-            toast.type === 'success'
-              ? 'bg-[#EAF5F0] border-[#16805D]/20 text-[#16805D]'
-              : 'bg-amber-50 border-amber-200 text-[#B7791F]'
-          }`}
-        >
-          {toast.type === 'success' ? (
-            <CheckCircle2 className="w-5 h-5 shrink-0 text-[#16805D]" />
-          ) : (
-            <Info className="w-5 h-5 shrink-0 text-[#B7791F]" />
-          )}
-          <span className="leading-snug">{toast.message}</span>
-        </aside>
-      )}
+      <Toast toast={toast} />
 
-      {/* ========================================================= */}
       {/* 3. PAGE HEADER & METRIC KPI CARDS                         */}
-      {/* ========================================================= */}
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-1">
         <div>
           {/* Top Meta Tag / Breadcrumb */}
@@ -390,9 +302,7 @@ export default function BatchPage() {
         </div>
       </section>
 
-      {/* ========================================================= */}
       {/* 4. FILTER CONTROLS & ACTIVE CHIPS BAR                     */}
-      {/* ========================================================= */}
       <section aria-label="Filter Kontrol Batch" className="space-y-3">
         {/* Filter Inputs Row (5 Columns) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
@@ -531,14 +441,10 @@ export default function BatchPage() {
         </div>
       </section>
 
-      {/* ========================================================= */}
       {/* 5. TWO-COLUMN SPLIT LAYOUT (7:5 DESKTOP GRID)             */}
-      {/* ========================================================= */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        {/* ======================================================= */}
         {/* A. LEFT COLUMN: BATCH LIST TABLE (lg:col-span-7)        */}
-        {/* ======================================================= */}
         <section className="lg:col-span-7 bg-white border border-[#E5EAE7] rounded-2xl p-5 shadow-sm flex flex-col justify-between min-h-[580px]">
           <div>
             {/* Table Header Section */}
@@ -558,13 +464,9 @@ export default function BatchPage() {
                   type="button"
                   title="Ekspor CSV"
                   aria-label="Ekspor CSV"
-                  onClick={() => {
-                    setToast({
-                      type: 'success',
-                      message: 'Data batch material berhasil diekspor (Format CSV).',
-                    });
-                    setTimeout(() => setToast(null), 3000);
-                  }}
+                  onClick={() =>
+                    tampilkanToast('success', 'Data batch material berhasil diekspor (Format CSV).')
+                  }
                   className="border border-[#E5EAE7] rounded-lg p-2 text-[#66736C] hover:bg-[#F4F6F5] hover:text-[#17231D] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] cursor-pointer"
                 >
                   <Download className="w-4 h-4" aria-hidden="true" />
@@ -720,9 +622,7 @@ export default function BatchPage() {
           </footer>
         </section>
 
-        {/* ======================================================= */}
         {/* B. RIGHT COLUMN: BATCH DETAIL PANEL (lg:col-span-5)     */}
-        {/* ======================================================= */}
         <aside className="lg:col-span-5 bg-white border border-[#E5EAE7] rounded-2xl p-6 shadow-sm flex flex-col gap-5">
           {selectedBatch ? (
             <>
@@ -733,7 +633,7 @@ export default function BatchPage() {
                     Detail Batch {selectedBatch.id}
                   </h2>
                   <div className="flex items-center gap-1.5">
-                    <BatchStatusBadge status={selectedBatch.status} />
+                    <StatusBadge status={selectedBatch.status} />
                     <span className="text-[11px] font-mono bg-[#F4F6F5] text-[#17231D] px-2 py-0.5 rounded border border-[#E5EAE7]">
                       ID: {selectedBatch.refId}
                     </span>
