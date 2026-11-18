@@ -312,9 +312,7 @@ export default function VerifikasiPage() {
         </div>
       )}
 
-      {/* ========================================================= */}
-      {/* PAGE HEADER & TOP ACTIONS                                 */}
-      {/* ========================================================= */}
+      {/* PAGE HEADER & TOP ACTIONS */}
       <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-1">
         <div>
           <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">
@@ -352,9 +350,7 @@ export default function VerifikasiPage() {
         </div>
       </section>
 
-      {/* ========================================================= */}
-      {/* STATUS TABS ROW                                           */}
-      {/* ========================================================= */}
+      {/* STATUS TABS ROW */}
       <nav aria-label="Status Permohonan Mitra" className="border-b border-[#E5EAE7]">
         <div className="flex items-center gap-8">
           {/* Tab Menunggu */}
@@ -407,14 +403,10 @@ export default function VerifikasiPage() {
         </div>
       </nav>
 
-      {/* ========================================================= */}
-      {/* TWO-COLUMN SPLIT LAYOUT (7:5 DESKTOP GRID)                */}
-      {/* ========================================================= */}
+      {/* TWO-COLUMN SPLIT LAYOUT (7:5 DESKTOP GRID) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        {/* ======================================================= */}
-        {/* A. LEFT COLUMN: APPLICATION TABLE (lg:col-span-7)       */}
-        {/* ======================================================= */}
+        {/* A. LEFT COLUMN: APPLICATION TABLE (lg:col-span-7) */}
         <section className="lg:col-span-7 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs p-5 flex flex-col justify-between min-h-[580px]">
           <div>
             {/* Search & Sort Toolbar */}
@@ -600,9 +592,7 @@ export default function VerifikasiPage() {
           </footer>
         </section>
 
-        {/* ======================================================= */}
-        {/* B. RIGHT COLUMN: DETAIL PANEL (lg:col-span-5)           */}
-        {/* ======================================================= */}
+        {/* B. RIGHT COLUMN: DETAIL PANEL (lg:col-span-5) */}
         <aside className="lg:col-span-5 border border-[#E5EAE7] rounded-2xl bg-white p-6 shadow-sm flex flex-col gap-6">
           {selectedPartner ? (
             <>

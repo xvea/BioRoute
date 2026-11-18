@@ -197,9 +197,7 @@ export default function AdminLoginPage() {
       {/* Centerpiece: Split Two-Column Authentication Card */}
       <section className="max-w-4xl w-full rounded-3xl overflow-hidden border border-[#E5EAE7] shadow-xl grid grid-cols-1 md:grid-cols-2 bg-white">
         
-        {/* ========================================================= */}
-        {/* LEFT PANEL: BRANDING & OPERATIONAL CONTEXT                */}
-        {/* ========================================================= */}
+        {/* LEFT PANEL: BRANDING & OPERATIONAL CONTEXT */}
         <article className="relative bg-[#104D38] p-8 sm:p-10 flex flex-col justify-between text-white overflow-hidden min-h-[460px] md:min-h-[580px]">
           {/* Subtle Organic Topographical Contour Vector Overlay */}
           <TopoContourBackground />
@@ -283,9 +281,7 @@ export default function AdminLoginPage() {
           </footer>
         </article>
 
-        {/* ========================================================= */}
-        {/* RIGHT PANEL: AUTHENTICATION FORM                          */}
-        {/* ========================================================= */}
+        {/* RIGHT PANEL: AUTHENTICATION FORM */}
         <section className="bg-white p-8 sm:p-10 flex flex-col justify-between">
           <div>
             {/* Header: Chip Badge & Titles */}

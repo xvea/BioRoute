@@ -39,7 +39,9 @@ function useIsMounted() {
   );
 }
 
-// Custom Tooltip for Recharts
+/**
+ * Custom Tooltip for Recharts
+ */
 function CustomChartTooltip({ active, payload, label }) {
   if (active && payload && payload.length) {
     return (
@@ -224,7 +226,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6 bg-white">
       
-      {/* HEADER SECTION                                            */}
+      {/* HEADER SECTION */}
       <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
         <div>
           <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">
@@ -253,7 +255,7 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      {/* METRIC CARDS ROW (4 COLUMNS GRID)                         */}
+      {/* METRIC CARDS ROW (4 COLUMNS GRID) */}
       <section
         aria-label="Metrik Utama Operasional"
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5"
@@ -351,7 +353,7 @@ export default function DashboardPage() {
         </article>
       </section>
 
-      {/* MIDDLE SECTION (7:5 DESKTOP GRID)                         */}
+      {/* MIDDLE SECTION (7:5 DESKTOP GRID) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Left Card: Berat per minggu (kg) */}
@@ -515,7 +517,7 @@ export default function DashboardPage() {
 
       </section>
 
-      {/* BOTTOM SECTION (BATCHES & VERIFICATION)                   */}
+      {/* BOTTOM SECTION (BATCHES & VERIFICATION) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Left Card: Batch terbaru (7 cols) */}

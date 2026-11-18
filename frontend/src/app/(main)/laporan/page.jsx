@@ -258,9 +258,7 @@ export default function LaporanPage() {
         </aside>
       )}
 
-      {/* ========================================================= */}
-      {/* 3. PAGE HEADER & EXPORT ACTIONS                           */}
-      {/* ========================================================= */}
+      {/* 3. PAGE HEADER & EXPORT ACTIONS */}
       <section className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 pb-1">
         <div>
           <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">
@@ -316,9 +314,7 @@ export default function LaporanPage() {
         </div>
       </section>
 
-      {/* ========================================================= */}
-      {/* 4. CATEGORY METRIC CARDS (4 COLUMNS GRID)                 */}
-      {/* ========================================================= */}
+      {/* 4. CATEGORY METRIC CARDS (4 COLUMNS GRID) */}
       <section
         aria-label="Metrik Kategori Residu"
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6"
@@ -370,9 +366,7 @@ export default function LaporanPage() {
         })}
       </section>
 
-      {/* ========================================================= */}
-      {/* 5. DAILY WEIGHT RECHART CARD                              */}
-      {/* ========================================================= */}
+      {/* 5. DAILY WEIGHT RECHART CARD */}
       <section className="bg-white border border-[#E5EAE7] rounded-2xl p-6 shadow-sm mt-6">
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[#E5EAE7]">
@@ -441,9 +435,7 @@ export default function LaporanPage() {
         </div>
       </section>
 
-      {/* ========================================================= */}
-      {/* 6. PARTNER PERFORMANCE RECAP TABLE                        */}
-      {/* ========================================================= */}
+      {/* 6. PARTNER PERFORMANCE RECAP TABLE */}
       <section className="bg-white border border-[#E5EAE7] rounded-2xl p-6 shadow-sm mt-6">
         {/* Header Row */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E5EAE7]">
@@ -624,9 +616,7 @@ export default function LaporanPage() {
         </div>
       </section>
 
-      {/* ========================================================= */}
-      {/* 7. REGULATORY & PROTOCOL NOTICE                           */}
-      {/* ========================================================= */}
+      {/* 7. REGULATORY & PROTOCOL NOTICE */}
       <aside className="bg-[#F4F6F5] border border-[#E5EAE7] rounded-xl p-4 mt-6 flex items-start gap-3">
         <ShieldCheck className="w-5 h-5 text-[#176B4D] shrink-0 mt-0.5" aria-hidden="true" />
         <div>

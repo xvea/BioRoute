@@ -38,15 +38,13 @@ function ToggleSwitch({ active, onToggle, ariaLabel }) {
       aria-checked={active}
       aria-label={ariaLabel}
       onClick={onToggle}
-      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] focus-visible:ring-offset-2 ${
-        active ? 'bg-[#176B4D]' : 'bg-[#E5EAE7]'
-      }`}
+      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] focus-visible:ring-offset-2 ${active ? 'bg-[#176B4D]' : 'bg-[#E5EAE7]'
+        }`}
     >
       <span
         aria-hidden="true"
-        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
-          active ? 'translate-x-5' : 'translate-x-0'
-        }`}
+        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${active ? 'translate-x-5' : 'translate-x-0'
+          }`}
       />
     </button>
   );
@@ -288,11 +286,11 @@ export default function PengaturanPage() {
         prev.map((c) =>
           c.id === editingCategory.id
             ? {
-                ...c,
-                nama: modalForm.nama.trim(),
-                deskripsi: modalForm.deskripsi.trim(),
-                badges: [modalForm.badge1, modalForm.badge2].filter(Boolean),
-              }
+              ...c,
+              nama: modalForm.nama.trim(),
+              deskripsi: modalForm.deskripsi.trim(),
+              badges: [modalForm.badge1, modalForm.badge2].filter(Boolean),
+            }
             : c
         )
       );
@@ -402,19 +400,18 @@ export default function PengaturanPage() {
 
   return (
     <div className="space-y-6 bg-white">
-      
+
       {/* Toast Alert Feedback */}
       {toast && (
         <aside
           role="status"
           aria-live="polite"
-          className={`fixed bottom-6 right-6 z-50 p-4 rounded-xl shadow-xl border flex items-center gap-3 text-xs font-medium max-w-md animate-fade-in ${
-            toast.type === 'success'
-              ? 'bg-[#EAF5F0] border-[#16805D]/20 text-[#16805D]'
-              : toast.type === 'warning'
+          className={`fixed bottom-6 right-6 z-50 p-4 rounded-xl shadow-xl border flex items-center gap-3 text-xs font-medium max-w-md animate-fade-in ${toast.type === 'success'
+            ? 'bg-[#EAF5F0] border-[#16805D]/20 text-[#16805D]'
+            : toast.type === 'warning'
               ? 'bg-amber-50 border-amber-200 text-[#B7791F]'
               : 'bg-white border-[#E5EAE7] text-[#17231D]'
-          }`}
+            }`}
         >
           {toast.type === 'success' ? (
             <CheckCircle2 className="w-5 h-5 shrink-0 text-[#16805D]" />
@@ -525,9 +522,7 @@ export default function PengaturanPage() {
         </div>
       )}
 
-      {/* ========================================================= */}
-      {/* 3. PAGE HEADER & AUDIT ACTIONS                            */}
-      {/* ========================================================= */}
+      {/* 3. PAGE HEADER & AUDIT ACTIONS */}
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-1">
         <div>
           {/* Top Metadata */}
@@ -567,9 +562,7 @@ export default function PengaturanPage() {
         </div>
       </section>
 
-      {/* ========================================================= */}
-      {/* 4. 4-COLUMN KPI CARDS ROW                                 */}
-      {/* ========================================================= */}
+      {/* 4. 4-COLUMN KPI CARDS ROW */}
       <section
         aria-label="Ringkasan Master Data"
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6"
@@ -602,9 +595,8 @@ export default function PengaturanPage() {
 
               <div className="pt-2 border-t border-[#E5EAE7]/70">
                 <p
-                  className={`text-xs flex items-center gap-1 ${
-                    kpi.subtextSuccess ? 'text-[#16805D] font-medium' : 'text-[#66736C]'
-                  }`}
+                  className={`text-xs flex items-center gap-1 ${kpi.subtextSuccess ? 'text-[#16805D] font-medium' : 'text-[#66736C]'
+                    }`}
                 >
                   {kpi.subtextSuccess && <CheckCircle className="w-3.5 h-3.5" aria-hidden="true" />}
                   <span>{kpi.subtext}</span>
@@ -615,9 +607,7 @@ export default function PengaturanPage() {
         })}
       </section>
 
-      {/* ========================================================= */}
-      {/* 5. SECTION 1: KATEGORI MATERIAL ORGANIK                   */}
-      {/* ========================================================= */}
+      {/* 5. SECTION 1: KATEGORI MATERIAL ORGANIK */}
       <section className="bg-white border border-[#E5EAE7] rounded-2xl p-6 shadow-sm mt-6">
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E5EAE7]">
@@ -707,9 +697,8 @@ export default function PengaturanPage() {
                           ariaLabel={`Ubah status ${cat.nama}`}
                         />
                         <span
-                          className={`text-[10px] font-semibold ${
-                            cat.active ? 'text-[#16805D]' : 'text-[#66736C]'
-                          }`}
+                          className={`text-[10px] font-semibold ${cat.active ? 'text-[#16805D]' : 'text-[#66736C]'
+                            }`}
                         >
                           {cat.active ? 'Aktif' : 'Nonaktif'}
                         </span>
@@ -760,9 +749,7 @@ export default function PengaturanPage() {
         </aside>
       </section>
 
-      {/* ========================================================= */}
-      {/* 6. SECTION 2: JALUR PEMANFAATAN & ALOKASI                 */}
-      {/* ========================================================= */}
+      {/* 6. SECTION 2: JALUR PEMANFAATAN & ALOKASI */}
       <section className="bg-white border border-[#E5EAE7] rounded-2xl p-6 shadow-sm mt-6">
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E5EAE7]">
@@ -903,9 +890,7 @@ export default function PengaturanPage() {
         </aside>
       </section>
 
-      {/* ========================================================= */}
-      {/* 7. SECTION 3: PARAMETER TEKNIS VERIFIKASI WILAYAH        */}
-      {/* ========================================================= */}
+      {/* 7. SECTION 3: PARAMETER TEKNIS VERIFIKASI WILAYAH */}
       <section className="bg-white border border-[#E5EAE7] rounded-2xl p-6 shadow-sm mt-6">
         <form onSubmit={handleSaveParameters}>
           {/* Header */}
@@ -945,11 +930,10 @@ export default function PengaturanPage() {
                   min="0"
                   value={parameters.toleransiMassa}
                   onChange={(e) => handleParamChange('toleransiMassa', e.target.value)}
-                  className={`w-full pl-3 pr-10 py-2.5 bg-[#F4F6F5] text-sm font-semibold text-[#17231D] rounded-xl border transition-all focus:outline-none focus:ring-2 ${
-                    paramErrors.toleransiMassa
-                      ? 'border-[#C2413B] focus:ring-[#C2413B]'
-                      : 'border-[#E5EAE7] focus:ring-[#176B4D] focus:border-[#176B4D]'
-                  }`}
+                  className={`w-full pl-3 pr-10 py-2.5 bg-[#F4F6F5] text-sm font-semibold text-[#17231D] rounded-xl border transition-all focus:outline-none focus:ring-2 ${paramErrors.toleransiMassa
+                    ? 'border-[#C2413B] focus:ring-[#C2413B]'
+                    : 'border-[#E5EAE7] focus:ring-[#176B4D] focus:border-[#176B4D]'
+                    }`}
                 />
                 <span className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-xs font-semibold text-[#66736C] pointer-events-none">
                   kg
@@ -980,11 +964,10 @@ export default function PengaturanPage() {
                   min="1"
                   value={parameters.maksimalWaktuJam}
                   onChange={(e) => handleParamChange('maksimalWaktuJam', e.target.value)}
-                  className={`w-full pl-3 pr-12 py-2.5 bg-[#F4F6F5] text-sm font-semibold text-[#17231D] rounded-xl border transition-all focus:outline-none focus:ring-2 ${
-                    paramErrors.maksimalWaktuJam
-                      ? 'border-[#C2413B] focus:ring-[#C2413B]'
-                      : 'border-[#E5EAE7] focus:ring-[#176B4D] focus:border-[#176B4D]'
-                  }`}
+                  className={`w-full pl-3 pr-12 py-2.5 bg-[#F4F6F5] text-sm font-semibold text-[#17231D] rounded-xl border transition-all focus:outline-none focus:ring-2 ${paramErrors.maksimalWaktuJam
+                    ? 'border-[#C2413B] focus:ring-[#C2413B]'
+                    : 'border-[#E5EAE7] focus:ring-[#176B4D] focus:border-[#176B4D]'
+                    }`}
                 />
                 <span className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-xs font-semibold text-[#66736C] pointer-events-none">
                   Jam

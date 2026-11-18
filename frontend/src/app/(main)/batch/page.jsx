@@ -26,8 +26,9 @@ import ErrorState from '@/components/ui/ErrorState';
 import useToast from '@/hooks/useToast';
 import { STATUS_BATCH } from '@/lib/constants';
 
-
-// Pulse Skeleton matching exact layout dimensions
+/**
+ * Pulse Skeleton matching exact layout dimensions
+ */
 function BatchSkeleton() {
   return (
     <div className="space-y-6 animate-pulse bg-white" aria-busy="true" aria-label="Memuat data batch material">
@@ -80,20 +81,20 @@ export default function BatchPage() {
   const [error, setError] = useState(null);
   const [retryCount, setRetryCount] = useState(0);
 
-// Filter States
+  // Filter States
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('Semua Status');
   const [categoryFilter, setCategoryFilter] = useState('Semua Kategori');
   const [routeFilter, setRouteFilter] = useState('Semua Jalur');
   const [dateRange, setDateRange] = useState('26 Nov 2026');
 
-// Selected processor for offering in Section 5
+  // Selected processor for offering in Section 5
   const [selectedProcessorId, setSelectedProcessorId] = useState('PGL-01');
 
-// Toast feedback
+  // Toast feedback
   const { toast, tampilkanToast } = useToast();
 
-// Fetch batch records dynamically from /data/batch-material.json
+  // Fetch batch records dynamically from /data/batch-material.json
   useEffect(() => {
     let active = true;
 
@@ -135,14 +136,18 @@ export default function BatchPage() {
     };
   }, [retryCount]);
 
-// Functional Retry Action
+  /**
+   * Functional Retry Action
+   */
   const handleRetry = () => {
     setIsLoading(true);
     setError(null);
     setRetryCount((prev) => prev + 1);
   };
 
-// Reset All Filters to Defaults
+  /**
+   * Reset All Filters to Defaults
+   */
   const handleResetFilters = () => {
     setSearchQuery('');
     setStatusFilter('Semua Status');
@@ -151,7 +156,7 @@ export default function BatchPage() {
     setDateRange('26 Nov 2026');
   };
 
-// Filtered Batches based on controls
+  // Filtered Batches based on controls
   const filteredBatches = useMemo(() => {
     return batches.filter((batch) => {
       // Search by Code or Source
@@ -188,7 +193,9 @@ export default function BatchPage() {
     return batches.find((b) => b.id === selectedBatchId) || filteredBatches[0] || batches[0];
   }, [batches, selectedBatchId, filteredBatches]);
 
-//  Action: Approve & Offer to Processor
+  /**
+   * Action: Approve & Offer to Processor
+   */
   const handleApproveAndOffer = (batch) => {
     const processor = batch.pengolahSekitar?.find((p) => p.id === selectedProcessorId) || batch.pengolahSekitar?.[0];
     const processorName = processor?.nama || 'Pengolah Terpilih';
@@ -206,7 +213,9 @@ export default function BatchPage() {
     );
   };
 
-// Action: Request Revision
+  /**
+   * Action: Request Revision
+   */
   const handleRequestRevision = (batch) => {
     setBatches((prev) =>
       prev.map((b) =>
@@ -246,7 +255,7 @@ export default function BatchPage() {
       {/* Toast Alert Feedback */}
       <Toast toast={toast} />
 
-      {/* 3. PAGE HEADER & METRIC KPI CARDS                         */}
+      {/* 3. PAGE HEADER & METRIC KPI CARDS */}
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-1">
         <div>
           {/* Top Meta Tag / Breadcrumb */}
@@ -302,7 +311,7 @@ export default function BatchPage() {
         </div>
       </section>
 
-      {/* 4. FILTER CONTROLS & ACTIVE CHIPS BAR                     */}
+      {/* 4. FILTER CONTROLS & ACTIVE CHIPS BAR */}
       <section aria-label="Filter Kontrol Batch" className="space-y-3">
         {/* Filter Inputs Row (5 Columns) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
@@ -441,10 +450,10 @@ export default function BatchPage() {
         </div>
       </section>
 
-      {/* 5. TWO-COLUMN SPLIT LAYOUT (7:5 DESKTOP GRID)             */}
+      {/* 5. TWO-COLUMN SPLIT LAYOUT (7:5 DESKTOP GRID) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        {/* A. LEFT COLUMN: BATCH LIST TABLE (lg:col-span-7)        */}
+        {/* A. LEFT COLUMN: BATCH LIST TABLE (lg:col-span-7) */}
         <section className="lg:col-span-7 bg-white border border-[#E5EAE7] rounded-2xl p-5 shadow-sm flex flex-col justify-between min-h-[580px]">
           <div>
             {/* Table Header Section */}
@@ -622,7 +631,7 @@ export default function BatchPage() {
           </footer>
         </section>
 
-        {/* B. RIGHT COLUMN: BATCH DETAIL PANEL (lg:col-span-5)     */}
+        {/* B. RIGHT COLUMN: BATCH DETAIL PANEL (lg:col-span-5) */}
         <aside className="lg:col-span-5 bg-white border border-[#E5EAE7] rounded-2xl p-6 shadow-sm flex flex-col gap-5">
           {selectedBatch ? (
             <>
