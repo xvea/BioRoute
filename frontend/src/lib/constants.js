@@ -13,3 +13,9 @@ export const JALUR = {
     KOMPOS: 'Kompos',
     BSF: 'BSF / Maggot',
 };
+
+export const STATUS_VERIFIKASI = {
+    MENUNGGU: 'Menunggu',
+    TERVERIFIKASI: 'Terverifikasi',
+    DITOLAK: 'Ditolak',
+};

@@ -19,8 +19,12 @@ import {
   Menu,
   X,
 } from 'lucide-react';
+import { BioRouteProvider } from '@/context/BioRouteContext';
 
-export default function MainLayout({ children }) {
+/**
+ * Kerangka halaman admin: sidebar, topbar, dan area konten.
+ */
+function AdminShell({ children }) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -72,7 +76,7 @@ export default function MainLayout({ children }) {
 
   return (
     <div className="min-h-screen bg-white flex flex-col md:flex-row font-sans text-[#17231D]">
-      
+
       {/* MOBILE HEADER */}
       <div className="md:hidden bg-white border-b border-[#E5EAE7] px-4 py-3 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-2.5">
@@ -119,9 +123,8 @@ export default function MainLayout({ children }) {
 
       {/* SIDEBAR NAVIGATION */}
       <aside
-        className={`fixed md:sticky top-0 left-0 z-50 h-screen w-64 bg-white border-r border-[#E5EAE7] flex flex-col justify-between transition-transform duration-300 ease-in-out md:translate-x-0 ${
-          mobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:shadow-none'
-        }`}
+        className={`fixed md:sticky top-0 left-0 z-50 h-screen w-64 bg-white border-r border-[#E5EAE7] flex flex-col justify-between transition-transform duration-300 ease-in-out md:translate-x-0 ${mobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:shadow-none'
+          }`}
       >
         <div className="p-5">
           {/* Brand Header */}
@@ -161,17 +164,15 @@ export default function MainLayout({ children }) {
                     <Link
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] ${
-                        isActive
-                          ? 'bg-[#EAF5F0] text-[#176B4D] font-semibold shadow-xs'
-                          : 'text-[#66736C] hover:text-[#17231D] hover:bg-[#F4F6F5]'
-                      }`}
+                      className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] ${isActive
+                        ? 'bg-[#EAF5F0] text-[#176B4D] font-semibold shadow-xs'
+                        : 'text-[#66736C] hover:text-[#17231D] hover:bg-[#F4F6F5]'
+                        }`}
                     >
                       <div className="flex items-center gap-3">
                         <IconComponent
-                          className={`w-4 h-4 shrink-0 transition-colors ${
-                            isActive ? 'text-[#176B4D]' : 'text-[#66736C] group-hover:text-[#17231D]'
-                          }`}
+                          className={`w-4 h-4 shrink-0 transition-colors ${isActive ? 'text-[#176B4D]' : 'text-[#66736C] group-hover:text-[#17231D]'
+                            }`}
                           aria-hidden="true"
                         />
                         <span>{item.name}</span>
@@ -223,7 +224,7 @@ export default function MainLayout({ children }) {
 
       {/* MAIN CONTENT AREA */}
       <div className="flex-1 flex flex-col min-w-0 bg-white">
-        
+
         {/* Top Header Bar */}
         <header className="sticky top-0 z-30 h-16 bg-white border-b border-[#E5EAE7] px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
           <nav aria-label="Breadcrumb" className="min-w-0">
@@ -276,5 +277,17 @@ export default function MainLayout({ children }) {
       </div>
 
     </div>
+  );
+}
+
+/**
+ * Layout utama halaman admin. BioRouteProvider dipasang paling luar supaya
+ * AdminShell (sidebar, topbar) dan semua halaman bisa memakai useBioRoute().
+ */
+export default function MainLayout({ children }) {
+  return (
+    <BioRouteProvider>
+      <AdminShell>{children}</AdminShell>
+    </BioRouteProvider>
   );
 }
