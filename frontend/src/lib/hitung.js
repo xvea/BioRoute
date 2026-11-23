@@ -1,8 +1,22 @@
-import { STATUS_BATCH } from '@/lib/constants';
+import { STATUS_BATCH, STATUS_VERIFIKASI } from '@/lib/constants';
 // Fungsi-fungsi untuk mencari dan menghitung data (total berat, jumlah batch, dll.).
 
 // Batch dengan status ini dianggap sudah tidak berjalan lagi.
 const STATUS_TIDAK_AKTIF = [STATUS_BATCH.SELESAI, STATUS_BATCH.DITOLAK];
+
+// Pemformat untuk mengambil tanggal (1–31) menurut WIB, bukan menurut zona waktu komputer.
+const pemformatTanggalWib = new Intl.DateTimeFormat('id-ID', {
+  day: 'numeric',
+  timeZone: 'Asia/Jakarta',
+});
+
+/**
+ * Minggu ke berapa dalam bulan (tanggal 1–7 = 1, 8–14 = 2, dst.). Dipakai di dalam file ini saja.
+ */
+function mingguKe(iso) {
+  const tanggal = Number(pemformatTanggalWib.format(new Date(iso)));
+  return Math.ceil(tanggal / 7);
+}
 
 /**
  * Mencari satu item berdasarkan id. Mengembalikan null kalau tidak ketemu.
@@ -58,4 +72,67 @@ export function beratDiterimaPerJalur(daftarBatch, daftarJalur) {
     const persen = totalSemua === 0 ? 0 : (kg / totalSemua) * 100;
     return { id: jalur.id, nama: jalur.nama, kg, persen };
   });
+}
+
+/**
+ * Jumlah batch yang statusnya sama dengan status yang diminta.
+ */
+export function hitungBatchPerStatus(daftarBatch, status) {
+  return daftarBatch.filter((batch) => batch.status === status).length;
+}
+
+/**
+ * Berat dilaporkan per minggu untuk setiap jalur (untuk grafik Dashboard).
+ * Hasil: [{ minggu: 'Minggu 1', 'JLR-01': 26, 'JLR-02': 8 }, ...]
+ */
+export function beratPerMinggu(daftarBatch, daftarJalur) {
+
+  // batch yang ditolak tidak dihitung, jadi juga tidak boleh menambah jumlah minggu
+  const batchDihitung = daftarBatch.filter((batch) => batch.status !== STATUS_BATCH.DITOLAK);
+  if (batchDihitung.length === 0) return [];
+
+  const mingguTerakhir = Math.max(...batchDihitung.map((batch) => mingguKe(batch.diajukanPada)));
+
+  const hasil = [];
+  for (let minggu = 1; minggu <= mingguTerakhir; minggu++) {
+    const baris = { minggu: `Minggu ${minggu}` };
+    for (const jalur of daftarJalur) {
+      const batchIni = batchDihitung.filter(
+        (batch) => batch.jalurId === jalur.id && mingguKe(batch.diajukanPada) === minggu
+      );
+      baris[jalur.id] = totalBeratDilaporkan(batchIni);
+    }
+    hasil.push(baris);
+  }
+  return hasil;
+}
+
+/**
+ * Batch yang paling baru diajukan, sebanyak `jumlah`.
+ */
+export function batchTerbaru(daftarBatch, jumlah) {
+
+  // sort() mengubah array aslinya
+  return [...daftarBatch]
+    .sort((a, b) => new Date(b.diajukanPada) - new Date(a.diajukanPada))
+    .slice(0, jumlah);
+}
+
+/**
+ * Daftar mitra yang masih menunggu verifikasi admin.
+ */
+export function mitraMenunggu(daftarMitra) {
+  return daftarMitra.filter((mitra) => mitra.statusVerifikasi === STATUS_VERIFIKASI.MENUNGGU);
+}
+
+/**
+ * Mitra pengolah yang boleh ditawari batch: sudah terverifikasi dan melayani jalur yang sama.
+ */
+export function pengolahUntukJalur(daftarMitra, jalurId) {
+  return daftarMitra.filter(
+    (mitra) =>
+      mitra.peran === 'pengolah' &&
+      mitra.statusVerifikasi === STATUS_VERIFIKASI.TERVERIFIKASI &&
+      mitra.jalurId === jalurId
+  );
 }
