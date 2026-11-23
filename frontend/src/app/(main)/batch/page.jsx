@@ -32,7 +32,7 @@ import {
   pengolahUntukJalur,
 } from '@/lib/hitung';
 import { saringBatch, ambilHalaman } from '@/lib/tabel';
-import { cekAlasan } from '@/lib/validasi';
+import ModalAlasan from '@/components/ui/ModalAlasan';
 // Jumlah baris tabel per halaman.
 const PER_HALAMAN = 5;
 // Filter awal: teks kosong berarti "semua".
@@ -51,8 +51,6 @@ export default function BatchPage() {
   // State untuk keputusan admin: pengolah yang dipilih dan modal alasan.
   const [pengolahDipilih, setPengolahDipilih] = useState(null);
   const [jenisModal, setJenisModal] = useState(null); // null | 'revisi' | 'tolak'
-  const [alasan, setAlasan] = useState('');
-  const [tampilkanError, setTampilkanError] = useState(false);
   // Toast feedback
   const { toast, tampilkanToast } = useToast();
 
@@ -87,7 +85,6 @@ export default function BatchPage() {
   const daftarPengolah = batchTerpilih ? pengolahUntukJalur(daftarMitra, batchTerpilih.jalurId) : [];
   // pilihan pengolah dari batch lain tidak berlaku untuk batch ini
   const pengolahValid = daftarPengolah.some((mitra) => mitra.id === pengolahDipilih);
-  const pesanErrorAlasan = cekAlasan(alasan);
 
   /**
    * Menyetujui batch dan menawarkannya ke pengolah yang dipilih (status → Tersedia).
@@ -108,8 +105,6 @@ export default function BatchPage() {
    */
   const bukaModal = (jenis) => {
     setJenisModal(jenis);
-    setAlasan('');
-    setTampilkanError(false);
   };
 
   /**
@@ -118,15 +113,10 @@ export default function BatchPage() {
   const tutupModal = () => {
     setJenisModal(null);
   };
-
   /**
-   * Mengirim alasan: kalau belum valid, tampilkan pesan error; kalau valid, dispatch lalu tutup modal.
+   * Menerima alasan yang sudah valid dari ModalAlasan, dispatch sesuai jenis modal, lalu tutup modal.
    */
-  const handleKirimAlasan = () => {
-    if (pesanErrorAlasan) {
-      setTampilkanError(true);
-      return;
-    }
+  const handleKirimAlasan = (alasan) => {
     const waktu = new Date().toISOString();
     if (jenisModal === 'revisi') {
       dispatch({
@@ -152,64 +142,14 @@ export default function BatchPage() {
 
       {/* Modal alasan (Minta revisi / Tolak) */}
       {jenisModal && (
-        <div
-          className="fixed inset-0 z-40 bg-black/40 flex items-center justify-center p-4"
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') tutupModal();
-          }}>
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="judul-modal-alasan"
-            className="bg-white rounded-2xl border border-[#E5EAE7] shadow-xl w-full max-w-md p-6 space-y-4">
-            <div>
-              <h2 id="judul-modal-alasan" className="text-lg font-bold text-[#17231D]">
-                {jenisModal === 'revisi' ? 'Minta revisi' : 'Tolak batch'} {batchTerpilih?.kode}
-              </h2>
-              <p className="text-xs text-[#66736C] mt-1">
-                Alasan ini dikirim ke {sumberTerpilih?.nama} dan tampil di detail batch.
-              </p>
-            </div>
-
-            <div>
-              <label htmlFor="isian-alasan" className="text-xs font-semibold text-[#17231D]">
-                Alasan
-              </label>
-              <textarea
-                id="isian-alasan"
-                value={alasan}
-                onChange={(e) => setAlasan(e.target.value)}
-                rows={4}
-                autoFocus
-                placeholder="Contoh: Foto timbangan tidak terlihat jelas, mohon unggah ulang."
-                className="mt-1 w-full p-3 bg-[#F4F6F5] text-xs text-[#17231D] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D]"
-              />
-              {tampilkanError && pesanErrorAlasan && (
-                <p role="alert" className="text-xs text-[#C2413B] mt-1">
-                  {pesanErrorAlasan}
-                </p>
-              )}
-            </div>
-
-            <div className="flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={tutupModal}
-                className="border border-[#E5EAE7] hover:bg-[#F4F6F5] text-sm font-medium px-4 py-2 rounded-xl text-[#17231D] cursor-pointer">
-                Batal
-              </button>
-              <button
-                type="button"
-                onClick={handleKirimAlasan}
-                className={`text-sm font-medium px-4 py-2 rounded-xl text-white cursor-pointer ${jenisModal === 'revisi'
-                  ? 'bg-[#B7791F] hover:bg-[#975A16]'
-                  : 'bg-[#C2413B] hover:bg-[#9B2C2C]'
-                  }`}>
-                {jenisModal === 'revisi' ? 'Kirim permintaan revisi' : 'Tolak batch'}
-              </button>
-            </div>
-          </div>
-        </div>
+        <ModalAlasan
+          judul={`${jenisModal === 'revisi' ? 'Minta revisi' : 'Tolak batch'} ${batchTerpilih?.kode}`}
+          keterangan={`Alasan ini dikirim ke ${sumberTerpilih?.nama} dan tampil di detail batch.`}
+          labelKirim={jenisModal === 'revisi' ? 'Kirim permintaan revisi' : 'Tolak batch'}
+          varian={jenisModal === 'revisi' ? 'peringatan' : 'bahaya'}
+          onBatal={tutupModal}
+          onKirim={handleKirimAlasan}
+        />
       )}
 
       {/* 3. PAGE HEADER & METRIC KPI CARDS */}
