@@ -148,3 +148,74 @@ export function hitungMitraPerStatus(daftarMitra) {
   }
   return hasil;
 }
+
+/**
+ * Persentase berat yang benar-benar diterima pengolah dibanding berat yang dilaporkan, khusus batch yang sudah ditimbang.
+ * Mengembalikan null kalau belum ada batch yang ditimbang (supaya tampil "–", bukan 0%).
+ */
+export function persenDiterima(daftarBatch) {
+  const batchTertimbang = daftarBatch.filter((batch) => batch.beratDiterimaKg !== null);
+  const dilaporkan = batchTertimbang.reduce((total, batch) => total + batch.beratKg, 0);
+  if (dilaporkan === 0) return null;
+  return (totalBeratDiterima(batchTertimbang) / dilaporkan) * 100;
+}
+
+/**
+ * Berat dilaporkan per kategori material beserta jumlah batch dan persentasenya (batch Ditolak tidak dihitung).
+ * Semua kategori tetap muncul, termasuk yang belum punya batch (0 kg).
+ */
+export function ringkasanPerKategori(daftarBatch, daftarKategori) {
+  const batchDihitung = daftarBatch.filter((batch) => batch.status !== STATUS_BATCH.DITOLAK);
+  const totalSemua = totalBeratDilaporkan(batchDihitung);
+
+  return daftarKategori.map((kategori) => {
+    const batchKategoriIni = batchDihitung.filter((batch) => batch.kategoriId === kategori.id);
+    const kg = totalBeratDilaporkan(batchKategoriIni);
+    const persen = totalSemua === 0 ? 0 : (kg / totalSemua) * 100;
+    return { id: kategori.id, nama: kategori.nama, kg, persen, jumlahBatch: batchKategoriIni.length };
+  });
+}
+
+/**
+ * Rekap kinerja setiap mitra Terverifikasi: batch milik mitra sumber (sumberId) atau batch yang ditangani mitra pengolah (pengolahId).
+ */
+export function rekapPerMitra(daftarBatch, daftarMitra) {
+  return daftarMitra
+    .filter((mitra) => mitra.statusVerifikasi === STATUS_VERIFIKASI.TERVERIFIKASI)
+    .map((mitra) => {
+      const kolomId = mitra.peran === 'sumber' ? 'sumberId' : 'pengolahId';
+      const batchMitra = daftarBatch.filter((batch) => batch[kolomId] === mitra.id);
+      return {
+        id: mitra.id,
+        nama: mitra.nama,
+        peran: mitra.peran,
+        kecamatan: mitra.kecamatan,
+        jumlahBatch: batchMitra.length,
+        dilaporkanKg: totalBeratDilaporkan(batchMitra),
+        diterimaKg: totalBeratDiterima(batchMitra),
+        ditolakKg: totalBeratDitolak(batchMitra),
+        persenDiterima: persenDiterima(batchMitra),
+      };
+    });
+}
+
+/**
+ * Selisih berat dilaporkan − diterima untuk batch yang sudah ditimbang, diurutkan dari selisih terbesar (positif atau negatif).
+ * Batch ditandai melebihiToleransi kalau besar selisihnya lebih dari toleransi (nilai yang sama persis masih dianggap wajar).
+ */
+export function selisihBerat(daftarBatch, toleransiKg) {
+  return daftarBatch
+    .filter((batch) => batch.beratDiterimaKg !== null)
+    .map((batch) => {
+      const selisihKg = batch.beratKg - batch.beratDiterimaKg;
+      return {
+        kode: batch.kode,
+        sumberId: batch.sumberId,
+        dilaporkanKg: batch.beratKg,
+        diterimaKg: batch.beratDiterimaKg,
+        selisihKg,
+        melebihiToleransi: Math.abs(selisihKg) > toleransiKg,
+      };
+    })
+    .sort((a, b) => Math.abs(b.selisihKg) - Math.abs(a.selisihKg));
+}
