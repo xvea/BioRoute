@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { STATUS_BATCH } from '@/lib/constants';
-import { saringBatch, ambilHalaman } from '@/lib/tabel';
+import { STATUS_BATCH, STATUS_VERIFIKASI } from '@/lib/constants';
+import { saringBatch, ambilHalaman, saringMitra } from '@/lib/tabel';
 
 const mitraUji = [
   { id: 'S1', nama: 'Warung Bu Slamet' },
@@ -94,5 +94,50 @@ describe('ambilHalaman', () => {
       sampai: 0,
       total: 0,
     });
+  });
+});
+
+describe('saringMitra', () => {
+  // Tanggal, nama, dan kecamatan dibuat berbeda supaya setiap urutan dan setiap kolom pencarian menghasilkan jawaban yang berbeda.
+  const mitraVerifikasi = [
+    { id: 'M1', nama: 'Warung Bu Slamet', penanggungJawab: 'Slamet Riyadi', kecamatan: 'Purwokerto Timur', statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU, diajukanPada: '2026-11-14T10:00:00+07:00' },
+    { id: 'M2', nama: 'Dapur Organik', penanggungJawab: 'Hendra Setiawan', kecamatan: 'Purwokerto Barat', statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU, diajukanPada: '2026-11-16T09:00:00+07:00' },
+    { id: 'M3', nama: 'Bank Sampah Mandiri', penanggungJawab: 'Dewi Lestari', kecamatan: 'Karanglewas', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI, diajukanPada: '2026-11-15T08:00:00+07:00' },
+    { id: 'M4', nama: 'Agro Maggot', penanggungJawab: 'Budi Hartono', kecamatan: 'Sokaraja', statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU, diajukanPada: '2026-11-15T12:00:00+07:00' },
+  ];
+  const filterMenunggu = { status: STATUS_VERIFIKASI.MENUNGGU, kataKunci: '', urutan: 'terbaru' };
+
+  /**
+   * Mengambil id mitra saja, supaya hasil test mudah dibaca.
+   */
+  function id(daftar) {
+    return daftar.map((mitra) => mitra.id);
+  }
+
+  it('menyaring status Menunggu dan mengurutkan dari pengajuan terbaru', () => {
+    expect(id(saringMitra(mitraVerifikasi, filterMenunggu))).toEqual(['M2', 'M4', 'M1']);
+  });
+
+  it('mengurutkan dari pengajuan terlama', () => {
+    expect(id(saringMitra(mitraVerifikasi, { ...filterMenunggu, urutan: 'terlama' }))).toEqual(['M1', 'M4', 'M2']);
+  });
+
+  it('mengurutkan berdasarkan nama A–Z', () => {
+    expect(id(saringMitra(mitraVerifikasi, { ...filterMenunggu, urutan: 'nama' }))).toEqual(['M4', 'M2', 'M1']);
+  });
+
+  it('status kosong berarti semua status', () => {
+    expect(id(saringMitra(mitraVerifikasi, { status: '', kataKunci: '', urutan: 'nama' }))).toEqual(['M4', 'M3', 'M2', 'M1']);
+  });
+
+  it('mencari nama, penanggung jawab, atau kecamatan tanpa peduli huruf besar/kecil dan spasi di tepi', () => {
+    const cari = (kataKunci) => id(saringMitra(mitraVerifikasi, { status: '', kataKunci, urutan: 'terbaru' }));
+    expect(cari('  AGRO ')).toEqual(['M4']); // nama
+    expect(cari('dewi')).toEqual(['M3']); // penanggung jawab
+    expect(cari('sokaraja')).toEqual(['M4']); // kecamatan
+  });
+
+  it('mengembalikan array kosong kalau tidak ada yang cocok', () => {
+    expect(saringMitra(mitraVerifikasi, { ...filterMenunggu, kataKunci: 'xyz' })).toEqual([]);
   });
 });

@@ -11,7 +11,8 @@ import {
   beratPerMinggu,
   batchTerbaru,
   mitraMenunggu,
-  pengolahUntukJalur
+  pengolahUntukJalur,
+  hitungMitraPerStatus,
 } from '@/lib/hitung';
 
 // Unit test untuk src/lib/hitung.js
@@ -174,5 +175,15 @@ describe('pengolahUntukJalur', () => {
 
   it('mengembalikan array kosong kalau tidak ada pengolah untuk jalur itu', () => {
     expect(pengolahUntukJalur(mitraJalur, 'JLR-09')).toEqual([]);
+  });
+});
+
+describe('hitungMitraPerStatus', () => {
+  it('menghitung mitra untuk setiap status verifikasi', () => {
+    expect(hitungMitraPerStatus(mitraUji)).toEqual({ Menunggu: 2, Terverifikasi: 1, Ditolak: 1 });
+  });
+
+  it('status tanpa mitra tetap muncul dengan nilai 0', () => {
+    expect(hitungMitraPerStatus([])).toEqual({ Menunggu: 0, Terverifikasi: 0, Ditolak: 0 });
   });
 });

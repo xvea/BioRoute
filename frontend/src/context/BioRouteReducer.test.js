@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { STATUS_BATCH, STATUS_VERIFIKASI } from '@/lib/constants';
-import { bioRouteReducer, JENIS_AKSI } from '@/context/BioRouteReducer';
+import { bioRouteReducer, JENIS_AKSI, stateAwal } from '@/context/BioRouteReducer';
 
 // Unit test untuk BioRouteReducer.js
 // State uji dibuat kecil: 2 batch dan 2 mitra.
@@ -9,13 +9,15 @@ const WAKTU = '2026-11-21T10:00:00+07:00';
 
 const stateUji = {
   daftarBatch: [
-    { kode: 'BR-UJI-1', status: STATUS_BATCH.DIAJUKAN, pengolahId: null, riwayat: [] },
-    { kode: 'BR-UJI-2', status: STATUS_BATCH.SELESAI, pengolahId: 'MTR-101', riwayat: [] },
+    { kode: 'BR-UJI-1', status: STATUS_BATCH.DIAJUKAN, jalurId: 'JLR-01', pengolahId: null, riwayat: [] },
+    { kode: 'BR-UJI-2', status: STATUS_BATCH.SELESAI, jalurId: 'JLR-01', pengolahId: 'MTR-101', riwayat: [] },
   ],
   daftarMitra: [
     { id: 'MTR-001', nama: 'Sumber Uji', peran: 'sumber', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI },
     { id: 'MTR-002', nama: 'Sumber Baru', peran: 'sumber', statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU },
-    { id: 'MTR-101', nama: 'Pengolah Uji', peran: 'pengolah', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI },
+    { id: 'MTR-101', nama: 'Pengolah Uji', peran: 'pengolah', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI, jalurId: 'JLR-01' },
+    { id: 'MTR-102', nama: 'Pengolah Baru', peran: 'pengolah', statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU, jalurId: 'JLR-01' },
+    { id: 'MTR-103', nama: 'Pengolah BSF', peran: 'pengolah', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI, jalurId: 'JLR-02' },
   ],
   kategoriMaterial: [
     { id: 'KAT-01', nama: 'Sisa sayur & buah', aktif: true },
@@ -67,6 +69,24 @@ describe('SETUJUI_BATCH', () => {
     const stateBaru = bioRouteReducer(stateUji, {
       type: JENIS_AKSI.SETUJUI_BATCH,
       payload: { kode: 'BR-UJI-1', pengolahId: 'MTR-001', waktu: WAKTU },
+    });
+
+    expect(stateBaru).toBe(stateUji);
+  });
+
+  it('menolak pengolah yang belum Terverifikasi', () => {
+    const stateBaru = bioRouteReducer(stateUji, {
+      type: JENIS_AKSI.SETUJUI_BATCH,
+      payload: { kode: 'BR-UJI-1', pengolahId: 'MTR-102', waktu: WAKTU },
+    });
+
+    expect(stateBaru).toBe(stateUji);
+  });
+
+  it('menolak pengolah dari jalur lain', () => {
+    const stateBaru = bioRouteReducer(stateUji, {
+      type: JENIS_AKSI.SETUJUI_BATCH,
+      payload: { kode: 'BR-UJI-1', pengolahId: 'MTR-103', waktu: WAKTU },
     });
 
     expect(stateBaru).toBe(stateUji);
@@ -226,5 +246,18 @@ describe('UBAH_STATUS_JALUR', () => {
 
     expect(stateDuaAktif.jalurPemanfaatan[1].aktif).toBe(true);
     expect(stateBaru.jalurPemanfaatan[0].aktif).toBe(false);
+  });
+});
+
+describe('data awal', () => {
+  it('mitra Ditolak menyimpan alasannya di properti alasan (sama dengan yang ditulis TOLAK_MITRA)', () => {
+    const mitraDitolak = stateAwal.daftarMitra.filter(
+      (mitra) => mitra.statusVerifikasi === STATUS_VERIFIKASI.DITOLAK
+    );
+
+    expect(mitraDitolak.length).toBeGreaterThan(0);
+    for (const mitra of mitraDitolak) {
+      expect(mitra.alasan).toBeTruthy();
+    }
   });
 });
