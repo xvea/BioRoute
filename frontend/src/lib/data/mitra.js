@@ -153,7 +153,7 @@ export const daftarMitra = [
     kategoriIds: ['KAT-03'],
     estimasiKgPerHari: 25,
     statusVerifikasi: 'Ditolak',
-    alasanPenolakan: 'Alamat tidak dapat dihubungi saat dicek dan nomor telepon tidak aktif.',
+    alasan: 'Alamat tidak dapat dihubungi saat dicek dan nomor telepon tidak aktif.',
     diajukanPada: '2026-11-05T16:20:00+07:00',
   },
 ];
