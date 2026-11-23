@@ -249,6 +249,106 @@ describe('UBAH_STATUS_JALUR', () => {
   });
 });
 
+describe('TAMBAH_KATEGORI', () => {
+  it('menambah kategori aktif dengan id berikutnya, nama dan contoh dirapikan', () => {
+    const stateBaru = bioRouteReducer(stateUji, {
+      type: JENIS_AKSI.TAMBAH_KATEGORI,
+      payload: { nama: '  Ampas kopi ', contoh: ' Ampas kopi dari kafe ', kriteria: ['Kering'] },
+    });
+
+    expect(stateBaru.kategoriMaterial).toHaveLength(3);
+    expect(stateBaru.kategoriMaterial[2]).toEqual({
+      id: 'KAT-03',
+      nama: 'Ampas kopi',
+      contoh: 'Ampas kopi dari kafe',
+      kriteria: ['Kering'],
+      aktif: true,
+    });
+  });
+
+  it('id diambil dari nomor terbesar, bukan dari jumlah kategori', () => {
+    const stateBerlubang = {
+      ...stateUji,
+      kategoriMaterial: [
+        { id: 'KAT-01', nama: 'Sisa sayur & buah', aktif: true },
+        { id: 'KAT-07', nama: 'Kulit kopi', aktif: true },
+      ],
+    };
+    const stateBaru = bioRouteReducer(stateBerlubang, {
+      type: JENIS_AKSI.TAMBAH_KATEGORI,
+      payload: { nama: 'Ampas kopi', contoh: 'Ampas kopi dari kafe', kriteria: [] },
+    });
+
+    expect(stateBaru.kategoriMaterial[2].id).toBe('KAT-08');
+  });
+
+  it('menolak nama yang sudah dipakai', () => {
+    const stateBaru = bioRouteReducer(stateUji, {
+      type: JENIS_AKSI.TAMBAH_KATEGORI,
+      payload: { nama: ' sisa SAYUR & buah ', contoh: 'Kubis', kriteria: [] },
+    });
+
+    expect(stateBaru).toBe(stateUji);
+  });
+});
+
+describe('UBAH_KATEGORI', () => {
+  it('mengubah nama, contoh, dan kriteria; id dan status aktif tetap', () => {
+    const stateBaru = bioRouteReducer(stateUji, {
+      type: JENIS_AKSI.UBAH_KATEGORI,
+      payload: { id: 'KAT-02', nama: ' Sisa produksi tahu ', contoh: ' Ampas tahu ', kriteria: ['Curah'] },
+    });
+
+    expect(stateBaru.kategoriMaterial[1]).toEqual({
+      id: 'KAT-02',
+      nama: 'Sisa produksi tahu',
+      contoh: 'Ampas tahu',
+      kriteria: ['Curah'],
+      aktif: false,
+    });
+    // Kategori lain tidak ikut berubah
+    expect(stateBaru.kategoriMaterial[0]).toBe(stateUji.kategoriMaterial[0]);
+  });
+
+  it('mengabaikan id yang tidak ada', () => {
+    const stateBaru = bioRouteReducer(stateUji, {
+      type: JENIS_AKSI.UBAH_KATEGORI,
+      payload: { id: 'KAT-99', nama: 'Ampas kopi', contoh: 'Ampas kopi dari kafe', kriteria: [] },
+    });
+
+    expect(stateBaru).toBe(stateUji);
+  });
+
+  it('menolak isian yang tidak valid', () => {
+    const stateBaru = bioRouteReducer(stateUji, {
+      type: JENIS_AKSI.UBAH_KATEGORI,
+      payload: { id: 'KAT-02', nama: 'Sisa sayur & buah', contoh: 'Ampas tahu', kriteria: [] },
+    });
+
+    expect(stateBaru).toBe(stateUji);
+  });
+});
+
+describe('UBAH_PARAMETER', () => {
+  it('menyimpan parameter baru sebagai angka', () => {
+    const stateBaru = bioRouteReducer(stateUji, {
+      type: JENIS_AKSI.UBAH_PARAMETER,
+      payload: { toleransiSelisihKg: '0,8', maksWaktuTinjauJam: '24' },
+    });
+
+    expect(stateBaru.parameterVerifikasi).toEqual({ toleransiSelisihKg: 0.8, maksWaktuTinjauJam: 24 });
+  });
+
+  it('menolak parameter yang tidak valid', () => {
+    const stateBaru = bioRouteReducer(stateUji, {
+      type: JENIS_AKSI.UBAH_PARAMETER,
+      payload: { toleransiSelisihKg: '0', maksWaktuTinjauJam: '24' },
+    });
+
+    expect(stateBaru).toBe(stateUji);
+  });
+});
+
 describe('data awal', () => {
   it('mitra Ditolak menyimpan alasannya di properti alasan (sama dengan yang ditulis TOLAK_MITRA)', () => {
     const mitraDitolak = stateAwal.daftarMitra.filter(
