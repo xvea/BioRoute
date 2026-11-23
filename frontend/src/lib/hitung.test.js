@@ -13,6 +13,10 @@ import {
   mitraMenunggu,
   pengolahUntukJalur,
   hitungMitraPerStatus,
+  persenDiterima,
+  ringkasanPerKategori,
+  rekapPerMitra,
+  selisihBerat,
 } from '@/lib/hitung';
 
 // Unit test untuk src/lib/hitung.js
@@ -185,5 +189,93 @@ describe('hitungMitraPerStatus', () => {
 
   it('status tanpa mitra tetap muncul dengan nilai 0', () => {
     expect(hitungMitraPerStatus([])).toEqual({ Menunggu: 0, Terverifikasi: 0, Ditolak: 0 });
+  });
+});
+
+describe('persenDiterima', () => {
+  it('membandingkan berat diterima dengan berat dilaporkan, hanya untuk batch yang sudah ditimbang', () => {
+    // batchUji: A (10 → 9) dan B (5 → 3) sudah ditimbang → 12 / 15 = 80%
+    expect(persenDiterima(batchUji)).toBe(80);
+  });
+
+  it('mengembalikan null kalau belum ada batch yang ditimbang', () => {
+    expect(persenDiterima([{ beratKg: 4, beratDiterimaKg: null }])).toBeNull();
+  });
+});
+
+// Data uji Laporan: 2 sumber terverifikasi, 1 pengolah terverifikasi, 1 sumber yang masih Menunggu.
+const mitraLaporan = [
+  { id: 'S1', nama: 'Sumber Satu', peran: 'sumber', kecamatan: 'Purwokerto Utara', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI },
+  { id: 'S2', nama: 'Sumber Dua', peran: 'sumber', kecamatan: 'Purwokerto Timur', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI },
+  { id: 'P1', nama: 'Pengolah Satu', peran: 'pengolah', kecamatan: 'Karanglewas', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI },
+  { id: 'S3', nama: 'Sumber Baru', peran: 'sumber', kecamatan: 'Sokaraja', statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU },
+];
+
+const batchLaporan = [
+  { kode: 'L1', sumberId: 'S1', pengolahId: 'P1', kategoriId: 'K1', status: STATUS_BATCH.SELESAI, beratKg: 10, beratDiterimaKg: 9 },
+  { kode: 'L2', sumberId: 'S1', pengolahId: 'P1', kategoriId: 'K2', status: STATUS_BATCH.DIPROSES, beratKg: 4, beratDiterimaKg: 4 },
+  { kode: 'L3', sumberId: 'S2', pengolahId: null, kategoriId: 'K1', status: STATUS_BATCH.DIAJUKAN, beratKg: 6, beratDiterimaKg: null },
+  { kode: 'L4', sumberId: 'S2', pengolahId: 'P1', kategoriId: 'K2', status: STATUS_BATCH.DITOLAK, beratKg: 5, beratDiterimaKg: null },
+];
+
+const kategoriLaporan = [
+  { id: 'K1', nama: 'Sisa sayur & buah' },
+  { id: 'K2', nama: 'Sisa produksi' },
+  { id: 'K3', nama: 'Makanan olahan' },
+];
+
+describe('ringkasanPerKategori', () => {
+  it('menghitung kg, jumlah batch, dan persen per kategori tanpa batch Ditolak', () => {
+    // Total dihitung = 10 + 4 + 6 = 20 kg (L4 ditolak tidak ikut)
+    expect(ringkasanPerKategori(batchLaporan, kategoriLaporan)).toEqual([
+      { id: 'K1', nama: 'Sisa sayur & buah', kg: 16, persen: 80, jumlahBatch: 2 },
+      { id: 'K2', nama: 'Sisa produksi', kg: 4, persen: 20, jumlahBatch: 1 },
+      { id: 'K3', nama: 'Makanan olahan', kg: 0, persen: 0, jumlahBatch: 0 },
+    ]);
+  });
+
+  it('memberi persen 0 (bukan NaN) kalau belum ada batch', () => {
+    expect(ringkasanPerKategori([], kategoriLaporan)[0].persen).toBe(0);
+  });
+});
+
+describe('rekapPerMitra', () => {
+  const rekap = rekapPerMitra(batchLaporan, mitraLaporan);
+
+  it('hanya merekap mitra Terverifikasi', () => {
+    expect(rekap.map((baris) => baris.id)).toEqual(['S1', 'S2', 'P1']);
+  });
+
+  it('mitra sumber dihitung dari batch miliknya (sumberId)', () => {
+    expect(rekap[0]).toMatchObject({ jumlahBatch: 2, dilaporkanKg: 14, diterimaKg: 13, ditolakKg: 0 });
+    expect(rekap[0].persenDiterima).toBeCloseTo(92.86, 2); // 13 / 14
+  });
+
+  it('batch Ditolak masuk kolom ditolak, dan persen null kalau belum ada yang ditimbang', () => {
+    expect(rekap[1]).toMatchObject({ jumlahBatch: 2, dilaporkanKg: 6, diterimaKg: 0, ditolakKg: 5, persenDiterima: null });
+  });
+
+  it('mitra pengolah dihitung dari batch yang ditanganinya (pengolahId)', () => {
+    expect(rekap[2]).toMatchObject({ jumlahBatch: 3, dilaporkanKg: 14, diterimaKg: 13, ditolakKg: 5 });
+  });
+});
+
+describe('selisihBerat', () => {
+  const batchTimbang = [
+    { kode: 'T1', sumberId: 'S1', beratKg: 10, beratDiterimaKg: 10 }, // selisih 0
+    { kode: 'T2', sumberId: 'S1', beratKg: 12, beratDiterimaKg: 11 }, // selisih 1
+    { kode: 'T3', sumberId: 'S2', beratKg: 5, beratDiterimaKg: null }, // belum ditimbang
+    { kode: 'T4', sumberId: 'S2', beratKg: 8, beratDiterimaKg: 9.5 }, // selisih -1,5 (diterima lebih berat)
+  ];
+
+  it('hanya batch yang sudah ditimbang, diurutkan dari selisih terbesar (positif atau negatif)', () => {
+    const hasil = selisihBerat(batchTimbang, 1);
+    expect(hasil.map((baris) => baris.kode)).toEqual(['T4', 'T2', 'T1']);
+    expect(hasil.map((baris) => baris.selisihKg)).toEqual([-1.5, 1, 0]);
+  });
+
+  it('menandai selisih yang melebihi toleransi (sama persis dengan toleransi masih wajar)', () => {
+    expect(selisihBerat(batchTimbang, 1).map((baris) => baris.melebihiToleransi)).toEqual([true, false, false]);
+    expect(selisihBerat(batchTimbang, 0.5).map((baris) => baris.melebihiToleransi)).toEqual([true, true, false]);
   });
 });
