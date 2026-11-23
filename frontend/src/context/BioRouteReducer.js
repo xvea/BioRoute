@@ -1,5 +1,5 @@
 import { STATUS_BATCH, STATUS_VERIFIKASI } from '@/lib/constants';
-import { cariById } from '@/lib/hitung';
+import { cariById, pengolahUntukJalur } from '@/lib/hitung';
 import { daftarBatch } from '@/lib/data/batch';
 import { daftarMitra } from '@/lib/data/mitra';
 import { kategoriMaterial, jalurPemanfaatan, parameterVerifikasi } from '@/lib/data/masterData';
@@ -87,10 +87,11 @@ export function bioRouteReducer(state, aksi) {
     case JENIS_AKSI.SETUJUI_BATCH: {
       const { kode, pengolahId, waktu } = aksi.payload;
       const batch = cariBatchDiajukan(state, kode);
-      const pengolah = cariById(state.daftarMitra, pengolahId);
+      if (!batch) return state;
 
-      // Batch wajib berstatus Diajukan dan tujuan wajib Mitra Pengolah
-      if (!batch || pengolah?.peran !== 'pengolah') return state;
+      // Tujuan wajib Mitra Pengolah yang Terverifikasi dan melayani jalur batch ini (aturan yang sama dengan pilihan di halaman Batch)
+      const pengolah = pengolahUntukJalur(state.daftarMitra, batch.jalurId).find((mitra) => mitra.id === pengolahId);
+      if (!pengolah) return state;
       return gantiBatch(state, {
         ...batch,
         status: STATUS_BATCH.TERSEDIA,

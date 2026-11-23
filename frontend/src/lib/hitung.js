@@ -136,3 +136,15 @@ export function pengolahUntukJalur(daftarMitra, jalurId) {
       mitra.jalurId === jalurId
   );
 }
+
+/**
+ * Jumlah mitra untuk setiap status verifikasi (untuk angka di tab Verifikasi Mitra). 
+ * Hasil: { Menunggu: 3, Terverifikasi: 6, Ditolak: 1 }. Status tanpa mitra tetap muncul dengan nilai 0.
+ */
+export function hitungMitraPerStatus(daftarMitra) {
+  const hasil = {};
+  for (const status of Object.values(STATUS_VERIFIKASI)) {
+    hasil[status] = daftarMitra.filter((mitra) => mitra.statusVerifikasi === status).length;
+  }
+  return hasil;
+}

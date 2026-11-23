@@ -41,3 +41,26 @@ export function ambilHalaman(daftar, halaman, perHalaman) {
     total,
   };
 }
+
+/**
+ * Menyaring mitra berdasarkan status verifikasi dan kata kunci (nama, penanggung jawab, atau kecamatan), lalu mengurutkannya.
+ * Nilai status '' berarti semua status. Urutan: 'terbaru' / 'terlama' tanggal pengajuan atau 'nama' (A–Z).
+ */
+export function saringMitra(daftarMitra, filter) {
+  const kataKunci = filter.kataKunci.trim().toLowerCase();
+
+  const hasil = daftarMitra.filter((mitra) => {
+    if (filter.status && mitra.statusVerifikasi !== filter.status) return false;
+    if (!kataKunci) return true;
+    return [mitra.nama, mitra.penanggungJawab, mitra.kecamatan].some((teks) =>
+      teks.toLowerCase().includes(kataKunci)
+    );
+  });
+
+  // filter() sudah membuat array baru, jadi sort() di sini tidak mengubah daftarMitra asli
+  return hasil.sort((a, b) => {
+    if (filter.urutan === 'nama') return a.nama.localeCompare(b.nama, 'id');
+    const selisih = new Date(b.diajukanPada) - new Date(a.diajukanPada);
+    return filter.urutan === 'terlama' ? -selisih : selisih;
+  });
+}
