@@ -1,5 +1,6 @@
 import { STATUS_BATCH, STATUS_VERIFIKASI } from '@/lib/constants';
 import { cariById, pengolahUntukJalur } from '@/lib/hitung';
+import { cekKategori, cekParameter, ubahKeAngka } from '@/lib/validasi';
 import { daftarBatch } from '@/lib/data/batch';
 import { daftarMitra } from '@/lib/data/mitra';
 import { kategoriMaterial, jalurPemanfaatan, parameterVerifikasi } from '@/lib/data/masterData';
@@ -19,6 +20,9 @@ export const JENIS_AKSI = {
   TOLAK_MITRA: 'TOLAK_MITRA',
   UBAH_STATUS_KATEGORI: 'UBAH_STATUS_KATEGORI',
   UBAH_STATUS_JALUR: 'UBAH_STATUS_JALUR',
+  TAMBAH_KATEGORI: 'TAMBAH_KATEGORI',
+  UBAH_KATEGORI: 'UBAH_KATEGORI',
+  UBAH_PARAMETER: 'UBAH_PARAMETER',
 };
 
 /**
@@ -77,6 +81,15 @@ function gantiMitra(state, mitraBaru) {
  */
 function balikStatusAktif(daftar, id) {
   return daftar.map((item) => (item.id === id ? { ...item, aktif: !item.aktif } : item));
+}
+
+/**
+ * Membuat id kategori berikutnya dari nomor terbesar yang sudah ada (KAT-01, KAT-07 → KAT-08).
+ * Memakai nomor terbesar, bukan jumlah kategori, supaya id tidak pernah kembar.
+ */
+function idKategoriBerikutnya(daftarKategori) {
+  const nomorTerbesar = Math.max(0, ...daftarKategori.map((kategori) => Number(kategori.id.replace('KAT-', ''))));
+  return `KAT-${String(nomorTerbesar + 1).padStart(2, '0')}`;
 }
 
 /**
@@ -164,6 +177,49 @@ export function bioRouteReducer(state, aksi) {
       const jumlahAktif = state.jalurPemanfaatan.filter((item) => item.aktif).length;
       if (jalur.aktif && jumlahAktif === 1) return state;
       return { ...state, jalurPemanfaatan: balikStatusAktif(state.jalurPemanfaatan, id) };
+    }
+    
+    case JENIS_AKSI.TAMBAH_KATEGORI: {
+      const { nama, contoh, kriteria } = aksi.payload;
+      // Aturan yang sama dengan form di halaman Pengaturan (nama wajib, unik, contoh wajib)
+      if (Object.keys(cekKategori({ nama, contoh }, state.kategoriMaterial)).length > 0) return state;
+
+      const kategoriBaru = {
+        id: idKategoriBerikutnya(state.kategoriMaterial),
+        nama: nama.trim(),
+        contoh: contoh.trim(),
+        kriteria,
+        aktif: true,
+      };
+      return { ...state, kategoriMaterial: [...state.kategoriMaterial, kategoriBaru] };
+    }
+
+    case JENIS_AKSI.UBAH_KATEGORI: {
+      const { id, nama, contoh, kriteria } = aksi.payload;
+      if (!cariById(state.kategoriMaterial, id)) return state;
+      if (Object.keys(cekKategori({ nama, contoh }, state.kategoriMaterial, id)).length > 0) return state;
+
+      // id dan status aktif tidak berubah; batch lama tetap merujuk id yang sama
+      return {
+        ...state,
+        kategoriMaterial: state.kategoriMaterial.map((kategori) =>
+          kategori.id === id ? { ...kategori, nama: nama.trim(), contoh: contoh.trim(), kriteria } : kategori
+        ),
+      };
+    }
+
+    case JENIS_AKSI.UBAH_PARAMETER: {
+      const { toleransiSelisihKg, maksWaktuTinjauJam } = aksi.payload;
+      if (Object.keys(cekParameter({ toleransiSelisihKg, maksWaktuTinjauJam })).length > 0) return state;
+
+      return {
+        ...state,
+        parameterVerifikasi: {
+          ...state.parameterVerifikasi,
+          toleransiSelisihKg: ubahKeAngka(toleransiSelisihKg),
+          maksWaktuTinjauJam: ubahKeAngka(maksWaktuTinjauJam),
+        },
+      };
     }
 
     default:
