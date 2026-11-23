@@ -19,7 +19,8 @@ import {
   Menu,
   X,
 } from 'lucide-react';
-import { BioRouteProvider } from '@/context/BioRouteContext';
+import { BioRouteProvider, useBioRoute } from '@/context/BioRouteContext';
+import { mitraMenunggu } from '@/lib/hitung';
 
 /**
  * Kerangka halaman admin: sidebar, topbar, dan area konten.
@@ -29,6 +30,10 @@ function AdminShell({ children }) {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  // AdminShell berada di dalam <BioRouteProvider>, jadi boleh membaca state bersama.
+  const { state } = useBioRoute();
+  const jumlahMitraMenunggu = mitraMenunggu(state.daftarMitra).length;
 
   const navigationItems = [
     {
@@ -40,7 +45,7 @@ function AdminShell({ children }) {
       name: 'Verifikasi Mitra',
       href: '/verifikasi',
       icon: ShieldCheck,
-      badge: '3',
+      badge: jumlahMitraMenunggu,
       badgeColor: 'bg-red-100 text-red-600',
     },
     {
@@ -177,7 +182,8 @@ function AdminShell({ children }) {
                         />
                         <span>{item.name}</span>
                       </div>
-                      {item.badge && (
+                      {/* > 0 supaya angka 0 tidak ikut tampil */}
+                      {item.badge > 0 && (
                         <span
                           className={`text-xs px-2 py-0.5 rounded-full font-bold leading-none ${item.badgeColor}`}
                         >

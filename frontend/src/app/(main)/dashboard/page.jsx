@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useSyncExternalStore } from 'react';
+import { useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import {
   Scale,
@@ -12,7 +12,6 @@ import {
   Bug,
   CheckCircle2,
   ArrowRight,
-  RefreshCw,
   Info,
   Plus,
 } from 'lucide-react';
@@ -27,7 +26,35 @@ import {
   LabelList,
 } from 'recharts';
 import StatusBadge from '@/components/ui/StatusBadge';
-import ErrorState from '@/components/ui/ErrorState';
+import { useBioRoute } from '@/context/BioRouteContext';
+import { STATUS_BATCH } from '@/lib/constants';
+import { formatKg, formatPersen, formatTanggal } from '@/lib/format';
+import {
+  cariById,
+  totalBeratDilaporkan,
+  totalBeratDiterima,
+  totalBeratDitolak,
+  hitungBatchAktif,
+  beratDiterimaPerJalur,
+  hitungBatchPerStatus,
+  beratPerMinggu,
+  batchTerbaru,
+  mitraMenunggu,
+} from '@/lib/hitung';
+
+// Warna dan ikon tiap jalur, dipilih berdasarkan urutan jalur di master data. Kalau admin menambah jalur baru, gayanya mengulang dari awal.
+const GAYA_JALUR = [
+  { warna: '#176B4D', Ikon: Sprout, latarIkon: 'bg-[#EAF5F0] text-[#176B4D]' },
+  { warna: '#2563EB', Ikon: Bug, latarIkon: 'bg-blue-50 text-[#2563EB]' },
+  { warna: '#B7791F', Ikon: Layers, latarIkon: 'bg-amber-50 text-[#B7791F]' },
+];
+
+/**
+ * Mengambil gaya jalur berdasarkan urutannya (0, 1, 2, 3 → gaya 0, 1, 2, 0, ...).
+ */
+function gayaJalur(index) {
+  return GAYA_JALUR[index % GAYA_JALUR.length];
+}
 
 const emptySubscribe = () => () => {};
 
@@ -40,7 +67,7 @@ function useIsMounted() {
 }
 
 /**
- * Custom Tooltip for Recharts
+ * Tooltip grafik: menampilkan berat setiap jalur pada minggu yang disorot.
  */
 function CustomChartTooltip({ active, payload, label }) {
   if (active && payload && payload.length) {
@@ -48,14 +75,16 @@ function CustomChartTooltip({ active, payload, label }) {
       <div className="bg-white p-3 rounded-xl border border-[#E5EAE7] shadow-lg text-xs">
         <p className="font-semibold text-[#17231D] mb-1.5">{label}</p>
         <div className="space-y-1">
-          <p className="text-[#176B4D] flex items-center justify-between gap-4 font-medium">
-            <span>Kompos:</span>
-            <strong>{payload[0]?.value} kg</strong>
-          </p>
-          <p className="text-[#2563EB] flex items-center justify-between gap-4 font-medium">
-            <span>BSF / Maggot:</span>
-            <strong>{payload[1]?.value} kg</strong>
-          </p>
+          {payload.map((item) => (
+            <p
+              key={item.dataKey}
+              className="flex items-center justify-between gap-4 font-medium"
+              style={{ color: item.color }}
+            >
+              <span>{item.name}:</span>
+              <strong>{formatKg(item.value)}</strong>
+            </p>
+          ))}
         </div>
       </div>
     );
@@ -64,165 +93,25 @@ function CustomChartTooltip({ active, payload, label }) {
 }
 
 /**
- * Skeleton Loader matching exact dashboard dimensions
+ * Halaman Dashboard (W1): ringkasan operasional yang seluruh angkanya dihitung dari state BioRoute.
  */
-function DashboardSkeleton() {
-  return (
-    <div className="space-y-6 animate-pulse bg-white" aria-busy="true" aria-label="Memuat data dashboard">
-      {/* Header Skeleton */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="h-7 w-64 bg-gray-200 rounded-lg" />
-          <div className="h-4 w-96 bg-gray-100 rounded-md mt-2" />
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="h-8 w-44 bg-gray-200 rounded-full" />
-          <div className="h-9 w-32 bg-gray-200 rounded-xl" />
-        </div>
-      </div>
-
-      {/* 4 Metric Cards Skeleton */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {[1, 2, 3, 4].map((i) => (
-          <div
-            key={i}
-            className="p-5 rounded-2xl bg-white border border-[#E5EAE7] space-y-3"
-          >
-            <div className="h-4 w-28 bg-gray-200 rounded" />
-            <div className="h-8 w-32 bg-gray-300 rounded" />
-            <div className="h-4 w-36 bg-gray-100 rounded" />
-            <div className="h-3 w-40 bg-gray-100 rounded pt-2" />
-          </div>
-        ))}
-      </div>
-
-      {/* Middle Section Skeleton */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div className="lg:col-span-7 p-6 rounded-2xl bg-white border border-[#E5EAE7] h-[360px]" />
-        <div className="lg:col-span-5 p-6 rounded-2xl bg-white border border-[#E5EAE7] h-[360px]" />
-      </div>
-
-      {/* Bottom Section Skeleton */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div className="lg:col-span-7 p-6 rounded-2xl bg-white border border-[#E5EAE7] h-[320px]" />
-        <div className="lg:col-span-5 p-6 rounded-2xl bg-white border border-[#E5EAE7] h-[320px]" />
-      </div>
-    </div>
-  );
-}
-
 export default function DashboardPage() {
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [retryCount, setRetryCount] = useState(0);
   const isClient = useIsMounted();
+  const { state } = useBioRoute();
+  const { daftarBatch, daftarMitra, kategoriMaterial, jalurPemanfaatan } = state;
 
-  /**
-   * Dedicated fetchDashboardData caller using native fetch()
-   * Targets process.env.NEXT_PUBLIC_API_URL or local static JSON fallback
-   * Handles Strict Tri-State: Loading, Error with Retry, Success / Empty State
-   */
-  useEffect(() => {
-    let active = true;
-
-    async function fetchDashboardData() {
-      try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
-        const endpoint = API_URL ? `${API_URL}/api/dashboard` : '/data/dashboard.json';
-
-        const response = await fetch(endpoint, {
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`Gagal memuat data operasional (HTTP ${response.status})`);
-        }
-
-        const json = await response.json();
-        if (active) {
-          setData(json);
-          setIsLoading(false);
-          setError(null);
-        }
-      } catch (err) {
-        if (active) {
-          console.error('Fetch dashboard error:', err);
-          setError(
-            err?.message || 'Terjadi gangguan saat mengambil data agregasi material organik.'
-          );
-          setIsLoading(false);
-        }
-      }
-    }
-
-    fetchDashboardData();
-
-    return () => {
-      active = false;
-    };
-  }, [retryCount]);
-
-  /**
-   * Interactive Retry Action
-   */
-  const handleRetry = () => {
-    setIsLoading(true);
-    setError(null);
-    setRetryCount((prev) => prev + 1);
-  };
-
-  // 1. Loading State (Pulse Skeleton)
-  if (isLoading) {
-    return <DashboardSkeleton />;
-  }
-
-  // 2. Error State (Clear accessible card with Retry button)
-  if (error) {
-    return (
-      <ErrorState
-        judul="Gagal Memuat Data Operasional"
-        pesan={error}
-        onRetry={handleRetry}
-      />
-    );
-  }
-
-  // 3. Empty State Check
-  const isEmpty =
-    !data ||
-    (!data.metrics && !data.recentBatches?.length && !data.weeklyChart?.length);
-
-  if (isEmpty) {
-    return (
-      <section className="p-10 rounded-2xl bg-white border border-[#E5EAE7] text-center my-8 shadow-xs">
-        <div className="w-12 h-12 rounded-full bg-[#F4F6F5] text-[#66736C] flex items-center justify-center mx-auto mb-3">
-          <Layers className="w-6 h-6" aria-hidden="true" />
-        </div>
-        <h2 className="text-base font-bold text-[#17231D]">
-          Belum Ada Data Operasional
-        </h2>
-        <p className="text-xs text-[#66736C] mt-1 mb-5 max-w-sm mx-auto">
-          Tidak ada data pencatatan alokasi material organik atau batch aktif untuk wilayah Banyumas pada periode ini.
-        </p>
-        <button
-          type="button"
-          onClick={handleRetry}
-          className="inline-flex items-center gap-2 bg-[#176B4D] hover:bg-[#104D38] text-white px-4 py-2 rounded-xl text-xs font-medium cursor-pointer"
-        >
-          <RefreshCw className="w-3.5 h-3.5" aria-hidden="true" />
-          <span>Segarkan Tampilan</span>
-        </button>
-      </section>
-    );
-  }
-
-  const { metrics, weeklyChart, utilizationRoutes, recentBatches, pendingPartners } =
-    data;
-
+  // Semua angka di bawah dihitung dari state, tidak ada yang ditulis manual.
+  const jumlahDitolak = hitungBatchPerStatus(daftarBatch, STATUS_BATCH.DITOLAK);
+  const jumlahDitimbang =
+    hitungBatchPerStatus(daftarBatch, STATUS_BATCH.DITERIMA) +
+    hitungBatchPerStatus(daftarBatch, STATUS_BATCH.DIPROSES) +
+    hitungBatchPerStatus(daftarBatch, STATUS_BATCH.SELESAI);
+  const totalDiterima = totalBeratDiterima(daftarBatch);
+  const dataMingguan = beratPerMinggu(daftarBatch, jalurPemanfaatan);
+  const perJalur = beratDiterimaPerJalur(daftarBatch, jalurPemanfaatan);
+  const daftarBatchTerbaru = batchTerbaru(daftarBatch, 6);
+  const daftarMitraMenunggu = mitraMenunggu(daftarMitra);
+  
   return (
     <div className="space-y-6 bg-white">
       
@@ -272,14 +161,14 @@ export default function DashboardPage() {
           </div>
           <div className="my-2.5">
             <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">
-              {metrics?.totalWeight?.value || '1.284 kg'}
+              {formatKg(totalBeratDilaporkan(daftarBatch))}
             </h2>
             <span className="inline-flex items-center text-[11px] font-semibold text-[#16805D] mt-0.5">
-              {metrics?.totalWeight?.badge || '+8,4% vs pekan lalu'}
+              {daftarBatch.length - jumlahDitolak} batch tercatat
             </span>
           </div>
           <p className="text-[11px] text-[#66736C] pt-2 border-t border-[#E5EAE7]/70 truncate">
-            {metrics?.totalWeight?.footer || 'Kapasitas agregat 24 batch masuk'}
+            Batch yang ditolak tidak dihitung
           </p>
         </article>
 
@@ -295,14 +184,14 @@ export default function DashboardPage() {
           </div>
           <div className="my-2.5">
             <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">
-              {metrics?.accepted?.value || '1.102 kg'}
+              {formatKg(totalDiterima)}
             </h2>
             <span className="inline-flex items-center text-[11px] font-semibold text-[#2563EB] mt-0.5">
-              {metrics?.accepted?.badge || '85,8% tingkat konversi'}
+              {jumlahDitimbang} batch sudah ditimbang
             </span>
           </div>
           <p className="text-[11px] text-[#66736C] pt-2 border-t border-[#E5EAE7]/70 truncate">
-            {metrics?.accepted?.footer || 'Fasilitas aktif 3 TPST & Maggot'}
+            Hasil timbang manual saat serah terima
           </p>
         </article>
 
@@ -318,14 +207,14 @@ export default function DashboardPage() {
           </div>
           <div className="my-2.5">
             <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">
-              {metrics?.rejected?.value || '46 kg'}
+              {formatKg(totalBeratDitolak(daftarBatch))}
             </h2>
             <span className="inline-flex items-center text-[11px] font-semibold text-[#C2413B] mt-0.5">
-              {metrics?.rejected?.badge || '3,5% deviasi kualitas'}
+              {jumlahDitolak} batch ditolak
             </span>
           </div>
           <p className="text-[11px] text-[#66736C] pt-2 border-t border-[#E5EAE7]/70 truncate">
-            {metrics?.rejected?.footer || 'Kategori utama Kontaminasi anorganik'}
+            Alasan penolakan wajib dicatat
           </p>
         </article>
 
@@ -341,14 +230,14 @@ export default function DashboardPage() {
           </div>
           <div className="my-2.5">
             <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">
-              {metrics?.activeBatches?.value || '18 lot'}
+              {hitungBatchAktif(daftarBatch)} batch
             </h2>
             <span className="inline-flex items-center text-[11px] font-semibold text-[#B7791F] mt-0.5">
-              {metrics?.activeBatches?.badge || '12 dalam proses'}
+              {hitungBatchPerStatus(daftarBatch, STATUS_BATCH.DIAJUKAN)} menunggu persetujuan
             </span>
           </div>
           <p className="text-[11px] text-[#66736C] pt-2 border-t border-[#E5EAE7]/70 truncate">
-            {metrics?.activeBatches?.footer || 'Verifikasi awal 6 slot tersedia'}
+            {hitungBatchPerStatus(daftarBatch, STATUS_BATCH.DIPROSES)} sedang diproses pengolah
           </p>
         </article>
       </section>
@@ -365,35 +254,36 @@ export default function DashboardPage() {
                   Berat per minggu (kg)
                 </h2>
                 <p className="text-xs text-[#66736C] mt-0.5">
-                  Perbandingan alokasi material ke jalur Kompos dan BSF / Maggot (Nov 2026)
+                  Berat dilaporkan per minggu pengajuan (batch ditolak tidak dihitung)
                 </p>
-              </div>
+            </div>
 
-              {/* Custom Legend */}
+              {/* Legenda dibuat dari daftar jalur */}
               <div className="flex items-center gap-4 text-xs font-medium self-start sm:self-auto">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-xs bg-[#176B4D]" />
-                  <span className="text-[#17231D]">Kompos</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-xs bg-[#2563EB]" />
-                  <span className="text-[#17231D]">BSF / Maggot</span>
-                </div>
+                {jalurPemanfaatan.map((jalur, index) => (
+                  <div key={jalur.id} className="flex items-center gap-1.5">
+                    <span
+                      className="w-2.5 h-2.5 rounded-xs"
+                      style={{ backgroundColor: gayaJalur(index).warna }}
+                    />
+                    <span className="text-[#17231D]">{jalur.nama}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
             {/* Recharts Bar Chart */}
-            <div className="w-full h-[260px] pt-2">
+            <div className="w-full h-65 pt-2">
               {isClient && (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
-                    data={weeklyChart}
+                    data={dataMingguan}
                     margin={{ top: 22, right: 10, left: -20, bottom: 0 }}
                     barGap={6}
                   >
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5EAE7" />
                     <XAxis
-                      dataKey="week"
+                      dataKey="minggu"
                       tick={{ fill: '#66736C', fontSize: 11 }}
                       stroke="#E5EAE7"
                       axisLine={{ stroke: '#E5EAE7' }}
@@ -406,34 +296,24 @@ export default function DashboardPage() {
                       tickLine={false}
                     />
                     <Tooltip content={<CustomChartTooltip />} />
-                    <Bar
-                      dataKey="kompos"
-                      name="Kompos"
-                      fill="#176B4D"
-                      radius={[4, 4, 0, 0]}
-                    >
-                      <LabelList
-                        dataKey="kompos"
-                        position="top"
-                        fill="#176B4D"
-                        fontSize={10}
-                        fontWeight={600}
-                      />
-                    </Bar>
-                    <Bar
-                      dataKey="bsf"
-                      name="BSF / Maggot"
-                      fill="#2563EB"
-                      radius={[4, 4, 0, 0]}
-                    >
-                      <LabelList
-                        dataKey="bsf"
-                        position="top"
-                        fill="#2563EB"
-                        fontSize={10}
-                        fontWeight={600}
-                      />
-                    </Bar>
+                    {/* Satu batang untuk setiap jalur */}
+                    {jalurPemanfaatan.map((jalur, index) => (
+                      <Bar
+                        key={jalur.id}
+                        dataKey={jalur.id}
+                        name={jalur.nama}
+                        fill={gayaJalur(index).warna}
+                        radius={[4, 4, 0, 0]}
+                      >
+                        <LabelList
+                          dataKey={jalur.id}
+                          position="top"
+                          fill={gayaJalur(index).warna}
+                          fontSize={10}
+                          fontWeight={600}
+                        />
+                      </Bar>
+                    ))}
                   </BarChart>
                 </ResponsiveContainer>
               )}
@@ -457,34 +337,32 @@ export default function DashboardPage() {
               </h2>
             </div>
             <p className="text-xs text-[#66736C] mb-5">
-              Distribusi residu aktif bulan November 2026
+              Berat hasil timbang pengolah per jalur
             </p>
 
             {/* Allocation Items */}
             <div className="space-y-4">
-              {utilizationRoutes?.map((route) => {
-                const isKompos = route.id === 'kompos';
-                const Icon = isKompos ? Sprout : Bug;
-                const barColor = isKompos ? 'bg-[#176B4D]' : 'bg-[#2563EB]';
-                const iconBg = isKompos ? 'bg-[#EAF5F0] text-[#176B4D]' : 'bg-blue-50 text-[#2563EB]';
+              {perJalur.map((jalur, index) => {
+                const { warna, Ikon, latarIkon } = gayaJalur(index);
+                const detailJalur = cariById(jalurPemanfaatan, jalur.id);
 
                 return (
-                  <div key={route.id} className="p-3.5 rounded-xl bg-[#F4F6F5] border border-[#E5EAE7]">
+                  <div key={jalur.id} className="p-3.5 rounded-xl bg-[#F4F6F5] border border-[#E5EAE7]">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
-                        <div className={`p-1.5 rounded-lg ${iconBg}`}>
-                          <Icon className="w-3.5 h-3.5" aria-hidden="true" />
+                        <div className={`p-1.5 rounded-lg ${latarIkon}`}>
+                          <Ikon className="w-3.5 h-3.5" aria-hidden="true" />
                         </div>
                         <span className="text-xs font-semibold text-[#17231D]">
-                          {route.title}
+                          {jalur.nama}
                         </span>
                       </div>
                       <div className="text-right">
                         <span className="text-xs font-bold text-[#17231D]">
-                          {route.weight}
+                          {formatKg(jalur.kg)}
                         </span>
                         <span className="text-[11px] text-[#66736C] ml-1">
-                          ({route.percentage}%)
+                          ({formatPersen(jalur.persen)})
                         </span>
                       </div>
                     </div>
@@ -492,13 +370,13 @@ export default function DashboardPage() {
                     {/* Progress Bar */}
                     <div className="w-full bg-[#E5EAE7] h-2 rounded-full overflow-hidden">
                       <div
-                        className={`h-full ${barColor} transition-all duration-500 rounded-full`}
-                        style={{ width: `${route.percentage}%` }}
+                        className="h-full transition-all duration-500 rounded-full"
+                        style={{ width: `${jalur.persen}%`, backgroundColor: warna }}
                       />
                     </div>
 
                     <p className="text-[11px] text-[#66736C] mt-2">
-                      {route.subtext}
+                      {detailJalur?.materialDiterima}
                     </p>
                   </div>
                 );
@@ -510,7 +388,7 @@ export default function DashboardPage() {
           <div className="mt-5 p-3.5 rounded-xl bg-[#EAF5F0] border border-[#16805D]/20 flex items-start gap-2.5">
             <CheckCircle2 className="w-4 h-4 text-[#16805D] shrink-0 mt-0.5" aria-hidden="true" />
             <p className="text-xs text-[#16805D] leading-snug">
-              <strong>Total terkelola: 1.102 kg</strong> — dari 2 jalur pemrosesan regional aktif
+              <strong>Total diterima: {formatKg(totalDiterima)}</strong> — dari {jalurPemanfaatan.length} jalur pemanfaatan
             </p>
           </div>
         </article>
@@ -528,7 +406,7 @@ export default function DashboardPage() {
                 Batch terbaru
               </h2>
               <span className="bg-[#EAF5F0] text-[#16805D] text-xs font-medium px-2.5 py-0.5 rounded-full border border-[#16805D]/15">
-                6 batch hari ini
+                {daftarBatchTerbaru.length} terbaru dari {daftarBatch.length}
               </span>
             </div>
             <Link
@@ -555,22 +433,22 @@ export default function DashboardPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#E5EAE7]/60">
-                {recentBatches?.map((batch) => (
-                  <tr key={batch.id} className="hover:bg-[#F4F6F5]/50 transition-colors">
+                {daftarBatchTerbaru.map((batch) => (
+                  <tr key={batch.kode} className="hover:bg-[#F4F6F5]/50 transition-colors">
                     <td className="py-3 font-mono text-[11px] text-[#17231D] font-medium">
-                      {batch.id}
+                      {batch.kode}
                     </td>
                     <td className="py-3 font-medium text-[#17231D]">
-                      {batch.source}
+                      {cariById(daftarMitra, batch.sumberId)?.nama}
                     </td>
                     <td className="py-3 text-[#66736C] hidden sm:table-cell">
-                      {batch.category}
+                      {cariById(kategoriMaterial, batch.kategoriId)?.nama}
                     </td>
                     <td className="py-3 font-semibold text-[#17231D]">
-                      {batch.weight}
+                      {formatKg(batch.beratKg)}
                     </td>
                     <td className="py-3 text-[#66736C] hidden md:table-cell">
-                      {batch.route}
+                      {cariById(jalurPemanfaatan, batch.jalurId)?.nama}
                     </td>
                     <td className="py-3">
                       <StatusBadge status={batch.status} />                      
@@ -598,7 +476,7 @@ export default function DashboardPage() {
                 Perlu verifikasi
               </h2>
               <span className="bg-red-50 text-red-600 font-bold px-2.5 py-0.5 rounded-full text-xs">
-                3 menunggu
+                {daftarMitraMenunggu.length} menunggu
               </span>
             </div>
             <p className="text-xs text-[#66736C] mb-4">
@@ -607,22 +485,25 @@ export default function DashboardPage() {
 
             {/* Partner List */}
             <div className="space-y-3">
-              {pendingPartners?.map((partner) => (
+              {daftarMitraMenunggu.length === 0 && (
+                <p className="text-xs text-[#66736C]">Tidak ada mitra yang menunggu verifikasi.</p>
+              )}
+              {daftarMitraMenunggu.map((mitra) => (
                 <div
-                  key={partner.id}
+                  key={mitra.id}
                   className="p-3 rounded-xl border border-[#E5EAE7] hover:border-[#176B4D]/30 transition-all flex items-center justify-between gap-3 bg-[#F4F6F5]/40"
                 >
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
                       <p className="text-xs font-bold text-[#17231D] truncate">
-                        {partner.name}
+                        {mitra.nama}
                       </p>
                       <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-white border border-[#E5EAE7] text-[#66736C]">
-                        {partner.type}
+                        {mitra.peran === 'sumber' ? 'Sumber' : 'Pengolah'}
                       </span>
                     </div>
                     <p className="text-[11px] text-[#66736C] truncate mt-0.5">
-                      {partner.location} • {partner.category}
+                      {mitra.kecamatan} • Daftar {formatTanggal(mitra.diajukanPada)}
                     </p>
                   </div>
                   <button
