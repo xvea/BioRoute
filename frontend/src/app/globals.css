@@ -11,7 +11,43 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
+/*
+ * Token desain BioRoute (sumber: DESIGN3_web.md).
+ * Tailwind otomatis membuat kelas dari setiap --color-*, mis. --color-teks-redup → text-teks-redup, bg-teks-redup, border-teks-redup.
+ * Untuk mengganti warna di seluruh aplikasi, cukup ubah nilainya di sini.
+ */
+
 @theme {
+  /* Warna brand (hijau BioRoute) */
+  --color-brand: #176b4d;
+  --color-brand-tua: #104d38;
+  --color-brand-gelap: #0d3c2b;
+  --color-brand-muda: #eaf5f0;
+
+  /* Aksen lime, hanya untuk penanda kecil */
+  --color-aksen: #b7d76a;
+  --color-aksen-tua: #4d6b12;
+  --color-aksen-muda: #f3f8e6;
+
+  /* Teks, garis, dan latar */
+  --color-teks: #17231d;
+  --color-teks-redup: #66736c;
+  --color-garis: #e5eae7;
+  --color-latar-redup: #f4f6f5;
+
+  /* Warna status: sukses, peringatan, bahaya, info (versi -muda untuk latar, -tua untuk hover) */
+  --color-sukses: #16805d;
+  --color-sukses-muda: #eaf5f0;
+  --color-peringatan: #b7791f;
+  --color-peringatan-tua: #975a16;
+  --color-peringatan-muda: #fef3c7;
+  --color-bahaya: #c2413b;
+  --color-bahaya-tua: #9b2c2c;
+  --color-bahaya-muda: #fee2e2;
+  --color-info: #2563eb;
+  --color-info-muda: #eff6ff;
+
+  /* Animasi */
   --animate-fade-in: fade-in 0.25s ease-out;
 
   @keyframes fade-in {

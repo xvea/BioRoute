@@ -5,8 +5,8 @@ import { cekAlasan } from '@/lib/validasi';
 
 // Warna tombol kirim: 'peringatan' (kuning, untuk minta revisi) atau 'bahaya' (merah, untuk tolak).
 const WARNA_TOMBOL = {
-  peringatan: 'bg-[#B7791F] hover:bg-[#975A16]',
-  bahaya: 'bg-[#C2413B] hover:bg-[#9B2C2C]',
+  peringatan: 'bg-peringatan hover:bg-peringatan-tua',
+  bahaya: 'bg-bahaya hover:bg-bahaya-tua',
 };
 
 /**
@@ -39,17 +39,17 @@ export default function ModalAlasan({ judul, keterangan, labelKirim, varian = 'b
         role="dialog"
         aria-modal="true"
         aria-labelledby="judul-modal-alasan"
-        className="bg-white rounded-2xl border border-[#E5EAE7] shadow-xl w-full max-w-md p-6 space-y-4"
+        className="bg-white rounded-2xl border border-garis shadow-xl w-full max-w-md p-6 space-y-4"
       >
         <div>
-          <h2 id="judul-modal-alasan" className="text-lg font-bold text-[#17231D]">
+          <h2 id="judul-modal-alasan" className="text-lg font-bold text-teks">
             {judul}
           </h2>
-          <p className="text-xs text-[#66736C] mt-1">{keterangan}</p>
+          <p className="text-xs text-teks-redup mt-1">{keterangan}</p>
         </div>
 
         <div>
-          <label htmlFor="isian-alasan" className="text-xs font-semibold text-[#17231D]">
+          <label htmlFor="isian-alasan" className="text-xs font-semibold text-teks">
             Alasan
           </label>
           <textarea
@@ -59,10 +59,10 @@ export default function ModalAlasan({ judul, keterangan, labelKirim, varian = 'b
             rows={4}
             autoFocus
             placeholder="Contoh: Foto timbangan tidak terlihat jelas, mohon unggah ulang."
-            className="mt-1 w-full p-3 bg-[#F4F6F5] text-xs text-[#17231D] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D]"
+            className="mt-1 w-full p-3 bg-latar-redup text-xs text-teks rounded-xl border border-garis focus:outline-none focus:ring-2 focus:ring-brand"
           />
           {tampilkanError && pesanError && (
-            <p role="alert" className="text-xs text-[#C2413B] mt-1">
+            <p role="alert" className="text-xs text-bahaya mt-1">
               {pesanError}
             </p>
           )}
@@ -72,7 +72,7 @@ export default function ModalAlasan({ judul, keterangan, labelKirim, varian = 'b
           <button
             type="button"
             onClick={onBatal}
-            className="border border-[#E5EAE7] hover:bg-[#F4F6F5] text-sm font-medium px-4 py-2 rounded-xl text-[#17231D] cursor-pointer"
+            className="border border-garis hover:bg-latar-redup text-sm font-medium px-4 py-2 rounded-xl text-teks cursor-pointer"
           >
             Batal
           </button>

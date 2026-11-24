@@ -6,7 +6,7 @@ export default function RouteBadge({ jalur }) {
   return (
     <span
       className={`inline-flex items-center whitespace-nowrap px-2 py-0.5 rounded-full text-xs font-semibold border ${
-        isKompos ? 'bg-[#EAF5F0] text-[#16805D] border-[#16805D]/15' : 'bg-[#EFF6FF] text-[#2563EB] border-[#2563EB]/15'
+        isKompos ? 'bg-sukses-muda text-sukses border-sukses/15' : 'bg-info-muda text-info border-info/15'
       }`}
     >
       {jalur}

@@ -2,19 +2,19 @@ import { STATUS_BATCH, STATUS_VERIFIKASI } from '@/lib/constants';
 
 // Warna setiap status batch.
 const GAYA_STATUS = {
-  [STATUS_BATCH.DIAJUKAN]: 'bg-[#F4F6F5] text-[#17231D] border-[#E5EAE7]',
-  [STATUS_BATCH.PERLU_REVISI]: 'bg-[#FEF3C7] text-[#B7791F] border-[#B7791F]/20',
-  [STATUS_BATCH.TERSEDIA]: 'bg-[#EAF5F0] text-[#16805D] border-[#16805D]/20',
-  [STATUS_BATCH.DIJADWALKAN]: 'bg-[#EFF6FF] text-[#2563EB] border-[#2563EB]/20',
-  [STATUS_BATCH.DITERIMA]: 'bg-[#EAF5F0] text-[#16805D] border-[#16805D]/20',
-  [STATUS_BATCH.DIPROSES]: 'bg-[#F3F8E6] text-[#4D6B12] border-[#B7D76A]',
-  [STATUS_BATCH.SELESAI]: 'bg-[#104D38] text-white border-[#104D38]',
-  [STATUS_BATCH.DITOLAK]: 'bg-[#FEE2E2] text-[#C2413B] border-[#C2413B]/20',
+  [STATUS_BATCH.DIAJUKAN]: 'bg-latar-redup text-teks border-garis',
+  [STATUS_BATCH.PERLU_REVISI]: 'bg-peringatan-muda text-peringatan border-peringatan/20',
+  [STATUS_BATCH.TERSEDIA]: 'bg-sukses-muda text-sukses border-sukses/20',
+  [STATUS_BATCH.DIJADWALKAN]: 'bg-info-muda text-info border-info/20',
+  [STATUS_BATCH.DITERIMA]: 'bg-sukses-muda text-sukses border-sukses/20',
+  [STATUS_BATCH.DIPROSES]: 'bg-aksen-muda text-aksen-tua border-aksen',
+  [STATUS_BATCH.SELESAI]: 'bg-brand-tua text-white border-brand-tua',
+  [STATUS_BATCH.DITOLAK]: 'bg-bahaya-muda text-bahaya border-bahaya/20',
   // Status verifikasi mitra ('Ditolak' sudah ada di atas, warnanya sama)
-  [STATUS_VERIFIKASI.MENUNGGU]: 'bg-[#FEF3C7] text-[#B7791F] border-[#B7791F]/20',
-  [STATUS_VERIFIKASI.TERVERIFIKASI]: 'bg-[#EAF5F0] text-[#16805D] border-[#16805D]/20',
+  [STATUS_VERIFIKASI.MENUNGGU]: 'bg-peringatan-muda text-peringatan border-peringatan/20',
+  [STATUS_VERIFIKASI.TERVERIFIKASI]: 'bg-sukses-muda text-sukses border-sukses/20',
 };
-const GAYA_DEFAULT = 'bg-[#F4F6F5] text-[#66736C] border-[#E5EAE7]';
+const GAYA_DEFAULT = 'bg-latar-redup text-teks-redup border-garis';
 
 export default function StatusBadge({ status }) {
   const gaya = GAYA_STATUS[status] ?? GAYA_DEFAULT;

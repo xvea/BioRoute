@@ -2,15 +2,15 @@ import { AlertTriangle, CheckCircle2, Info } from 'lucide-react';
 
 const GAYA_TOAST = {
   success: {
-    kotak: 'bg-[#EAF5F0] border-[#16805D]/20 text-[#16805D]',
+    kotak: 'bg-sukses-muda border-sukses/20 text-sukses',
     Ikon: CheckCircle2,
   },
   warning: {
-    kotak: 'bg-amber-50 border-amber-200 text-[#B7791F]',
+    kotak: 'bg-amber-50 border-amber-200 text-peringatan',
     Ikon: Info,
   },
   error: {
-    kotak: 'bg-[#FEE2E2] border-[#C2413B]/20 text-[#C2413B]',
+    kotak: 'bg-bahaya-muda border-bahaya/20 text-bahaya',
     Ikon: AlertTriangle,
   },
 };
