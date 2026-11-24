@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { STATUS_BATCH, STATUS_VERIFIKASI } from '@/lib/constants';
-import { saringBatch, ambilHalaman, saringMitra } from '@/lib/tabel';
+import { saringBatch, ambilHalaman, saringMitra, halamanUntuk } from '@/lib/tabel';
 
 const mitraUji = [
   { id: 'S1', nama: 'Warung Bu Slamet' },
@@ -139,5 +139,38 @@ describe('saringMitra', () => {
 
   it('mengembalikan array kosong kalau tidak ada yang cocok', () => {
     expect(saringMitra(mitraVerifikasi, { ...filterMenunggu, kataKunci: 'xyz' })).toEqual([]);
+  });
+});
+
+describe('halamanUntuk', () => {
+  // 12 data, 5 per halaman → halaman 1: 1–5, halaman 2: 6–10, halaman 3: 11–12
+  const angka = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+  it('item di tengah halaman pertama ada di halaman 1', () => {
+    expect(halamanUntuk(angka, (n) => n === 3, 5)).toBe(1);
+  });
+
+  it('batas halaman: item ke-5 di halaman 1, item ke-6 di halaman 2', () => {
+    expect(halamanUntuk(angka, (n) => n === 5, 5)).toBe(1);
+    expect(halamanUntuk(angka, (n) => n === 6, 5)).toBe(2);
+  });
+
+  it('item terakhir ada di halaman terakhir', () => {
+    expect(halamanUntuk(angka, (n) => n === 12, 5)).toBe(3);
+  });
+
+  it('kalau beberapa item cocok, yang dipakai item pertama', () => {
+    // 8, 9, 10, 11, 12 cocok → item pertama (8) ada di halaman 2, bukan halaman 3
+    expect(halamanUntuk(angka, (n) => n > 7, 5)).toBe(2);
+  });
+
+  it('tidak ada yang cocok atau daftar kosong → halaman 1', () => {
+    expect(halamanUntuk(angka, (n) => n === 99, 5)).toBe(1);
+    expect(halamanUntuk([], (n) => n === 1, 5)).toBe(1);
+  });
+
+  it('mencari batch berdasarkan kode dengan jumlah per halaman lain', () => {
+    // 2 per halaman → BR-01, BR-02 | BR-03, BR-04
+    expect(halamanUntuk(batchUji, (batch) => batch.kode === 'BR-03', 2)).toBe(2);
   });
 });
