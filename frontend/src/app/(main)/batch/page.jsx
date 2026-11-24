@@ -33,6 +33,8 @@ import {
   pengolahUntukJalur,
 } from '@/lib/hitung';
 import { saringBatch, ambilHalaman, halamanUntuk } from '@/lib/tabel';
+import { csvBatch, namaFileUnduhan } from '@/lib/csv';
+import { unduhCsv } from '@/lib/unduh';
 import ModalAlasan from '@/components/ui/ModalAlasan';
 // Jumlah baris tabel per halaman.
 const PER_HALAMAN = 5;
@@ -90,6 +92,18 @@ function IsiHalamanBatch({ kodeAwal }) {
   const daftarPengolah = batchTerpilih ? pengolahUntukJalur(daftarMitra, batchTerpilih.jalurId) : [];
   // pilihan pengolah dari batch lain tidak berlaku untuk batch ini
   const pengolahValid = daftarPengolah.some((mitra) => mitra.id === pengolahDipilih);
+
+  /**
+   * Mengunduh CSV berisi semua batch hasil filter (semua halaman, bukan hanya 5 baris yang tampil).
+   */
+  const handleEksporCsv = () => {
+    if (hasilSaring.length === 0) {
+      tampilkanToast('warning', 'Tidak ada batch yang cocok dengan filter, jadi tidak ada yang diekspor.');
+      return;
+    }
+    unduhCsv(namaFileUnduhan('batch'), csvBatch(hasilSaring, { daftarMitra, kategoriMaterial, jalurPemanfaatan }));
+    tampilkanToast('success', `${hasilSaring.length} batch diekspor ke CSV.`);
+  };
 
   /**
    * Menyetujui batch dan menawarkannya ke pengolah yang dipilih (status → Tersedia).
@@ -160,22 +174,11 @@ function IsiHalamanBatch({ kodeAwal }) {
       {/* 3. PAGE HEADER & METRIC KPI CARDS */}
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-1">
         <div>
-          {/* Top Meta Tag / Breadcrumb */}
-          <div className="flex items-center flex-wrap gap-1.5">
-            <span className="inline-flex items-center rounded-full uppercase text-[11px] font-semibold bg-[#F4F6F5] text-[#17231D] px-2.5 py-0.5 border border-[#E5EAE7]">
-              WILAYAH OPERASIONAL BANYUMAS
-            </span>
-            <span className="text-xs text-[#66736C]">
-              Pusat Distribusi Purwokerto
-            </span>
-          </div>
-
-          {/* Main Title & Subtitle */}
-          <h1 className="text-2xl font-bold text-[#17231D] tracking-tight mt-1">
-            Tata Kelola Batch Material
+          <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">
+            Batch Material
           </h1>
           <p className="text-sm text-[#66736C] mt-0.5">
-            Monitoring penimbangan, alokasi jalur sirkular, dan persetujuan pengolah di Purwokerto
+            Tinjau batch yang diajukan mitra sumber: setujui dan tawarkan ke pengolah, minta revisi, atau tolak.
           </p>
         </div>
 
@@ -346,9 +349,7 @@ function IsiHalamanBatch({ kodeAwal }) {
                   type="button"
                   title="Ekspor CSV"
                   aria-label="Ekspor CSV"
-                  onClick={() =>
-                    tampilkanToast('success', 'Data batch material berhasil diekspor (Format CSV).')
-                  }
+                  onClick={handleEksporCsv}
                   className="border border-[#E5EAE7] rounded-lg p-2 text-[#66736C] hover:bg-[#F4F6F5] hover:text-[#17231D] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] cursor-pointer">
                   <Download className="w-4 h-4" aria-hidden="true" />
                 </button>

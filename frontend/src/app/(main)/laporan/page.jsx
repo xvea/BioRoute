@@ -26,6 +26,8 @@ import useToast from '@/hooks/useToast';
 import useIsMounted from '@/hooks/useIsMounted';
 import { useBioRoute } from '@/context/BioRouteContext';
 import { formatKg, formatPersen } from '@/lib/format';
+import { csvRekapMitra, namaFileUnduhan } from '@/lib/csv';
+import { unduhCsv } from '@/lib/unduh';
 import {
   cariById,
   totalBeratDilaporkan,
@@ -71,10 +73,12 @@ export default function LaporanPage() {
   const rekapTampil = rekapMitra.filter((baris) => !filterPeran || baris.peran === filterPeran);
 
   /**
-   * Unduh CSV (diisi di W-05).
+   * Mengunduh CSV rekap kinerja mitra sesuai filter peran yang sedang dipilih.
    */
   const handleUnduhCsv = () => {
-    tampilkanToast('warning', 'Unduh CSV sedang disiapkan dan akan tersedia di tahap berikutnya.');
+    const jenis = filterPeran ? `rekap-mitra-${filterPeran}` : 'rekap-mitra';
+    unduhCsv(namaFileUnduhan(jenis), csvRekapMitra(rekapTampil));
+    tampilkanToast('success', `Rekap ${rekapTampil.length} mitra diunduh sebagai CSV.`);
   };
 
   /**
