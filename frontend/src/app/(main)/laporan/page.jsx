@@ -1,26 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  Sprout,
-  Archive,
-  Utensils,
-  Layers,
-  FileSpreadsheet,
-  FileText,
-  AlertTriangle,
-  Info,
-} from 'lucide-react';
-import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from 'recharts';
+import { Sprout, Archive, Utensils, Layers, FileSpreadsheet, FileText, AlertTriangle, Info } from 'lucide-react';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import Toast from '@/components/ui/Toast';
 import useToast from '@/hooks/useToast';
 import useIsMounted from '@/hooks/useIsMounted';
@@ -90,7 +72,6 @@ export default function LaporanPage() {
 
   return (
     <div className="space-y-6 bg-white">
-
       {/* Toast Alert Feedback */}
       <Toast toast={toast} />
 
@@ -106,14 +87,16 @@ export default function LaporanPage() {
           <button
             type="button"
             onClick={handleUnduhCsv}
-            className="inline-flex items-center gap-2 border border-[#E5EAE7] bg-white hover:bg-[#F4F6F5] text-sm font-medium text-[#17231D] px-4 py-2 rounded-xl transition-colors cursor-pointer">
+            className="inline-flex items-center gap-2 border border-[#E5EAE7] bg-white hover:bg-[#F4F6F5] text-sm font-medium text-[#17231D] px-4 py-2 rounded-xl transition-colors cursor-pointer"
+          >
             <FileSpreadsheet className="w-4 h-4" aria-hidden="true" />
             <span>Unduh CSV</span>
           </button>
           <button
             type="button"
             onClick={handleUnduhPdf}
-            className="inline-flex items-center gap-2 bg-[#176B4D] hover:bg-[#104D38] text-sm font-medium text-white px-4 py-2 rounded-xl transition-colors cursor-pointer">
+            className="inline-flex items-center gap-2 bg-[#176B4D] hover:bg-[#104D38] text-sm font-medium text-white px-4 py-2 rounded-xl transition-colors cursor-pointer"
+          >
             <FileText className="w-4 h-4" aria-hidden="true" />
             <span>Unduh PDF</span>
           </button>
@@ -121,13 +104,17 @@ export default function LaporanPage() {
       </section>
 
       {/* Kartu per kategori material */}
-      <section aria-label="Berat dilaporkan per kategori" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <section
+        aria-label="Berat dilaporkan per kategori"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+      >
         {ringkasanKategori.map((kategori, index) => {
           const Ikon = IKON_KATEGORI[index % IKON_KATEGORI.length];
           return (
             <article
               key={kategori.id}
-              className="p-5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between">
+              className="p-5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between"
+            >
               <div className="flex items-start justify-between">
                 <div>
                   <p className="uppercase text-[10px] text-[#66736C] font-bold tracking-wider">Kategori material</p>
@@ -163,13 +150,16 @@ export default function LaporanPage() {
               Toleransi: <strong className="text-[#17231D]">{formatKg(toleransiKg)}</strong>
             </span>
             <span className="px-3 py-1.5 rounded-lg bg-[#F4F6F5] border border-[#E5EAE7] text-[#66736C]">
-              Tingkat penerimaan: <strong className="text-[#17231D]">{formatPersen(persenDiterima(daftarBatch))}</strong>
+              Tingkat penerimaan:{' '}
+              <strong className="text-[#17231D]">{formatPersen(persenDiterima(daftarBatch))}</strong>
             </span>
             <span
-              className={`px-3 py-1.5 rounded-lg border font-semibold ${jumlahPerluDicek > 0
-                ? 'bg-[#FEF3C7] border-[#B7791F]/20 text-[#B7791F]'
-                : 'bg-[#EAF5F0] border-[#16805D]/20 text-[#16805D]'
-                }`}>
+              className={`px-3 py-1.5 rounded-lg border font-semibold ${
+                jumlahPerluDicek > 0
+                  ? 'bg-[#FEF3C7] border-[#B7791F]/20 text-[#B7791F]'
+                  : 'bg-[#EAF5F0] border-[#16805D]/20 text-[#16805D]'
+              }`}
+            >
               Perlu dicek: {jumlahPerluDicek} batch
             </span>
           </div>
@@ -187,7 +177,12 @@ export default function LaporanPage() {
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={daftarSelisih} margin={{ top: 10, right: 10, left: -20, bottom: 0 }} barGap={4}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5EAE7" />
-                    <XAxis dataKey="kode" tick={{ fill: '#66736C', fontSize: 10 }} axisLine={{ stroke: '#E5EAE7' }} tickLine={false} />
+                    <XAxis
+                      dataKey="kode"
+                      tick={{ fill: '#66736C', fontSize: 10 }}
+                      axisLine={{ stroke: '#E5EAE7' }}
+                      tickLine={false}
+                    />
                     <YAxis tick={{ fill: '#66736C', fontSize: 11 }} axisLine={false} tickLine={false} />
                     <Tooltip formatter={(nilai) => formatKg(nilai)} />
                     <Legend wrapperStyle={{ fontSize: 11 }} />
@@ -203,12 +198,24 @@ export default function LaporanPage() {
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
                   <tr className="border-b border-[#E5EAE7] text-[#66736C]">
-                    <th scope="col" className="pb-2 font-medium">Kode Batch</th>
-                    <th scope="col" className="pb-2 font-medium">Sumber</th>
-                    <th scope="col" className="pb-2 font-medium text-right">Dilaporkan</th>
-                    <th scope="col" className="pb-2 font-medium text-right">Diterima</th>
-                    <th scope="col" className="pb-2 font-medium text-right">Selisih</th>
-                    <th scope="col" className="pb-2 pl-3 font-medium">Keterangan</th>
+                    <th scope="col" className="pb-2 font-medium">
+                      Kode Batch
+                    </th>
+                    <th scope="col" className="pb-2 font-medium">
+                      Sumber
+                    </th>
+                    <th scope="col" className="pb-2 font-medium text-right">
+                      Dilaporkan
+                    </th>
+                    <th scope="col" className="pb-2 font-medium text-right">
+                      Diterima
+                    </th>
+                    <th scope="col" className="pb-2 font-medium text-right">
+                      Selisih
+                    </th>
+                    <th scope="col" className="pb-2 pl-3 font-medium">
+                      Keterangan
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#E5EAE7]/60">
@@ -253,7 +260,8 @@ export default function LaporanPage() {
             value={filterPeran}
             onChange={(e) => setFilterPeran(e.target.value)}
             aria-label="Filter peran mitra"
-            className="bg-[#F4F6F5] border border-[#E5EAE7] text-xs font-medium text-[#17231D] px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#176B4D] cursor-pointer">
+            className="bg-[#F4F6F5] border border-[#E5EAE7] text-xs font-medium text-[#17231D] px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#176B4D] cursor-pointer"
+          >
             {PILIHAN_PERAN.map((pilihan) => (
               <option key={pilihan.nilai} value={pilihan.nilai}>
                 {pilihan.label}
@@ -266,13 +274,27 @@ export default function LaporanPage() {
           <table className="w-full text-left border-collapse text-xs">
             <thead>
               <tr className="border-b border-[#E5EAE7] text-[#66736C]">
-                <th scope="col" className="pb-3 font-medium">Mitra</th>
-                <th scope="col" className="pb-3 font-medium">Peran</th>
-                <th scope="col" className="pb-3 font-medium text-center">Total Batch</th>
-                <th scope="col" className="pb-3 font-medium text-right">Dilaporkan</th>
-                <th scope="col" className="pb-3 font-medium text-right">Diterima</th>
-                <th scope="col" className="pb-3 font-medium text-right">Ditolak</th>
-                <th scope="col" className="pb-3 font-medium text-right">Tingkat Penerimaan</th>
+                <th scope="col" className="pb-3 font-medium">
+                  Mitra
+                </th>
+                <th scope="col" className="pb-3 font-medium">
+                  Peran
+                </th>
+                <th scope="col" className="pb-3 font-medium text-center">
+                  Total Batch
+                </th>
+                <th scope="col" className="pb-3 font-medium text-right">
+                  Dilaporkan
+                </th>
+                <th scope="col" className="pb-3 font-medium text-right">
+                  Diterima
+                </th>
+                <th scope="col" className="pb-3 font-medium text-right">
+                  Ditolak
+                </th>
+                <th scope="col" className="pb-3 font-medium text-right">
+                  Tingkat Penerimaan
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E5EAE7]/60">
@@ -283,14 +305,18 @@ export default function LaporanPage() {
                     <p className="text-[11px] text-[#66736C]">{baris.kecamatan}</p>
                   </td>
                   <td className="py-3">
-                    <span className={`inline-flex whitespace-nowrap px-2 py-0.5 rounded-full text-[11px] font-semibold ${PERAN[baris.peran].gaya}`}>
+                    <span
+                      className={`inline-flex whitespace-nowrap px-2 py-0.5 rounded-full text-[11px] font-semibold ${PERAN[baris.peran].gaya}`}
+                    >
                       {PERAN[baris.peran].label}
                     </span>
                   </td>
                   <td className="py-3 text-center">{baris.jumlahBatch} batch</td>
                   <td className="py-3 text-right">{formatKg(baris.dilaporkanKg)}</td>
                   <td className="py-3 text-right font-semibold text-[#176B4D]">{formatKg(baris.diterimaKg)}</td>
-                  <td className={`py-3 text-right ${baris.ditolakKg > 0 ? 'text-[#C2413B] font-semibold' : 'text-[#66736C]'}`}>
+                  <td
+                    className={`py-3 text-right ${baris.ditolakKg > 0 ? 'text-[#C2413B] font-semibold' : 'text-[#66736C]'}`}
+                  >
                     {formatKg(baris.ditolakKg)}
                   </td>
                   <td className="py-3 text-right font-semibold">{formatPersen(baris.persenDiterima)}</td>
@@ -300,7 +326,9 @@ export default function LaporanPage() {
             {/* Total dihitung dari seluruh batch, bukan menjumlah baris: satu batch muncul di baris sumber DAN di baris pengolah */}
             <tfoot>
               <tr className="border-t-2 border-[#E5EAE7] font-bold text-[#17231D]">
-                <td className="pt-3" colSpan={2}>Total seluruh batch</td>
+                <td className="pt-3" colSpan={2}>
+                  Total seluruh batch
+                </td>
                 <td className="pt-3 text-center">{daftarBatch.length} batch</td>
                 <td className="pt-3 text-right">{formatKg(totalBeratDilaporkan(daftarBatch))}</td>
                 <td className="pt-3 text-right text-[#176B4D]">{formatKg(totalBeratDiterima(daftarBatch))}</td>
@@ -316,8 +344,8 @@ export default function LaporanPage() {
       <aside className="p-4 rounded-2xl bg-[#F4F6F5] border border-[#E5EAE7] flex items-start gap-3 text-xs text-[#66736C]">
         <Info className="w-4 h-4 text-[#176B4D] shrink-0 mt-0.5" aria-hidden="true" />
         <p>
-          Kelayakan material ditentukan oleh mitra pengolah, bukan oleh aplikasi. Berat diterima berasal dari
-          timbangan manual saat serah terima; batch Ditolak tidak dihitung sebagai berat dilaporkan.
+          Kelayakan material ditentukan oleh mitra pengolah, bukan oleh aplikasi. Berat diterima berasal dari timbangan
+          manual saat serah terima; batch Ditolak tidak dihitung sebagai berat dilaporkan.
         </p>
       </aside>
     </div>

@@ -43,12 +43,14 @@ export default function ModalKategori({ kategoriAwal, daftarKategori, onBatal, o
       className="fixed inset-0 z-40 bg-black/40 flex items-center justify-center p-4"
       onKeyDown={(e) => {
         if (e.key === 'Escape') onBatal();
-      }}>
+      }}
+    >
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="judul-modal-kategori"
-        className="bg-white rounded-2xl border border-[#E5EAE7] shadow-xl w-full max-w-md p-6">
+        className="bg-white rounded-2xl border border-[#E5EAE7] shadow-xl w-full max-w-md p-6"
+      >
         <h2 id="judul-modal-kategori" className="text-lg font-bold text-[#17231D]">
           {modeUbah ? `Ubah kategori ${kategoriAwal.id}` : 'Tambah kategori material'}
         </h2>
@@ -114,12 +116,14 @@ export default function ModalKategori({ kategoriAwal, daftarKategori, onBatal, o
             <button
               type="button"
               onClick={onBatal}
-              className="border border-[#E5EAE7] hover:bg-[#F4F6F5] text-sm font-medium px-4 py-2 rounded-xl text-[#17231D] cursor-pointer">
+              className="border border-[#E5EAE7] hover:bg-[#F4F6F5] text-sm font-medium px-4 py-2 rounded-xl text-[#17231D] cursor-pointer"
+            >
               Batal
             </button>
             <button
               type="submit"
-              className="bg-[#176B4D] hover:bg-[#104D38] text-sm font-medium px-4 py-2 rounded-xl text-white cursor-pointer">
+              className="bg-[#176B4D] hover:bg-[#104D38] text-sm font-medium px-4 py-2 rounded-xl text-white cursor-pointer"
+            >
               {modeUbah ? 'Simpan perubahan' : 'Tambah kategori'}
             </button>
           </div>

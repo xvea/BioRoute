@@ -3,27 +3,14 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import {
-  Mail,
-  Lock,
-  Eye,
-  EyeOff,
-  MapPin,
-  Loader2,
-  AlertCircle,
-  Check,
-  ArrowRight,
-} from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, MapPin, Loader2, AlertCircle, Check, ArrowRight } from 'lucide-react';
 
 /**
  * Topographical Contour Overlay (Subtle organic background vector)
  */
 function TopoContourBackground() {
   return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-15"
-    >
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-15">
       <svg
         className="w-full h-full object-cover scale-125"
         viewBox="0 0 500 700"
@@ -178,9 +165,7 @@ export default function AdminLoginPage() {
     } catch (err) {
       // Error State
       setStatus('error');
-      setErrorMessage(
-        err?.message || 'Terjadi kesalahan sistem saat menghubungi server otentikasi.'
-      );
+      setErrorMessage(err?.message || 'Terjadi kesalahan sistem saat menghubungi server otentikasi.');
     }
   };
 
@@ -196,7 +181,6 @@ export default function AdminLoginPage() {
     <main className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-white font-sans antialiased">
       {/* Centerpiece: Split Two-Column Authentication Card */}
       <section className="max-w-4xl w-full rounded-3xl overflow-hidden border border-[#E5EAE7] shadow-xl grid grid-cols-1 md:grid-cols-2 bg-white">
-
         {/* LEFT PANEL: BRANDING & OPERATIONAL CONTEXT */}
         <article className="relative bg-[#104D38] p-8 sm:p-10 flex flex-col justify-between text-white overflow-hidden min-h-115 md:min-h-145">
           {/* Subtle Organic Topographical Contour Vector Overlay */}
@@ -217,9 +201,7 @@ export default function AdminLoginPage() {
                 />
               </div>
               <div>
-                <h1 className="text-xl font-bold tracking-tight text-white leading-tight">
-                  BioRoute Admin
-                </h1>
+                <h1 className="text-xl font-bold tracking-tight text-white leading-tight">BioRoute Admin</h1>
                 <p className="text-[10px] sm:text-xs font-semibold text-white/70 uppercase tracking-widest mt-0.5">
                   PENYALURAN RESIDU PANGAN ORGANIK
                 </p>
@@ -248,27 +230,15 @@ export default function AdminLoginPage() {
             {/* Dua kartu ringkasan: isinya sesuai scope MVP */}
             <div className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-3.5 mt-4 grid grid-cols-2 gap-3">
               <div>
-                <span className="text-xs text-white/70 block leading-tight">
-                  Jalur pemanfaatan
-                </span>
-                <span className="font-bold text-sm text-white block mt-1 leading-tight">
-                  Kompos &amp; BSF / Maggot
-                </span>
-                <span className="text-[11px] text-white/60 block mt-0.5">
-                  Diatur di menu Pengaturan
-                </span>
+                <span className="text-xs text-white/70 block leading-tight">Jalur pemanfaatan</span>
+                <span className="font-bold text-sm text-white block mt-1 leading-tight">Kompos &amp; BSF / Maggot</span>
+                <span className="text-[11px] text-white/60 block mt-0.5">Diatur di menu Pengaturan</span>
               </div>
 
               <div className="border-l border-white/10 pl-3">
-                <span className="text-xs text-white/70 block leading-tight">
-                  Pengguna mitra
-                </span>
-                <span className="font-bold text-sm text-white block mt-1 leading-tight">
-                  Sumber &amp; Pengolah
-                </span>
-                <span className="text-[11px] text-white/60 block mt-0.5">
-                  Lewat aplikasi mobile
-                </span>
+                <span className="text-xs text-white/70 block leading-tight">Pengguna mitra</span>
+                <span className="font-bold text-sm text-white block mt-1 leading-tight">Sumber &amp; Pengolah</span>
+                <span className="text-[11px] text-white/60 block mt-0.5">Lewat aplikasi mobile</span>
               </div>
             </div>
           </footer>
@@ -283,9 +253,7 @@ export default function AdminLoginPage() {
                 <span className="text-xs leading-none">●</span>
                 <span>Khusus Admin</span>
               </div>
-              <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">
-                Masuk sebagai Admin
-              </h2>
+              <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">Masuk sebagai Admin</h2>
               <p className="text-xs text-[#66736C] mt-1 mb-6">
                 Kelola verifikasi mitra, batch residu, laporan, dan pengaturan.
               </p>
@@ -300,9 +268,7 @@ export default function AdminLoginPage() {
                 <div className="w-12 h-12 rounded-full bg-[#16805D] text-white flex items-center justify-center mx-auto mb-3 shadow-sm">
                   <Check className="w-6 h-6 stroke-[2.5]" aria-hidden="true" />
                 </div>
-                <h3 className="text-base font-bold text-[#17231D]">
-                  Otentikasi Berhasil
-                </h3>
+                <h3 className="text-base font-bold text-[#17231D]">Otentikasi Berhasil</h3>
                 <p className="text-xs text-[#66736C] mt-1.5 leading-relaxed">
                   Selamat datang, <strong className="text-[#17231D]">{authenticatedUser?.name}</strong>.
                 </p>
@@ -314,7 +280,6 @@ export default function AdminLoginPage() {
             ) : (
               /* Interactive Form */
               <form onSubmit={handleSubmit} noValidate className="space-y-4">
-
                 {/* Robust Error Alert with Interactive Retry */}
                 {status === 'error' && (
                   <aside
@@ -341,10 +306,7 @@ export default function AdminLoginPage() {
 
                 {/* Email Input Field */}
                 <div>
-                  <label
-                    htmlFor="admin-email"
-                    className="text-xs font-semibold text-[#17231D] mb-1.5 block"
-                  >
+                  <label htmlFor="admin-email" className="text-xs font-semibold text-[#17231D] mb-1.5 block">
                     Email Admin
                   </label>
                   <div className="relative">
@@ -362,10 +324,11 @@ export default function AdminLoginPage() {
                       aria-required="true"
                       aria-invalid={Boolean(validationErrors.email)}
                       aria-describedby={validationErrors.email ? 'email-error' : undefined}
-                      className={`w-full pl-9 pr-3.5 py-2.5 bg-[#F4F6F5] text-sm text-[#17231D] placeholder-[#66736C] rounded-xl border transition-all focus:outline-none focus:ring-2 ${validationErrors.email
-                        ? 'border-[#C2413B] focus:border-[#C2413B] focus:ring-[#C2413B]'
-                        : 'border-[#E5EAE7] focus:border-[#176B4D] focus:ring-[#176B4D]'
-                        }`}
+                      className={`w-full pl-9 pr-3.5 py-2.5 bg-[#F4F6F5] text-sm text-[#17231D] placeholder-[#66736C] rounded-xl border transition-all focus:outline-none focus:ring-2 ${
+                        validationErrors.email
+                          ? 'border-[#C2413B] focus:border-[#C2413B] focus:ring-[#C2413B]'
+                          : 'border-[#E5EAE7] focus:border-[#176B4D] focus:ring-[#176B4D]'
+                      }`}
                     />
                   </div>
                   {validationErrors.email && (
@@ -382,10 +345,7 @@ export default function AdminLoginPage() {
 
                 {/* Password Input Field */}
                 <div>
-                  <label
-                    htmlFor="admin-password"
-                    className="text-xs font-semibold text-[#17231D] mb-1.5 block"
-                  >
+                  <label htmlFor="admin-password" className="text-xs font-semibold text-[#17231D] mb-1.5 block">
                     Kata Sandi
                   </label>
                   <div className="relative">
@@ -402,13 +362,12 @@ export default function AdminLoginPage() {
                       placeholder="••••••••"
                       aria-required="true"
                       aria-invalid={Boolean(validationErrors.password)}
-                      aria-describedby={
-                        validationErrors.password ? 'password-error' : undefined
-                      }
-                      className={`w-full pl-9 pr-10 py-2.5 bg-[#F4F6F5] text-sm text-[#17231D] placeholder-[#66736C] rounded-xl border transition-all focus:outline-none focus:ring-2 ${validationErrors.password
-                        ? 'border-[#C2413B] focus:border-[#C2413B] focus:ring-[#C2413B]'
-                        : 'border-[#E5EAE7] focus:border-[#176B4D] focus:ring-[#176B4D]'
-                        }`}
+                      aria-describedby={validationErrors.password ? 'password-error' : undefined}
+                      className={`w-full pl-9 pr-10 py-2.5 bg-[#F4F6F5] text-sm text-[#17231D] placeholder-[#66736C] rounded-xl border transition-all focus:outline-none focus:ring-2 ${
+                        validationErrors.password
+                          ? 'border-[#C2413B] focus:border-[#C2413B] focus:ring-[#C2413B]'
+                          : 'border-[#E5EAE7] focus:border-[#176B4D] focus:ring-[#176B4D]'
+                      }`}
                     />
                     <button
                       type="button"
@@ -449,9 +408,7 @@ export default function AdminLoginPage() {
                       onChange={handleInputChange}
                       className="w-4 h-4 rounded text-[#176B4D] accent-[#176B4D] border-[#E5EAE7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] focus-visible:ring-offset-1 cursor-pointer transition-colors"
                     />
-                    <span className="group-hover:text-black transition-colors">
-                      Ingat sesi ini
-                    </span>
+                    <span className="group-hover:text-black transition-colors">Ingat sesi ini</span>
                   </label>
                 </div>
 
@@ -481,15 +438,10 @@ export default function AdminLoginPage() {
 
           {/* Footer Notice */}
           <footer className="pt-6 mt-6 border-t border-[#E5EAE7]">
-            <p className="text-[11px] font-medium text-[#66736C] text-center">
-              BioRoute - versi beta
-            </p>
-            <p className="text-[10px] text-[#66736C]/80 text-center mt-1">
-              Akses khusus administrator BioRoute.
-            </p>
+            <p className="text-[11px] font-medium text-[#66736C] text-center">BioRoute - versi beta</p>
+            <p className="text-[10px] text-[#66736C]/80 text-center mt-1">Akses khusus administrator BioRoute.</p>
           </footer>
         </section>
-
       </section>
     </main>
   );

@@ -51,9 +51,7 @@ function cariBatchDiajukan(state, kode) {
 function gantiBatch(state, batchBaru) {
   return {
     ...state,
-    daftarBatch: state.daftarBatch.map((batch) =>
-      batch.kode === batchBaru.kode ? batchBaru : batch
-    ),
+    daftarBatch: state.daftarBatch.map((batch) => (batch.kode === batchBaru.kode ? batchBaru : batch)),
   };
 }
 /**
@@ -109,10 +107,7 @@ export function bioRouteReducer(state, aksi) {
         ...batch,
         status: STATUS_BATCH.TERSEDIA,
         pengolahId,
-        riwayat: [
-          ...batch.riwayat,
-          { waktu, keterangan: `Disetujui admin dan ditawarkan ke ${pengolah.nama}` },
-        ],
+        riwayat: [...batch.riwayat, { waktu, keterangan: `Disetujui admin dan ditawarkan ke ${pengolah.nama}` }],
       });
     }
 
@@ -178,7 +173,7 @@ export function bioRouteReducer(state, aksi) {
       if (jalur.aktif && jumlahAktif === 1) return state;
       return { ...state, jalurPemanfaatan: balikStatusAktif(state.jalurPemanfaatan, id) };
     }
-    
+
     case JENIS_AKSI.TAMBAH_KATEGORI: {
       const { nama, contoh, kriteria } = aksi.payload;
       // Aturan yang sama dengan form di halaman Pengaturan (nama wajib, unik, contoh wajib)

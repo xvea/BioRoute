@@ -7,14 +7,14 @@ import { STATUS_BATCH } from '@/lib/constants';
 export const daftarBatch = [
   {
     kode: 'BR-2611-001',
-    sumberId: 'MTR-001',          // → Dapur Sehat Purwokerto
-    kategoriId: 'KAT-01',         // → Sisa sayur & buah
-    jalurId: 'JLR-01',            // → Kompos
+    sumberId: 'MTR-001', // → Dapur Sehat Purwokerto
+    kategoriId: 'KAT-01', // → Sisa sayur & buah
+    jalurId: 'JLR-01', // → Kompos
     namaMaterial: 'Sisa sayur dan kulit buah',
-    beratKg: 12,                  // berat yang dilaporkan mitra sumber
-    beratDiterimaKg: 11.5,        // berat hasil timbang pengolah (null = belum ditimbang)
-    metode: 'Diambil pengolah',   // atau 'Diantar sumber'
-    pengolahId: 'MTR-101',        // → Kompos Tani Lestari (null = belum ada pengolah)
+    beratKg: 12, // berat yang dilaporkan mitra sumber
+    beratDiterimaKg: 11.5, // berat hasil timbang pengolah (null = belum ditimbang)
+    metode: 'Diambil pengolah', // atau 'Diantar sumber'
+    pengolahId: 'MTR-101', // → Kompos Tani Lestari (null = belum ada pengolah)
     status: STATUS_BATCH.SELESAI, // memakai konstanta dari Langkah 2
     diajukanPada: '2026-11-02T08:30:00+07:00',
     riwayat: [

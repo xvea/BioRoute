@@ -71,8 +71,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
   const hasilSaring = saringMitra(daftarMitra, { status: tab, kataKunci, urutan });
   const halamanTabel = ambilHalaman(hasilSaring, halaman, PER_HALAMAN);
   // Mitra terpilih harus terlihat di halaman ini; kalau tidak ada, pakai baris pertama halaman ini.
-  const mitraTerpilih =
-    halamanTabel.isi.find((mitra) => mitra.id === idTerpilih) ?? halamanTabel.isi[0] ?? null;
+  const mitraTerpilih = halamanTabel.isi.find((mitra) => mitra.id === idTerpilih) ?? halamanTabel.isi[0] ?? null;
   const jalurPengolah = mitraTerpilih ? cariById(jalurPemanfaatan, mitraTerpilih.jalurId) : null;
   // Nomor tombol halaman: [1, 2, 3, ...]
   const nomorHalaman = Array.from({ length: halamanTabel.totalHalaman }, (_, i) => i + 1);
@@ -124,7 +123,6 @@ function IsiHalamanVerifikasi({ idAwal }) {
 
   return (
     <div className="space-y-6 bg-white">
-
       {/* Toast Alert Feedback */}
       <Toast toast={toast} />
 
@@ -160,16 +158,20 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 role="tab"
                 aria-selected={isAktif}
                 onClick={() => gantiTab(status)}
-                className={`pb-3 inline-flex items-center gap-2 text-sm font-medium transition-all cursor-pointer ${isAktif
-                  ? 'text-[#176B4D] font-bold border-b-2 border-[#176B4D]'
-                  : 'text-[#66736C] hover:text-[#17231D]'
-                  }`}>
+                className={`pb-3 inline-flex items-center gap-2 text-sm font-medium transition-all cursor-pointer ${
+                  isAktif
+                    ? 'text-[#176B4D] font-bold border-b-2 border-[#176B4D]'
+                    : 'text-[#66736C] hover:text-[#17231D]'
+                }`}
+              >
                 <span>{status}</span>
                 <span
-                  className={`px-2 py-0.5 rounded-full text-xs font-semibold ${status === STATUS_VERIFIKASI.MENUNGGU && jumlahPerStatus[status] > 0
-                    ? 'bg-red-50 text-red-600'
-                    : 'bg-[#F4F6F5] text-[#66736C]'
-                    }`}>
+                  className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
+                    status === STATUS_VERIFIKASI.MENUNGGU && jumlahPerStatus[status] > 0
+                      ? 'bg-red-50 text-red-600'
+                      : 'bg-[#F4F6F5] text-[#66736C]'
+                  }`}
+                >
                   {jumlahPerStatus[status]}
                 </span>
               </button>
@@ -180,7 +182,6 @@ function IsiHalamanVerifikasi({ idAwal }) {
 
       {/* Dua kolom: tabel (kiri) dan detail mitra (kanan) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-
         {/* Kolom kiri: tabel mitra */}
         <section className="lg:col-span-7 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs p-5 flex flex-col justify-between min-h-[480px]">
           <div>
@@ -208,7 +209,8 @@ function IsiHalamanVerifikasi({ idAwal }) {
                   id="pilih-urutan"
                   value={urutan}
                   onChange={(e) => ubahUrutan(e.target.value)}
-                  className="bg-[#F4F6F5] border border-[#E5EAE7] text-xs font-medium text-[#17231D] px-2.5 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#176B4D] cursor-pointer">
+                  className="bg-[#F4F6F5] border border-[#E5EAE7] text-xs font-medium text-[#17231D] px-2.5 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#176B4D] cursor-pointer"
+                >
                   {PILIHAN_URUTAN.map((pilihan) => (
                     <option key={pilihan.nilai} value={pilihan.nilai}>
                       {pilihan.label}
@@ -231,7 +233,8 @@ function IsiHalamanVerifikasi({ idAwal }) {
                   <button
                     type="button"
                     onClick={() => ubahKataKunci('')}
-                    className="mt-3 text-xs font-semibold text-[#176B4D] hover:underline cursor-pointer">
+                    className="mt-3 text-xs font-semibold text-[#176B4D] hover:underline cursor-pointer"
+                  >
                     Hapus pencarian
                   </button>
                 )}
@@ -241,11 +244,21 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 <table className="w-full text-left border-collapse text-xs">
                   <thead>
                     <tr className="border-b border-[#E5EAE7] text-[#66736C] font-semibold">
-                      <th scope="col" className="pb-3 pl-3 font-medium">Nama Mitra</th>
-                      <th scope="col" className="pb-3 font-medium">Jenis</th>
-                      <th scope="col" className="pb-3 font-medium hidden md:table-cell">Lokasi</th>
-                      <th scope="col" className="pb-3 font-medium hidden sm:table-cell">Pengajuan</th>
-                      <th scope="col" className="pb-3 pr-3 font-medium">Status</th>
+                      <th scope="col" className="pb-3 pl-3 font-medium">
+                        Nama Mitra
+                      </th>
+                      <th scope="col" className="pb-3 font-medium">
+                        Jenis
+                      </th>
+                      <th scope="col" className="pb-3 font-medium hidden md:table-cell">
+                        Lokasi
+                      </th>
+                      <th scope="col" className="pb-3 font-medium hidden sm:table-cell">
+                        Pengajuan
+                      </th>
+                      <th scope="col" className="pb-3 pr-3 font-medium">
+                        Status
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#E5EAE7]/60">
@@ -264,10 +277,10 @@ function IsiHalamanVerifikasi({ idAwal }) {
                               setIdTerpilih(mitra.id);
                             }
                           }}
-                          className={`cursor-pointer transition-colors ${isSelected
-                            ? 'bg-[#F4F6F5]/70 border-l-4 border-l-[#176B4D]'
-                            : 'hover:bg-[#F4F6F5]/50'
-                            }`}>
+                          className={`cursor-pointer transition-colors ${
+                            isSelected ? 'bg-[#F4F6F5]/70 border-l-4 border-l-[#176B4D]' : 'hover:bg-[#F4F6F5]/50'
+                          }`}
+                        >
                           {/* Nama & penanggung jawab */}
                           <td className="py-3.5 pl-3">
                             <p className="font-bold text-[#17231D] leading-tight">{mitra.nama}</p>
@@ -276,7 +289,9 @@ function IsiHalamanVerifikasi({ idAwal }) {
 
                           {/* Jenis (peran) */}
                           <td className="py-3.5">
-                            <span className={`inline-flex items-center whitespace-nowrap px-2 py-0.5 rounded-full text-[11px] font-semibold ${peran.gaya}`}>
+                            <span
+                              className={`inline-flex items-center whitespace-nowrap px-2 py-0.5 rounded-full text-[11px] font-semibold ${peran.gaya}`}
+                            >
                               {peran.label}
                             </span>
                           </td>
@@ -314,7 +329,8 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 aria-label="Halaman sebelumnya"
                 onClick={() => setHalaman(halamanTabel.halaman - 1)}
                 disabled={halamanTabel.halaman === 1}
-                className="w-7 h-7 rounded-lg border border-[#E5EAE7] flex items-center justify-center text-[#66736C] hover:bg-[#F4F6F5] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                className="w-7 h-7 rounded-lg border border-[#E5EAE7] flex items-center justify-center text-[#66736C] hover:bg-[#F4F6F5] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 <ChevronLeft className="w-3.5 h-3.5" />
               </button>
               {nomorHalaman.map((nomor) => {
@@ -326,10 +342,10 @@ function IsiHalamanVerifikasi({ idAwal }) {
                     onClick={() => setHalaman(nomor)}
                     aria-label={`Halaman ${nomor}`}
                     aria-current={isAktif ? 'page' : undefined}
-                    className={`w-7 h-7 rounded-lg text-xs font-semibold cursor-pointer ${isAktif
-                      ? 'bg-[#176B4D] text-white'
-                      : 'border border-[#E5EAE7] text-[#17231D] hover:bg-[#F4F6F5]'
-                      }`}>
+                    className={`w-7 h-7 rounded-lg text-xs font-semibold cursor-pointer ${
+                      isAktif ? 'bg-[#176B4D] text-white' : 'border border-[#E5EAE7] text-[#17231D] hover:bg-[#F4F6F5]'
+                    }`}
+                  >
                     {nomor}
                   </button>
                 );
@@ -339,7 +355,8 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 aria-label="Halaman berikutnya"
                 onClick={() => setHalaman(halamanTabel.halaman + 1)}
                 disabled={halamanTabel.halaman === halamanTabel.totalHalaman}
-                className="w-7 h-7 rounded-lg border border-[#E5EAE7] flex items-center justify-center text-[#66736C] hover:bg-[#F4F6F5] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                className="w-7 h-7 rounded-lg border border-[#E5EAE7] flex items-center justify-center text-[#66736C] hover:bg-[#F4F6F5] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 <ChevronRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -359,7 +376,9 @@ function IsiHalamanVerifikasi({ idAwal }) {
                   <StatusBadge status={mitraTerpilih.statusVerifikasi} />
                 </div>
                 <div className="flex flex-wrap items-center gap-2 mt-2 text-xs text-[#66736C]">
-                  <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${PERAN[mitraTerpilih.peran].gaya}`}>
+                  <span
+                    className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${PERAN[mitraTerpilih.peran].gaya}`}
+                  >
                     {PERAN[mitraTerpilih.peran].label}
                   </span>
                   <span className="inline-flex items-center gap-1">
@@ -450,7 +469,8 @@ function IsiHalamanVerifikasi({ idAwal }) {
                     {mitraTerpilih.kategoriIds.map((kategoriId) => (
                       <li
                         key={kategoriId}
-                        className="px-3 py-1.5 rounded-xl border border-[#E5EAE7] text-xs font-semibold text-[#17231D]">
+                        className="px-3 py-1.5 rounded-xl border border-[#E5EAE7] text-xs font-semibold text-[#17231D]"
+                      >
                         {cariById(kategoriMaterial, kategoriId)?.nama}
                       </li>
                     ))}
@@ -489,14 +509,16 @@ function IsiHalamanVerifikasi({ idAwal }) {
                     <button
                       type="button"
                       onClick={() => setModalTolakTerbuka(true)}
-                      className="border border-[#E5EAE7] hover:bg-[#FEE2E2] text-sm font-medium py-2.5 rounded-xl text-[#C2413B] flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+                      className="border border-[#E5EAE7] hover:bg-[#FEE2E2] text-sm font-medium py-2.5 rounded-xl text-[#C2413B] flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                    >
                       <XCircle className="w-4 h-4" aria-hidden="true" />
                       <span>Tolak Pendaftaran</span>
                     </button>
                     <button
                       type="button"
                       onClick={handleVerifikasi}
-                      className="bg-[#176B4D] hover:bg-[#104D38] text-sm font-medium py-2.5 rounded-xl text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+                      className="bg-[#176B4D] hover:bg-[#104D38] text-sm font-medium py-2.5 rounded-xl text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                    >
                       <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
                       <span>Verifikasi Mitra</span>
                     </button>
@@ -504,8 +526,8 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 </div>
               ) : (
                 <p className="pt-4 border-t border-[#E5EAE7] text-xs text-[#66736C]">
-                  Mitra ini berstatus <strong>{mitraTerpilih.statusVerifikasi}</strong>. Keputusan admin hanya
-                  untuk mitra berstatus Menunggu.
+                  Mitra ini berstatus <strong>{mitraTerpilih.statusVerifikasi}</strong>. Keputusan admin hanya untuk
+                  mitra berstatus Menunggu.
                 </p>
               )}
             </>

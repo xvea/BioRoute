@@ -125,13 +125,33 @@ describe('csvBatch', () => {
 
 describe('csvRekapMitra', () => {
   const rekapUji = [
-    { nama: 'Warung Bu Slamet', peran: 'sumber', kecamatan: 'Purwokerto Timur', jumlahBatch: 3, dilaporkanKg: 25, diterimaKg: 13, ditolakKg: 6, persenDiterima: 92.857142 },
-    { nama: 'Bank Sampah Mandiri', peran: 'pengolah', kecamatan: 'Purwokerto Barat', jumlahBatch: 0, dilaporkanKg: 0, diterimaKg: 0, ditolakKg: 0, persenDiterima: null },
+    {
+      nama: 'Warung Bu Slamet',
+      peran: 'sumber',
+      kecamatan: 'Purwokerto Timur',
+      jumlahBatch: 3,
+      dilaporkanKg: 25,
+      diterimaKg: 13,
+      ditolakKg: 6,
+      persenDiterima: 92.857142,
+    },
+    {
+      nama: 'Bank Sampah Mandiri',
+      peran: 'pengolah',
+      kecamatan: 'Purwokerto Barat',
+      jumlahBatch: 0,
+      dilaporkanKg: 0,
+      diterimaKg: 0,
+      ditolakKg: 0,
+      persenDiterima: null,
+    },
   ];
 
   it('menulis peran dengan label dan membulatkan tingkat penerimaan 1 angka desimal', () => {
     const baris = csvRekapMitra(rekapUji).split('\r\n');
-    expect(baris[0]).toBe('Mitra,Peran,Kecamatan,Total batch,Dilaporkan (kg),Diterima (kg),Ditolak (kg),Tingkat penerimaan (%)');
+    expect(baris[0]).toBe(
+      'Mitra,Peran,Kecamatan,Total batch,Dilaporkan (kg),Diterima (kg),Ditolak (kg),Tingkat penerimaan (%)'
+    );
     expect(baris[1]).toBe('Warung Bu Slamet,Mitra Sumber,Purwokerto Timur,3,25,13,6,92.9');
   });
 
@@ -148,6 +168,8 @@ describe('namaFileUnduhan', () => {
 
   it('tanggal mengikuti WIB, bukan UTC', () => {
     // 24 Nov 20.00 UTC = 25 Nov 03.00 WIB
-    expect(namaFileUnduhan('laporan-mitra', new Date('2026-11-24T20:00:00Z'))).toBe('bioroute-laporan-mitra-2026-11-25.csv');
+    expect(namaFileUnduhan('laporan-mitra', new Date('2026-11-24T20:00:00Z'))).toBe(
+      'bioroute-laporan-mitra-2026-11-25.csv'
+    );
   });
 });

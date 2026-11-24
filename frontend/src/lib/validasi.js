@@ -23,7 +23,9 @@ export const BATAS_WAKTU_TINJAU_JAM = 72;
  * Mengubah isian angka menjadi number. Koma desimal ala Indonesia ("2,5") diterima. Isian kosong menjadi NaN (bukan 0).
  */
 export function ubahKeAngka(nilai) {
-  const bersih = String(nilai ?? '').trim().replace(',', '.');
+  const bersih = String(nilai ?? '')
+    .trim()
+    .replace(',', '.');
   if (bersih === '') return NaN;
   return Number(bersih);
 }

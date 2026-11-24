@@ -1,19 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  Layers,
-  GitFork,
-  Scale,
-  Package,
-  Plus,
-  Sprout,
-  Archive,
-  Utensils,
-  Bug,
-  Pencil,
-  Info,
-} from 'lucide-react';
+import { Layers, GitFork, Scale, Package, Plus, Sprout, Archive, Utensils, Bug, Pencil, Info } from 'lucide-react';
 import Toast from '@/components/ui/Toast';
 import ModalKategori from '@/components/pengaturan/ModalKategori';
 import useToast from '@/hooks/useToast';
@@ -38,12 +26,15 @@ function ToggleSwitch({ active, onToggle, ariaLabel }) {
       aria-checked={active}
       aria-label={ariaLabel}
       onClick={onToggle}
-      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] focus-visible:ring-offset-2 ${active ? 'bg-[#176B4D]' : 'bg-[#E5EAE7]'
-        }`}>
+      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] focus-visible:ring-offset-2 ${
+        active ? 'bg-[#176B4D]' : 'bg-[#E5EAE7]'
+      }`}
+    >
       <span
         aria-hidden="true"
-        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${active ? 'translate-x-5' : 'translate-x-0'
-          }`}
+        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
+          active ? 'translate-x-5' : 'translate-x-0'
+        }`}
       />
     </button>
   );
@@ -135,7 +126,6 @@ export default function PengaturanPage() {
 
   return (
     <div className="space-y-6 bg-white">
-
       {/* Toast Alert Feedback */}
       <Toast toast={toast} />
 
@@ -165,7 +155,8 @@ export default function PengaturanPage() {
             <Layers className="w-4 h-4" aria-hidden="true" />
           </div>
           <p className="text-2xl font-bold text-[#17231D] mt-1">
-            {jumlahKategoriAktif} <span className="text-xs font-medium text-[#66736C]">dari {kategoriMaterial.length} kategori</span>
+            {jumlahKategoriAktif}{' '}
+            <span className="text-xs font-medium text-[#66736C]">dari {kategoriMaterial.length} kategori</span>
           </p>
         </article>
         <article className="p-4 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs">
@@ -174,7 +165,8 @@ export default function PengaturanPage() {
             <GitFork className="w-4 h-4" aria-hidden="true" />
           </div>
           <p className="text-2xl font-bold text-[#17231D] mt-1">
-            {jumlahJalurAktif} <span className="text-xs font-medium text-[#66736C]">dari {jalurPemanfaatan.length} jalur</span>
+            {jumlahJalurAktif}{' '}
+            <span className="text-xs font-medium text-[#66736C]">dari {jalurPemanfaatan.length} jalur</span>
           </p>
         </article>
         <article className="p-4 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs">
@@ -207,7 +199,8 @@ export default function PengaturanPage() {
           <button
             type="button"
             onClick={() => setModalKategori('tambah')}
-            className="inline-flex items-center gap-1.5 bg-[#176B4D] hover:bg-[#104D38] text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors cursor-pointer shrink-0">
+            className="inline-flex items-center gap-1.5 bg-[#176B4D] hover:bg-[#104D38] text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors cursor-pointer shrink-0"
+          >
             <Plus className="w-4 h-4" aria-hidden="true" />
             <span>Tambah Kategori</span>
           </button>
@@ -217,11 +210,21 @@ export default function PengaturanPage() {
           <table className="w-full text-left border-collapse text-xs">
             <thead className="bg-[#F4F6F5] text-[#66736C]">
               <tr>
-                <th scope="col" className="py-3 pl-6 font-medium">Ikon</th>
-                <th scope="col" className="py-3 font-medium">Nama Kategori</th>
-                <th scope="col" className="py-3 font-medium">Contoh Residu &amp; Kriteria</th>
-                <th scope="col" className="py-3 font-medium">Status</th>
-                <th scope="col" className="py-3 pr-6 font-medium text-right">Aksi</th>
+                <th scope="col" className="py-3 pl-6 font-medium">
+                  Ikon
+                </th>
+                <th scope="col" className="py-3 font-medium">
+                  Nama Kategori
+                </th>
+                <th scope="col" className="py-3 font-medium">
+                  Contoh Residu &amp; Kriteria
+                </th>
+                <th scope="col" className="py-3 font-medium">
+                  Status
+                </th>
+                <th scope="col" className="py-3 pr-6 font-medium text-right">
+                  Aksi
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E5EAE7]/60">
@@ -243,7 +246,10 @@ export default function PengaturanPage() {
                       {kategori.kriteria.length > 0 && (
                         <ul className="flex flex-wrap gap-1.5 mt-1.5">
                           {kategori.kriteria.map((kriteria) => (
-                            <li key={kriteria} className="px-2 py-0.5 rounded border border-[#E5EAE7] bg-[#F4F6F5] text-[11px] font-medium text-[#66736C]">
+                            <li
+                              key={kriteria}
+                              className="px-2 py-0.5 rounded border border-[#E5EAE7] bg-[#F4F6F5] text-[11px] font-medium text-[#66736C]"
+                            >
                               {kriteria}
                             </li>
                           ))}
@@ -265,7 +271,8 @@ export default function PengaturanPage() {
                         type="button"
                         onClick={() => setModalKategori(kategori)}
                         aria-label={`Ubah kategori ${kategori.nama}`}
-                        className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#E5EAE7] text-[#66736C] hover:bg-[#F4F6F5] hover:text-[#17231D] cursor-pointer">
+                        className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#E5EAE7] text-[#66736C] hover:bg-[#F4F6F5] hover:text-[#17231D] cursor-pointer"
+                      >
                         <Pencil className="w-4 h-4" aria-hidden="true" />
                       </button>
                     </td>
@@ -282,7 +289,8 @@ export default function PengaturanPage() {
         <div>
           <h2 className="text-base font-bold text-[#17231D]">Jalur pemanfaatan</h2>
           <p className="text-xs text-[#66736C] mt-0.5">
-            Batch hanya bisa ditawarkan ke mitra pengolah terverifikasi pada jalur yang sama. Minimal satu jalur harus tetap aktif.
+            Batch hanya bisa ditawarkan ke mitra pengolah terverifikasi pada jalur yang sama. Minimal satu jalur harus
+            tetap aktif.
           </p>
         </div>
 
@@ -293,7 +301,8 @@ export default function PengaturanPage() {
             return (
               <article
                 key={jalur.id}
-                className={`p-5 rounded-2xl border border-[#E5EAE7] space-y-4 ${jalur.aktif ? 'bg-white' : 'bg-[#F4F6F5]/60'}`}>
+                className={`p-5 rounded-2xl border border-[#E5EAE7] space-y-4 ${jalur.aktif ? 'bg-white' : 'bg-[#F4F6F5]/60'}`}
+              >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-xl bg-[#EAF5F0] text-[#176B4D] flex items-center justify-center">
@@ -329,11 +338,16 @@ export default function PengaturanPage() {
                     </span>
                   </div>
                   {daftarPengolah.length === 0 ? (
-                    <p className="text-xs text-[#66736C] mt-2">Belum ada mitra pengolah terverifikasi untuk jalur ini.</p>
+                    <p className="text-xs text-[#66736C] mt-2">
+                      Belum ada mitra pengolah terverifikasi untuk jalur ini.
+                    </p>
                   ) : (
                     <ul className="flex flex-wrap gap-2 mt-2">
                       {daftarPengolah.map((mitra) => (
-                        <li key={mitra.id} className="px-2.5 py-1 rounded-lg border border-[#E5EAE7] text-xs text-[#17231D]">
+                        <li
+                          key={mitra.id}
+                          className="px-2.5 py-1 rounded-lg border border-[#E5EAE7] text-xs text-[#17231D]"
+                        >
                           {mitra.nama}
                         </li>
                       ))}
@@ -356,7 +370,8 @@ export default function PengaturanPage() {
             </div>
             <button
               type="submit"
-              className="bg-[#176B4D] hover:bg-[#104D38] text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors cursor-pointer shrink-0">
+              className="bg-[#176B4D] hover:bg-[#104D38] text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors cursor-pointer shrink-0"
+            >
               Simpan Perubahan
             </button>
           </div>
@@ -375,7 +390,9 @@ export default function PengaturanPage() {
                 className="mt-1 w-full px-3 py-2 bg-[#F4F6F5] text-sm text-[#17231D] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D]"
               />
               {tampilkanErrorParameter && errorParameter.toleransiSelisihKg ? (
-                <p role="alert" className="text-xs text-[#C2413B] mt-1">{errorParameter.toleransiSelisihKg}</p>
+                <p role="alert" className="text-xs text-[#C2413B] mt-1">
+                  {errorParameter.toleransiSelisihKg}
+                </p>
               ) : (
                 <p className="text-[11px] text-[#66736C] mt-1">
                   Selisih timbang di atas angka ini ditandai &quot;Melebihi toleransi&quot; di halaman Laporan.
@@ -396,7 +413,9 @@ export default function PengaturanPage() {
                 className="mt-1 w-full px-3 py-2 bg-[#F4F6F5] text-sm text-[#17231D] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D]"
               />
               {tampilkanErrorParameter && errorParameter.maksWaktuTinjauJam ? (
-                <p role="alert" className="text-xs text-[#C2413B] mt-1">{errorParameter.maksWaktuTinjauJam}</p>
+                <p role="alert" className="text-xs text-[#C2413B] mt-1">
+                  {errorParameter.maksWaktuTinjauJam}
+                </p>
               ) : (
                 <p className="text-[11px] text-[#66736C] mt-1">
                   Batas waktu admin meninjau batch baru (dipakai untuk pengingat setelah backend tersedia).

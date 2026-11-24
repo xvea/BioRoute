@@ -92,11 +92,41 @@ describe('beratDiterimaPerJalur', () => {
 
 // Data uji untuk fungsi yang memakai tanggal (Langkah 3d-1).
 const batchMingguan = [
-  { kode: 'M1', status: STATUS_BATCH.SELESAI, jalurId: 'JLR-01', beratKg: 10, diajukanPada: '2026-11-02T08:00:00+07:00' },
-  { kode: 'M2', status: STATUS_BATCH.DIAJUKAN, jalurId: 'JLR-02', beratKg: 4, diajukanPada: '2026-11-07T23:00:00+07:00' },
-  { kode: 'M3', status: STATUS_BATCH.DIPROSES, jalurId: 'JLR-01', beratKg: 6, diajukanPada: '2026-11-08T03:00:00+07:00' },   // tanggal 8 jam 03.00 WIB = masih tanggal 7 di zona UTC
-  { kode: 'M4', status: STATUS_BATCH.DITOLAK, jalurId: 'JLR-02', beratKg: 5, diajukanPada: '2026-11-30T10:00:00+07:00' },   // ditolak dan ada di minggu ke-5: tidak boleh dihitung
-  { kode: 'M5', status: STATUS_BATCH.TERSEDIA, jalurId: 'JLR-02', beratKg: 3, diajukanPada: '2026-11-22T09:00:00+07:00' },
+  {
+    kode: 'M1',
+    status: STATUS_BATCH.SELESAI,
+    jalurId: 'JLR-01',
+    beratKg: 10,
+    diajukanPada: '2026-11-02T08:00:00+07:00',
+  },
+  {
+    kode: 'M2',
+    status: STATUS_BATCH.DIAJUKAN,
+    jalurId: 'JLR-02',
+    beratKg: 4,
+    diajukanPada: '2026-11-07T23:00:00+07:00',
+  },
+  {
+    kode: 'M3',
+    status: STATUS_BATCH.DIPROSES,
+    jalurId: 'JLR-01',
+    beratKg: 6,
+    diajukanPada: '2026-11-08T03:00:00+07:00',
+  }, // tanggal 8 jam 03.00 WIB = masih tanggal 7 di zona UTC
+  {
+    kode: 'M4',
+    status: STATUS_BATCH.DITOLAK,
+    jalurId: 'JLR-02',
+    beratKg: 5,
+    diajukanPada: '2026-11-30T10:00:00+07:00',
+  }, // ditolak dan ada di minggu ke-5: tidak boleh dihitung
+  {
+    kode: 'M5',
+    status: STATUS_BATCH.TERSEDIA,
+    jalurId: 'JLR-02',
+    beratKg: 3,
+    diajukanPada: '2026-11-22T09:00:00+07:00',
+  },
 ];
 
 const mitraUji = [
@@ -205,17 +235,73 @@ describe('persenDiterima', () => {
 
 // Data uji Laporan: 2 sumber terverifikasi, 1 pengolah terverifikasi, 1 sumber yang masih Menunggu.
 const mitraLaporan = [
-  { id: 'S1', nama: 'Sumber Satu', peran: 'sumber', kecamatan: 'Purwokerto Utara', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI },
-  { id: 'S2', nama: 'Sumber Dua', peran: 'sumber', kecamatan: 'Purwokerto Timur', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI },
-  { id: 'P1', nama: 'Pengolah Satu', peran: 'pengolah', kecamatan: 'Karanglewas', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI },
-  { id: 'S3', nama: 'Sumber Baru', peran: 'sumber', kecamatan: 'Sokaraja', statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU },
+  {
+    id: 'S1',
+    nama: 'Sumber Satu',
+    peran: 'sumber',
+    kecamatan: 'Purwokerto Utara',
+    statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI,
+  },
+  {
+    id: 'S2',
+    nama: 'Sumber Dua',
+    peran: 'sumber',
+    kecamatan: 'Purwokerto Timur',
+    statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI,
+  },
+  {
+    id: 'P1',
+    nama: 'Pengolah Satu',
+    peran: 'pengolah',
+    kecamatan: 'Karanglewas',
+    statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI,
+  },
+  {
+    id: 'S3',
+    nama: 'Sumber Baru',
+    peran: 'sumber',
+    kecamatan: 'Sokaraja',
+    statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU,
+  },
 ];
 
 const batchLaporan = [
-  { kode: 'L1', sumberId: 'S1', pengolahId: 'P1', kategoriId: 'K1', status: STATUS_BATCH.SELESAI, beratKg: 10, beratDiterimaKg: 9 },
-  { kode: 'L2', sumberId: 'S1', pengolahId: 'P1', kategoriId: 'K2', status: STATUS_BATCH.DIPROSES, beratKg: 4, beratDiterimaKg: 4 },
-  { kode: 'L3', sumberId: 'S2', pengolahId: null, kategoriId: 'K1', status: STATUS_BATCH.DIAJUKAN, beratKg: 6, beratDiterimaKg: null },
-  { kode: 'L4', sumberId: 'S2', pengolahId: 'P1', kategoriId: 'K2', status: STATUS_BATCH.DITOLAK, beratKg: 5, beratDiterimaKg: null },
+  {
+    kode: 'L1',
+    sumberId: 'S1',
+    pengolahId: 'P1',
+    kategoriId: 'K1',
+    status: STATUS_BATCH.SELESAI,
+    beratKg: 10,
+    beratDiterimaKg: 9,
+  },
+  {
+    kode: 'L2',
+    sumberId: 'S1',
+    pengolahId: 'P1',
+    kategoriId: 'K2',
+    status: STATUS_BATCH.DIPROSES,
+    beratKg: 4,
+    beratDiterimaKg: 4,
+  },
+  {
+    kode: 'L3',
+    sumberId: 'S2',
+    pengolahId: null,
+    kategoriId: 'K1',
+    status: STATUS_BATCH.DIAJUKAN,
+    beratKg: 6,
+    beratDiterimaKg: null,
+  },
+  {
+    kode: 'L4',
+    sumberId: 'S2',
+    pengolahId: 'P1',
+    kategoriId: 'K2',
+    status: STATUS_BATCH.DITOLAK,
+    beratKg: 5,
+    beratDiterimaKg: null,
+  },
 ];
 
 const kategoriLaporan = [
@@ -252,7 +338,13 @@ describe('rekapPerMitra', () => {
   });
 
   it('batch Ditolak masuk kolom ditolak, dan persen null kalau belum ada yang ditimbang', () => {
-    expect(rekap[1]).toMatchObject({ jumlahBatch: 2, dilaporkanKg: 6, diterimaKg: 0, ditolakKg: 5, persenDiterima: null });
+    expect(rekap[1]).toMatchObject({
+      jumlahBatch: 2,
+      dilaporkanKg: 6,
+      diterimaKg: 0,
+      ditolakKg: 5,
+      persenDiterima: null,
+    });
   });
 
   it('mitra pengolah dihitung dari batch yang ditanganinya (pengolahId)', () => {

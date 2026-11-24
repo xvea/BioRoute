@@ -1,4 +1,4 @@
-import { STATUS_BATCH, STATUS_VERIFIKASI } from "@/lib/constants";
+import { STATUS_BATCH, STATUS_VERIFIKASI } from '@/lib/constants';
 
 // Warna setiap status batch.
 const GAYA_STATUS = {

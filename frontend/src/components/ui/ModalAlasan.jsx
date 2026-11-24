@@ -33,12 +33,14 @@ export default function ModalAlasan({ judul, keterangan, labelKirim, varian = 'b
       className="fixed inset-0 z-40 bg-black/40 flex items-center justify-center p-4"
       onKeyDown={(e) => {
         if (e.key === 'Escape') onBatal();
-      }}>
+      }}
+    >
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="judul-modal-alasan"
-        className="bg-white rounded-2xl border border-[#E5EAE7] shadow-xl w-full max-w-md p-6 space-y-4">
+        className="bg-white rounded-2xl border border-[#E5EAE7] shadow-xl w-full max-w-md p-6 space-y-4"
+      >
         <div>
           <h2 id="judul-modal-alasan" className="text-lg font-bold text-[#17231D]">
             {judul}
@@ -70,13 +72,15 @@ export default function ModalAlasan({ judul, keterangan, labelKirim, varian = 'b
           <button
             type="button"
             onClick={onBatal}
-            className="border border-[#E5EAE7] hover:bg-[#F4F6F5] text-sm font-medium px-4 py-2 rounded-xl text-[#17231D] cursor-pointer">
+            className="border border-[#E5EAE7] hover:bg-[#F4F6F5] text-sm font-medium px-4 py-2 rounded-xl text-[#17231D] cursor-pointer"
+          >
             Batal
           </button>
           <button
             type="button"
             onClick={handleKirim}
-            className={`text-sm font-medium px-4 py-2 rounded-xl text-white cursor-pointer ${WARNA_TOMBOL[varian]}`}>
+            className={`text-sm font-medium px-4 py-2 rounded-xl text-white cursor-pointer ${WARNA_TOMBOL[varian]}`}
+          >
             {labelKirim}
           </button>
         </div>

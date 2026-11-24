@@ -62,9 +62,7 @@ export function proxy(request) {
 
   // Handle Root / Route: Redirect based on authentication state
   if (pathname === '/') {
-    return NextResponse.redirect(
-      new URL(hasValidToken ? '/dashboard' : '/login', request.url)
-    );
+    return NextResponse.redirect(new URL(hasValidToken ? '/dashboard' : '/login', request.url));
   }
 
   // If authenticated user visits /login -> redirect to /dashboard

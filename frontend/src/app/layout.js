@@ -1,19 +1,19 @@
-import { Inter } from "next/font/google";
-import "./globals.css";
+import { Inter } from 'next/font/google';
+import './globals.css';
 
 const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
 });
 
 export const metadata = {
   title: {
-    default: "BioRoute Admin",
-    template: "%s | BioRoute Admin",
+    default: 'BioRoute Admin',
+    template: '%s | BioRoute Admin',
   },
   description:
-    "Panel admin BioRoute untuk verifikasi mitra, pengelolaan batch residu organik, dan laporan wilayah Banyumas.",
+    'Panel admin BioRoute untuk verifikasi mitra, pengelolaan batch residu organik, dan laporan wilayah Banyumas.',
 };
 
 export default function RootLayout({ children }) {

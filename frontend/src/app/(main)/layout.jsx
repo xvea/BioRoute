@@ -4,17 +4,7 @@ import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import {
-  LayoutGrid,
-  ShieldCheck,
-  Package,
-  BarChart2,
-  Settings,
-  LogOut,
-  Info,
-  Menu,
-  X,
-} from 'lucide-react';
+import { LayoutGrid, ShieldCheck, Package, BarChart2, Settings, LogOut, Info, Menu, X } from 'lucide-react';
 import { BioRouteProvider, useBioRoute } from '@/context/BioRouteContext';
 import { mitraMenunggu } from '@/lib/hitung';
 
@@ -64,8 +54,7 @@ function AdminShell({ children }) {
   /**
    * true kalau menu sedang dibuka. Dashboard harus sama persis, menu lain cukup diawali alamatnya.
    */
-  const apakahAktif = (href) =>
-    pathname === href || (href !== '/dashboard' && pathname?.startsWith(href));
+  const apakahAktif = (href) => pathname === href || (href !== '/dashboard' && pathname?.startsWith(href));
 
   // Menu yang sedang dibuka, dipakai untuk judul di topbar.
   const menuAktif = navigationItems.find((item) => apakahAktif(item.href));
@@ -86,7 +75,6 @@ function AdminShell({ children }) {
 
   return (
     <div className="min-h-screen bg-white flex flex-col md:flex-row font-sans text-[#17231D]">
-
       {/* MOBILE HEADER */}
       <div className="print:hidden md:hidden bg-white border-b border-[#E5EAE7] px-4 py-3 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-2.5">
@@ -99,9 +87,7 @@ function AdminShell({ children }) {
               className="w-4 h-4 object-contain brightness-0 invert"
             />
           </div>
-          <span className="font-bold text-base text-[#17231D] tracking-tight">
-            BioRoute
-          </span>
+          <span className="font-bold text-base text-[#17231D] tracking-tight">BioRoute</span>
           <span className="bg-[#F4F6F5] text-[#17231D] text-[10px] font-semibold px-2 py-0.5 rounded border border-[#E5EAE7]">
             Admin
           </span>
@@ -133,8 +119,9 @@ function AdminShell({ children }) {
 
       {/* SIDEBAR NAVIGATION */}
       <aside
-        className={`print:hidden fixed md:sticky top-0 left-0 z-50 h-screen w-64 bg-white border-r border-[#E5EAE7] flex flex-col justify-between transition-transform duration-300 ease-in-out md:translate-x-0 ${mobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:shadow-none'
-          }`}
+        className={`print:hidden fixed md:sticky top-0 left-0 z-50 h-screen w-64 bg-white border-r border-[#E5EAE7] flex flex-col justify-between transition-transform duration-300 ease-in-out md:translate-x-0 ${
+          mobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:shadow-none'
+        }`}
       >
         <div className="p-5">
           {/* Brand Header */}
@@ -150,9 +137,7 @@ function AdminShell({ children }) {
               />
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-lg text-[#17231D] tracking-tight">
-                BioRoute
-              </span>
+              <span className="font-bold text-lg text-[#17231D] tracking-tight">BioRoute</span>
               <span className="bg-[#F4F6F5] text-[#17231D] text-xs font-semibold px-2 py-0.5 rounded border border-[#E5EAE7]">
                 Admin
               </span>
@@ -174,24 +159,24 @@ function AdminShell({ children }) {
                     <Link
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] ${isActive
-                        ? 'bg-[#EAF5F0] text-[#176B4D] font-semibold shadow-xs'
-                        : 'text-[#66736C] hover:text-[#17231D] hover:bg-[#F4F6F5]'
-                        }`}
+                      className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] ${
+                        isActive
+                          ? 'bg-[#EAF5F0] text-[#176B4D] font-semibold shadow-xs'
+                          : 'text-[#66736C] hover:text-[#17231D] hover:bg-[#F4F6F5]'
+                      }`}
                     >
                       <div className="flex items-center gap-3">
                         <IconComponent
-                          className={`w-4 h-4 shrink-0 transition-colors ${isActive ? 'text-[#176B4D]' : 'text-[#66736C] group-hover:text-[#17231D]'
-                            }`}
+                          className={`w-4 h-4 shrink-0 transition-colors ${
+                            isActive ? 'text-[#176B4D]' : 'text-[#66736C] group-hover:text-[#17231D]'
+                          }`}
                           aria-hidden="true"
                         />
                         <span>{item.name}</span>
                       </div>
                       {/* > 0 supaya angka 0 tidak ikut tampil */}
                       {item.badge > 0 && (
-                        <span
-                          className={`text-xs px-2 py-0.5 rounded-full font-bold leading-none ${item.badgeColor}`}
-                        >
+                        <span className={`text-xs px-2 py-0.5 rounded-full font-bold leading-none ${item.badgeColor}`}>
                           {item.badge}
                         </span>
                       )}
@@ -211,12 +196,8 @@ function AdminShell({ children }) {
                 AD
               </div>
               <div className="min-w-0 truncate">
-                <p className="text-sm font-semibold text-[#17231D] truncate leading-tight">
-                  Admin Banyumas
-                </p>
-                <p className="text-xs text-[#66736C] truncate mt-0.5">
-                  admin@bioroute.id
-                </p>
+                <p className="text-sm font-semibold text-[#17231D] truncate leading-tight">Admin Banyumas</p>
+                <p className="text-xs text-[#66736C] truncate mt-0.5">admin@bioroute.id</p>
               </div>
             </div>
             <button
@@ -235,7 +216,6 @@ function AdminShell({ children }) {
 
       {/* MAIN CONTENT AREA */}
       <div className="flex-1 flex flex-col min-w-0 bg-white">
-
         {/* Top Header Bar */}
         <header className="print:hidden sticky top-0 z-30 h-16 bg-white border-b border-[#E5EAE7] px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
           <nav aria-label="Breadcrumb" className="min-w-0">
@@ -257,7 +237,6 @@ function AdminShell({ children }) {
           <Suspense>{children}</Suspense>
         </main>
       </div>
-
     </div>
   );
 }

@@ -86,7 +86,6 @@ export function hitungBatchPerStatus(daftarBatch, status) {
  * Hasil: [{ minggu: 'Minggu 1', 'JLR-01': 26, 'JLR-02': 8 }, ...]
  */
 export function beratPerMinggu(daftarBatch, daftarJalur) {
-
   // batch yang ditolak tidak dihitung, jadi juga tidak boleh menambah jumlah minggu
   const batchDihitung = daftarBatch.filter((batch) => batch.status !== STATUS_BATCH.DITOLAK);
   if (batchDihitung.length === 0) return [];
@@ -111,11 +110,8 @@ export function beratPerMinggu(daftarBatch, daftarJalur) {
  * Batch yang paling baru diajukan, sebanyak `jumlah`.
  */
 export function batchTerbaru(daftarBatch, jumlah) {
-
   // sort() mengubah array aslinya
-  return [...daftarBatch]
-    .sort((a, b) => new Date(b.diajukanPada) - new Date(a.diajukanPada))
-    .slice(0, jumlah);
+  return [...daftarBatch].sort((a, b) => new Date(b.diajukanPada) - new Date(a.diajukanPada)).slice(0, jumlah);
 }
 
 /**
@@ -138,7 +134,7 @@ export function pengolahUntukJalur(daftarMitra, jalurId) {
 }
 
 /**
- * Jumlah mitra untuk setiap status verifikasi (untuk angka di tab Verifikasi Mitra). 
+ * Jumlah mitra untuk setiap status verifikasi (untuk angka di tab Verifikasi Mitra).
  * Hasil: { Menunggu: 3, Terverifikasi: 6, Ditolak: 1 }. Status tanpa mitra tetap muncul dengan nilai 0.
  */
 export function hitungMitraPerStatus(daftarMitra) {

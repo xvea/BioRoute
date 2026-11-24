@@ -13,16 +13,7 @@ import {
   ArrowRight,
   Info,
 } from 'lucide-react';
-import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  LabelList,
-} from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, LabelList } from 'recharts';
 import StatusBadge from '@/components/ui/StatusBadge';
 import { useBioRoute } from '@/context/BioRouteContext';
 import useIsMounted from '@/hooks/useIsMounted';
@@ -103,14 +94,12 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6 bg-white">
-
       {/* HEADER SECTION */}
       <section className="pb-2">
-        <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">
-          Ringkasan Operasional
-        </h1>
+        <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">Ringkasan Operasional</h1>
         <p className="text-sm text-[#66736C] mt-1">
-          Berat residu, status batch, dan mitra yang perlu ditindaklanjuti. Semua angka dihitung dari data batch dan mitra.
+          Berat residu, status batch, dan mitra yang perlu ditindaklanjuti. Semua angka dihitung dari data batch dan
+          mitra.
         </p>
       </section>
 
@@ -122,9 +111,7 @@ export default function DashboardPage() {
         {/* Metric 1: Berat tercatat */}
         <article className="p-5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between hover:border-[#176B4D]/30 transition-colors">
           <div className="flex items-start justify-between">
-            <span className="text-xs font-medium text-[#66736C]">
-              Berat tercatat
-            </span>
+            <span className="text-xs font-medium text-[#66736C]">Berat tercatat</span>
             <div className="p-1.5 rounded-lg bg-[#EAF5F0] text-[#16805D]">
               <Scale className="w-3.5 h-3.5" aria-hidden="true" />
             </div>
@@ -145,17 +132,13 @@ export default function DashboardPage() {
         {/* Metric 2: Diterima pengolah */}
         <article className="p-5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between hover:border-[#176B4D]/30 transition-colors">
           <div className="flex items-start justify-between">
-            <span className="text-xs font-medium text-[#66736C]">
-              Diterima pengolah
-            </span>
+            <span className="text-xs font-medium text-[#66736C]">Diterima pengolah</span>
             <div className="p-1.5 rounded-lg bg-blue-50 text-[#2563EB]">
               <TrendingUp className="w-3.5 h-3.5" aria-hidden="true" />
             </div>
           </div>
           <div className="my-2.5">
-            <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">
-              {formatKg(totalDiterima)}
-            </h2>
+            <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">{formatKg(totalDiterima)}</h2>
             <span className="inline-flex items-center text-[11px] font-semibold text-[#2563EB] mt-0.5">
               {jumlahDitimbang} batch sudah ditimbang
             </span>
@@ -168,9 +151,7 @@ export default function DashboardPage() {
         {/* Metric 3: Ditolak */}
         <article className="p-5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between hover:border-[#176B4D]/30 transition-colors">
           <div className="flex items-start justify-between">
-            <span className="text-xs font-medium text-[#66736C]">
-              Ditolak
-            </span>
+            <span className="text-xs font-medium text-[#66736C]">Ditolak</span>
             <div className="p-1.5 rounded-lg bg-red-50 text-[#C2413B]">
               <AlertTriangle className="w-3.5 h-3.5" aria-hidden="true" />
             </div>
@@ -191,17 +172,13 @@ export default function DashboardPage() {
         {/* Metric 4: Batch aktif */}
         <article className="p-5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between hover:border-[#176B4D]/30 transition-colors">
           <div className="flex items-start justify-between">
-            <span className="text-xs font-medium text-[#66736C]">
-              Batch aktif
-            </span>
+            <span className="text-xs font-medium text-[#66736C]">Batch aktif</span>
             <div className="p-1.5 rounded-lg bg-amber-50 text-[#B7791F]">
               <Layers className="w-3.5 h-3.5" aria-hidden="true" />
             </div>
           </div>
           <div className="my-2.5">
-            <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">
-              {hitungBatchAktif(daftarBatch)} batch
-            </h2>
+            <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">{hitungBatchAktif(daftarBatch)} batch</h2>
             <span className="inline-flex items-center text-[11px] font-semibold text-[#B7791F] mt-0.5">
               {hitungBatchPerStatus(daftarBatch, STATUS_BATCH.DIAJUKAN)} menunggu persetujuan
             </span>
@@ -214,15 +191,12 @@ export default function DashboardPage() {
 
       {/* MIDDLE SECTION (7:5 DESKTOP GRID) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
         {/* Left Card: Berat per minggu (kg) */}
         <article className="lg:col-span-7 p-6 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between">
           <div>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
               <div>
-                <h2 className="text-base font-bold text-[#17231D]">
-                  Berat per minggu (kg)
-                </h2>
+                <h2 className="text-base font-bold text-[#17231D]">Berat per minggu (kg)</h2>
                 <p className="text-xs text-[#66736C] mt-0.5">
                   Berat dilaporkan per minggu pengajuan (batch ditolak tidak dihitung)
                 </p>
@@ -232,10 +206,7 @@ export default function DashboardPage() {
               <div className="flex items-center gap-4 text-xs font-medium self-start sm:self-auto">
                 {jalurPemanfaatan.map((jalur, index) => (
                   <div key={jalur.id} className="flex items-center gap-1.5">
-                    <span
-                      className="w-2.5 h-2.5 rounded-xs"
-                      style={{ backgroundColor: gayaJalur(index).warna }}
-                    />
+                    <span className="w-2.5 h-2.5 rounded-xs" style={{ backgroundColor: gayaJalur(index).warna }} />
                     <span className="text-[#17231D]">{jalur.nama}</span>
                   </div>
                 ))}
@@ -246,11 +217,7 @@ export default function DashboardPage() {
             <div className="w-full h-65 pt-2">
               {isClient && (
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={dataMingguan}
-                    margin={{ top: 22, right: 10, left: -20, bottom: 0 }}
-                    barGap={6}
-                  >
+                  <BarChart data={dataMingguan} margin={{ top: 22, right: 10, left: -20, bottom: 0 }} barGap={6}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5EAE7" />
                     <XAxis
                       dataKey="minggu"
@@ -296,13 +263,9 @@ export default function DashboardPage() {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <GitFork className="w-4 h-4 text-[#176B4D]" aria-hidden="true" />
-              <h2 className="text-base font-bold text-[#17231D]">
-                Jalur pemanfaatan
-              </h2>
+              <h2 className="text-base font-bold text-[#17231D]">Jalur pemanfaatan</h2>
             </div>
-            <p className="text-xs text-[#66736C] mb-5">
-              Berat hasil timbang pengolah per jalur
-            </p>
+            <p className="text-xs text-[#66736C] mb-5">Berat hasil timbang pengolah per jalur</p>
 
             {/* Allocation Items */}
             <div className="space-y-4">
@@ -317,17 +280,11 @@ export default function DashboardPage() {
                         <div className={`p-1.5 rounded-lg ${latarIkon}`}>
                           <Ikon className="w-3.5 h-3.5" aria-hidden="true" />
                         </div>
-                        <span className="text-xs font-semibold text-[#17231D]">
-                          {jalur.nama}
-                        </span>
+                        <span className="text-xs font-semibold text-[#17231D]">{jalur.nama}</span>
                       </div>
                       <div className="text-right">
-                        <span className="text-xs font-bold text-[#17231D]">
-                          {formatKg(jalur.kg)}
-                        </span>
-                        <span className="text-[11px] text-[#66736C] ml-1">
-                          ({formatPersen(jalur.persen)})
-                        </span>
+                        <span className="text-xs font-bold text-[#17231D]">{formatKg(jalur.kg)}</span>
+                        <span className="text-[11px] text-[#66736C] ml-1">({formatPersen(jalur.persen)})</span>
                       </div>
                     </div>
 
@@ -339,9 +296,7 @@ export default function DashboardPage() {
                       />
                     </div>
 
-                    <p className="text-[11px] text-[#66736C] mt-2">
-                      {detailJalur?.materialDiterima}
-                    </p>
+                    <p className="text-[11px] text-[#66736C] mt-2">{detailJalur?.materialDiterima}</p>
                   </div>
                 );
               })}
@@ -352,31 +307,25 @@ export default function DashboardPage() {
           <div className="mt-5 p-3.5 rounded-xl bg-[#EAF5F0] border border-[#16805D]/20 flex items-start gap-2.5">
             <CheckCircle2 className="w-4 h-4 text-[#16805D] shrink-0 mt-0.5" aria-hidden="true" />
             <p className="text-xs text-[#16805D] leading-snug">
-              <strong>Total diterima: {formatKg(totalDiterima)}</strong> — dari {jalurPemanfaatan.length} jalur pemanfaatan
+              <strong>Total diterima: {formatKg(totalDiterima)}</strong> — dari {jalurPemanfaatan.length} jalur
+              pemanfaatan
             </p>
           </div>
         </article>
-
       </section>
 
       {/* BOTTOM SECTION (BATCHES & VERIFICATION) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
         {/* Left Card: Batch terbaru (7 cols) */}
         <article className="lg:col-span-7 p-6 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <h2 className="text-base font-bold text-[#17231D]">
-                Batch terbaru
-              </h2>
+              <h2 className="text-base font-bold text-[#17231D]">Batch terbaru</h2>
               <span className="bg-[#EAF5F0] text-[#16805D] text-xs font-medium px-2.5 py-0.5 rounded-full border border-[#16805D]/15">
                 {daftarBatchTerbaru.length} terbaru dari {daftarBatch.length}
               </span>
             </div>
-            <Link
-              href="/batch"
-              className="text-xs font-medium text-[#176B4D] hover:underline flex items-center gap-1"
-            >
+            <Link href="/batch" className="text-xs font-medium text-[#176B4D] hover:underline flex items-center gap-1">
               <span>Lihat semua</span>
               <ArrowRight className="w-3 h-3" aria-hidden="true" />
             </Link>
@@ -387,30 +336,38 @@ export default function DashboardPage() {
             <table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="border-b border-[#E5EAE7] text-[#66736C] font-semibold">
-                  <th scope="col" className="pb-2.5 font-medium">Kode</th>
-                  <th scope="col" className="pb-2.5 font-medium">Sumber</th>
-                  <th scope="col" className="pb-2.5 font-medium hidden sm:table-cell">Kategori</th>
-                  <th scope="col" className="pb-2.5 font-medium">Berat</th>
-                  <th scope="col" className="pb-2.5 font-medium hidden md:table-cell">Jalur</th>
-                  <th scope="col" className="pb-2.5 font-medium">Status</th>
-                  <th scope="col" className="pb-2.5 font-medium text-right">Aksi</th>
+                  <th scope="col" className="pb-2.5 font-medium">
+                    Kode
+                  </th>
+                  <th scope="col" className="pb-2.5 font-medium">
+                    Sumber
+                  </th>
+                  <th scope="col" className="pb-2.5 font-medium hidden sm:table-cell">
+                    Kategori
+                  </th>
+                  <th scope="col" className="pb-2.5 font-medium">
+                    Berat
+                  </th>
+                  <th scope="col" className="pb-2.5 font-medium hidden md:table-cell">
+                    Jalur
+                  </th>
+                  <th scope="col" className="pb-2.5 font-medium">
+                    Status
+                  </th>
+                  <th scope="col" className="pb-2.5 font-medium text-right">
+                    Aksi
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#E5EAE7]/60">
                 {daftarBatchTerbaru.map((batch) => (
                   <tr key={batch.kode} className="hover:bg-[#F4F6F5]/50 transition-colors">
-                    <td className="py-3 font-mono text-[11px] text-[#17231D] font-medium">
-                      {batch.kode}
-                    </td>
-                    <td className="py-3 font-medium text-[#17231D]">
-                      {cariById(daftarMitra, batch.sumberId)?.nama}
-                    </td>
+                    <td className="py-3 font-mono text-[11px] text-[#17231D] font-medium">{batch.kode}</td>
+                    <td className="py-3 font-medium text-[#17231D]">{cariById(daftarMitra, batch.sumberId)?.nama}</td>
                     <td className="py-3 text-[#66736C] hidden sm:table-cell">
                       {cariById(kategoriMaterial, batch.kategoriId)?.nama}
                     </td>
-                    <td className="py-3 font-semibold text-[#17231D]">
-                      {formatKg(batch.beratKg)}
-                    </td>
+                    <td className="py-3 font-semibold text-[#17231D]">{formatKg(batch.beratKg)}</td>
                     <td className="py-3 text-[#66736C] hidden md:table-cell">
                       {cariById(jalurPemanfaatan, batch.jalurId)?.nama}
                     </td>
@@ -420,7 +377,8 @@ export default function DashboardPage() {
                     <td className="py-3 text-right">
                       <Link
                         href={`/batch?kode=${batch.kode}`}
-                        className="text-xs font-semibold text-[#176B4D] hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#176B4D] rounded px-1.5 py-0.5">
+                        className="text-xs font-semibold text-[#176B4D] hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#176B4D] rounded px-1.5 py-0.5"
+                      >
                         Detail
                       </Link>
                     </td>
@@ -435,16 +393,12 @@ export default function DashboardPage() {
         <article className="lg:col-span-5 p-6 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-1">
-              <h2 className="text-base font-bold text-[#17231D]">
-                Perlu verifikasi
-              </h2>
+              <h2 className="text-base font-bold text-[#17231D]">Perlu verifikasi</h2>
               <span className="bg-red-50 text-red-600 font-bold px-2.5 py-0.5 rounded-full text-xs">
                 {daftarMitraMenunggu.length} menunggu
               </span>
             </div>
-            <p className="text-xs text-[#66736C] mb-4">
-              Mitra baru yang menunggu keputusan admin
-            </p>
+            <p className="text-xs text-[#66736C] mb-4">Mitra baru yang menunggu keputusan admin</p>
 
             {/* Partner List */}
             <div className="space-y-3">
@@ -458,9 +412,7 @@ export default function DashboardPage() {
                 >
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <p className="text-xs font-bold text-[#17231D] truncate">
-                        {mitra.nama}
-                      </p>
+                      <p className="text-xs font-bold text-[#17231D] truncate">{mitra.nama}</p>
                       <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-white border border-[#E5EAE7] text-[#66736C]">
                         {mitra.peran === 'sumber' ? 'Sumber' : 'Pengolah'}
                       </span>
@@ -471,7 +423,8 @@ export default function DashboardPage() {
                   </div>
                   <Link
                     href={`/verifikasi?id=${mitra.id}`}
-                    className="shrink-0 text-xs font-medium bg-white hover:bg-[#EAF5F0] text-[#176B4D] border border-[#E5EAE7] hover:border-[#176B4D]/30 px-3 py-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D]">
+                    className="shrink-0 text-xs font-medium bg-white hover:bg-[#EAF5F0] text-[#176B4D] border border-[#E5EAE7] hover:border-[#176B4D]/30 px-3 py-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D]"
+                  >
                     Tinjau
                   </Link>
                 </div>
@@ -487,9 +440,7 @@ export default function DashboardPage() {
             </p>
           </aside>
         </article>
-
       </section>
-
     </div>
   );
 }

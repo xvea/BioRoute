@@ -47,11 +47,15 @@ describe('cekKategori', () => {
   });
 
   it('menolak nama yang terlalu pendek', () => {
-    expect(cekKategori({ ...formBenar, nama: ' Ab ' }, daftarKategori)).toEqual({ nama: 'Nama kategori minimal 3 karakter.' });
+    expect(cekKategori({ ...formBenar, nama: ' Ab ' }, daftarKategori)).toEqual({
+      nama: 'Nama kategori minimal 3 karakter.',
+    });
   });
 
   it('menolak nama yang sudah dipakai kategori lain, tanpa peduli huruf besar/kecil dan spasi', () => {
-    expect(cekKategori({ ...formBenar, nama: '  sisa PRODUKSI ' }, daftarKategori)).toEqual({ nama: 'Nama kategori sudah dipakai.' });
+    expect(cekKategori({ ...formBenar, nama: '  sisa PRODUKSI ' }, daftarKategori)).toEqual({
+      nama: 'Nama kategori sudah dipakai.',
+    });
   });
 
   it('saat mengubah kategori, namanya sendiri tidak dianggap duplikat', () => {
@@ -59,7 +63,9 @@ describe('cekKategori', () => {
   });
 
   it('menolak contoh residu yang kosong', () => {
-    expect(cekKategori({ ...formBenar, contoh: '  ' }, daftarKategori)).toEqual({ contoh: 'Contoh residu wajib diisi.' });
+    expect(cekKategori({ ...formBenar, contoh: '  ' }, daftarKategori)).toEqual({
+      contoh: 'Contoh residu wajib diisi.',
+    });
   });
 });
 
@@ -72,8 +78,12 @@ describe('cekParameter', () => {
   });
 
   it('toleransi wajib diisi dan harus berupa angka', () => {
-    expect(cekParameter({ ...formBenar, toleransiSelisihKg: ' ' })).toEqual({ toleransiSelisihKg: 'Toleransi wajib diisi.' });
-    expect(cekParameter({ ...formBenar, toleransiSelisihKg: 'dua' })).toEqual({ toleransiSelisihKg: 'Toleransi harus berupa angka.' });
+    expect(cekParameter({ ...formBenar, toleransiSelisihKg: ' ' })).toEqual({
+      toleransiSelisihKg: 'Toleransi wajib diisi.',
+    });
+    expect(cekParameter({ ...formBenar, toleransiSelisihKg: 'dua' })).toEqual({
+      toleransiSelisihKg: 'Toleransi harus berupa angka.',
+    });
   });
 
   it('toleransi harus lebih dari 0 dan paling besar 10 kg', () => {
@@ -84,11 +94,19 @@ describe('cekParameter', () => {
   });
 
   it('waktu tinjau wajib diisi, bilangan bulat, dan antara 1–72 jam', () => {
-    expect(cekParameter({ ...formBenar, maksWaktuTinjauJam: '' })).toEqual({ maksWaktuTinjauJam: 'Waktu tinjau wajib diisi.' });
-    expect(cekParameter({ ...formBenar, maksWaktuTinjauJam: '1,5' })).toEqual({ maksWaktuTinjauJam: 'Waktu tinjau harus bilangan bulat.' });
-    expect(cekParameter({ ...formBenar, maksWaktuTinjauJam: '0' })).toEqual({ maksWaktuTinjauJam: 'Waktu tinjau harus antara 1 dan 72 jam.' });
+    expect(cekParameter({ ...formBenar, maksWaktuTinjauJam: '' })).toEqual({
+      maksWaktuTinjauJam: 'Waktu tinjau wajib diisi.',
+    });
+    expect(cekParameter({ ...formBenar, maksWaktuTinjauJam: '1,5' })).toEqual({
+      maksWaktuTinjauJam: 'Waktu tinjau harus bilangan bulat.',
+    });
+    expect(cekParameter({ ...formBenar, maksWaktuTinjauJam: '0' })).toEqual({
+      maksWaktuTinjauJam: 'Waktu tinjau harus antara 1 dan 72 jam.',
+    });
     expect(cekParameter({ ...formBenar, maksWaktuTinjauJam: '72' })).toEqual({});
-    expect(cekParameter({ ...formBenar, maksWaktuTinjauJam: '73' })).toEqual({ maksWaktuTinjauJam: 'Waktu tinjau harus antara 1 dan 72 jam.' });
+    expect(cekParameter({ ...formBenar, maksWaktuTinjauJam: '73' })).toEqual({
+      maksWaktuTinjauJam: 'Waktu tinjau harus antara 1 dan 72 jam.',
+    });
   });
 });
 

@@ -18,7 +18,7 @@ const GAYA_TOAST = {
 export default function Toast({ toast }) {
   if (!toast) return null;
   const { kotak, Ikon } = GAYA_TOAST[toast.type] ?? GAYA_TOAST.success;
-  
+
   return (
     <aside
       role="status"

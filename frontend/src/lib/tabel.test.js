@@ -98,10 +98,38 @@ describe('ambilHalaman', () => {
 
 describe('saringMitra', () => {
   const mitraVerifikasi = [
-    { id: 'M1', nama: 'Warung Bu Slamet', penanggungJawab: 'Slamet Riyadi', kecamatan: 'Purwokerto Timur', statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU, diajukanPada: '2026-11-14T10:00:00+07:00' },
-    { id: 'M2', nama: 'Dapur Organik', penanggungJawab: 'Hendra Setiawan', kecamatan: 'Purwokerto Barat', statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU, diajukanPada: '2026-11-16T09:00:00+07:00' },
-    { id: 'M3', nama: 'Bank Sampah Mandiri', penanggungJawab: 'Dewi Lestari', kecamatan: 'Karanglewas', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI, diajukanPada: '2026-11-15T08:00:00+07:00' },
-    { id: 'M4', nama: 'Agro Maggot', penanggungJawab: 'Budi Hartono', kecamatan: 'Sokaraja', statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU, diajukanPada: '2026-11-15T12:00:00+07:00' },
+    {
+      id: 'M1',
+      nama: 'Warung Bu Slamet',
+      penanggungJawab: 'Slamet Riyadi',
+      kecamatan: 'Purwokerto Timur',
+      statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU,
+      diajukanPada: '2026-11-14T10:00:00+07:00',
+    },
+    {
+      id: 'M2',
+      nama: 'Dapur Organik',
+      penanggungJawab: 'Hendra Setiawan',
+      kecamatan: 'Purwokerto Barat',
+      statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU,
+      diajukanPada: '2026-11-16T09:00:00+07:00',
+    },
+    {
+      id: 'M3',
+      nama: 'Bank Sampah Mandiri',
+      penanggungJawab: 'Dewi Lestari',
+      kecamatan: 'Karanglewas',
+      statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI,
+      diajukanPada: '2026-11-15T08:00:00+07:00',
+    },
+    {
+      id: 'M4',
+      nama: 'Agro Maggot',
+      penanggungJawab: 'Budi Hartono',
+      kecamatan: 'Sokaraja',
+      statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU,
+      diajukanPada: '2026-11-15T12:00:00+07:00',
+    },
   ];
   const filterMenunggu = { status: STATUS_VERIFIKASI.MENUNGGU, kataKunci: '', urutan: 'terbaru' };
 
@@ -125,7 +153,12 @@ describe('saringMitra', () => {
   });
 
   it('status kosong berarti semua status', () => {
-    expect(id(saringMitra(mitraVerifikasi, { status: '', kataKunci: '', urutan: 'nama' }))).toEqual(['M4', 'M3', 'M2', 'M1']);
+    expect(id(saringMitra(mitraVerifikasi, { status: '', kataKunci: '', urutan: 'nama' }))).toEqual([
+      'M4',
+      'M3',
+      'M2',
+      'M1',
+    ]);
   });
 
   it('mencari nama, penanggung jawab, atau kecamatan tanpa peduli huruf besar/kecil dan spasi di tepi', () => {

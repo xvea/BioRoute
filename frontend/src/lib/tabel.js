@@ -10,9 +10,7 @@ export function saringBatch(daftarBatch, daftarMitra, filter) {
   return daftarBatch.filter((batch) => {
     if (kataKunci) {
       const namaSumber = cariById(daftarMitra, batch.sumberId)?.nama ?? '';
-      const cocok =
-        batch.kode.toLowerCase().includes(kataKunci) ||
-        namaSumber.toLowerCase().includes(kataKunci);
+      const cocok = batch.kode.toLowerCase().includes(kataKunci) || namaSumber.toLowerCase().includes(kataKunci);
       if (!cocok) return false;
     }
     if (filter.status && batch.status !== filter.status) return false;
@@ -52,9 +50,7 @@ export function saringMitra(daftarMitra, filter) {
   const hasil = daftarMitra.filter((mitra) => {
     if (filter.status && mitra.statusVerifikasi !== filter.status) return false;
     if (!kataKunci) return true;
-    return [mitra.nama, mitra.penanggungJawab, mitra.kecamatan].some((teks) =>
-      teks.toLowerCase().includes(kataKunci)
-    );
+    return [mitra.nama, mitra.penanggungJawab, mitra.kecamatan].some((teks) => teks.toLowerCase().includes(kataKunci));
   });
 
   // filter() sudah membuat array baru, jadi sort() di sini tidak mengubah daftarMitra asli

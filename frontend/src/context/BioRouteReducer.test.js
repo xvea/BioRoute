@@ -15,9 +15,27 @@ const stateUji = {
   daftarMitra: [
     { id: 'MTR-001', nama: 'Sumber Uji', peran: 'sumber', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI },
     { id: 'MTR-002', nama: 'Sumber Baru', peran: 'sumber', statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU },
-    { id: 'MTR-101', nama: 'Pengolah Uji', peran: 'pengolah', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI, jalurId: 'JLR-01' },
-    { id: 'MTR-102', nama: 'Pengolah Baru', peran: 'pengolah', statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU, jalurId: 'JLR-01' },
-    { id: 'MTR-103', nama: 'Pengolah BSF', peran: 'pengolah', statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI, jalurId: 'JLR-02' },
+    {
+      id: 'MTR-101',
+      nama: 'Pengolah Uji',
+      peran: 'pengolah',
+      statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI,
+      jalurId: 'JLR-01',
+    },
+    {
+      id: 'MTR-102',
+      nama: 'Pengolah Baru',
+      peran: 'pengolah',
+      statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU,
+      jalurId: 'JLR-01',
+    },
+    {
+      id: 'MTR-103',
+      nama: 'Pengolah BSF',
+      peran: 'pengolah',
+      statusVerifikasi: STATUS_VERIFIKASI.TERVERIFIKASI,
+      jalurId: 'JLR-02',
+    },
   ],
   kategoriMaterial: [
     { id: 'KAT-01', nama: 'Sisa sayur & buah', aktif: true },
@@ -40,9 +58,7 @@ describe('SETUJUI_BATCH', () => {
 
     expect(batch.status).toBe(STATUS_BATCH.TERSEDIA);
     expect(batch.pengolahId).toBe('MTR-101');
-    expect(batch.riwayat).toEqual([
-      { waktu: WAKTU, keterangan: 'Disetujui admin dan ditawarkan ke Pengolah Uji' },
-    ]);
+    expect(batch.riwayat).toEqual([{ waktu: WAKTU, keterangan: 'Disetujui admin dan ditawarkan ke Pengolah Uji' }]);
   });
 
   it('tidak mengubah state lama (immutable)', () => {
@@ -145,7 +161,6 @@ describe('aksi tidak dikenal', () => {
     );
   });
 });
-
 
 describe('VERIFIKASI_MITRA', () => {
   it('mengubah status mitra Menunggu jadi Terverifikasi', () => {
@@ -351,9 +366,7 @@ describe('UBAH_PARAMETER', () => {
 
 describe('data awal', () => {
   it('mitra Ditolak menyimpan alasannya di properti alasan (sama dengan yang ditulis TOLAK_MITRA)', () => {
-    const mitraDitolak = stateAwal.daftarMitra.filter(
-      (mitra) => mitra.statusVerifikasi === STATUS_VERIFIKASI.DITOLAK
-    );
+    const mitraDitolak = stateAwal.daftarMitra.filter((mitra) => mitra.statusVerifikasi === STATUS_VERIFIKASI.DITOLAK);
 
     expect(mitraDitolak.length).toBeGreaterThan(0);
     for (const mitra of mitraDitolak) {
