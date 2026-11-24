@@ -140,7 +140,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
         />
       )}
 
-      {/* 1. Judul halaman */}
+      {/* Judul halaman */}
       <section className="pb-1">
         <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">Verifikasi Mitra</h1>
         <p className="text-sm text-[#66736C] mt-1">
@@ -148,7 +148,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
         </p>
       </section>
 
-      {/* 2. Tab status (angka dihitung dari state) */}
+      {/* Tab status (angka dihitung dari state) */}
       <nav aria-label="Status verifikasi mitra" className="border-b border-[#E5EAE7]">
         <div role="tablist" className="flex items-center gap-8">
           {DAFTAR_TAB.map((status) => {
@@ -178,10 +178,10 @@ function IsiHalamanVerifikasi({ idAwal }) {
         </div>
       </nav>
 
-      {/* 3. Dua kolom: tabel (kiri) dan detail mitra (kanan) */}
+      {/* Dua kolom: tabel (kiri) dan detail mitra (kanan) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-        {/* A. Kolom kiri: tabel mitra */}
+        {/* Kolom kiri: tabel mitra */}
         <section className="lg:col-span-7 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs p-5 flex flex-col justify-between min-h-[480px]">
           <div>
             {/* Pencarian & urutan */}
@@ -346,13 +346,13 @@ function IsiHalamanVerifikasi({ idAwal }) {
           </footer>
         </section>
 
-        {/* B. Kolom kanan: detail mitra terpilih */}
+        {/* Kolom kanan: detail mitra terpilih */}
         <aside className="lg:col-span-5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs p-6 space-y-6">
           {!mitraTerpilih ? (
             <p className="text-sm text-[#66736C] text-center py-10">Pilih mitra di tabel untuk melihat detailnya.</p>
           ) : (
             <>
-              {/* 1. Judul detail */}
+              {/* Judul detail */}
               <header className="pb-4 border-b border-[#E5EAE7]">
                 <div className="flex items-start justify-between gap-3">
                   <h2 className="text-xl font-bold text-[#104D38] tracking-tight">{mitraTerpilih.nama}</h2>
@@ -370,7 +370,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 </div>
               </header>
 
-              {/* 2. Alasan penolakan (hanya kalau Ditolak) */}
+              {/* Alasan penolakan (hanya kalau Ditolak) */}
               {mitraTerpilih.statusVerifikasi === STATUS_VERIFIKASI.DITOLAK && (
                 <div className="p-3 rounded-xl bg-[#FEE2E2] border border-[#C2413B]/20 text-xs">
                   <p className="font-semibold text-[#C2413B]">Alasan penolakan:</p>
@@ -378,7 +378,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 </div>
               )}
 
-              {/* 3. Identitas & kapasitas */}
+              {/* Identitas & kapasitas */}
               <section aria-labelledby="judul-identitas" className="space-y-3">
                 <h3 id="judul-identitas" className="text-xs font-bold text-[#66736C] tracking-wider uppercase">
                   Identitas &amp; kapasitas
@@ -424,7 +424,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 </div>
               </section>
 
-              {/* 4. Alamat & titik lokasi */}
+              {/* Alamat & titik lokasi */}
               <section aria-labelledby="judul-lokasi" className="space-y-3">
                 <h3 id="judul-lokasi" className="text-xs font-bold text-[#66736C] tracking-wider uppercase">
                   Alamat &amp; titik lokasi
@@ -440,7 +440,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 </p>
               </section>
 
-              {/* 5. Material (sumber) atau jalur pemanfaatan (pengolah) */}
+              {/* Material (sumber) atau jalur pemanfaatan (pengolah) */}
               {mitraTerpilih.peran === 'sumber' ? (
                 <section aria-labelledby="judul-material" className="space-y-3">
                   <h3 id="judul-material" className="text-xs font-bold text-[#66736C] tracking-wider uppercase">
@@ -468,7 +468,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 </section>
               )}
 
-              {/* 6. Catatan batas peran aplikasi */}
+              {/* Catatan batas peran aplikasi */}
               <div className="p-3 rounded-xl bg-[#F4F6F5] text-xs text-[#66736C] flex items-start gap-2">
                 <Info className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
                 <p>
@@ -477,7 +477,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 </p>
               </div>
 
-              {/* 7. Keputusan admin (hanya status Menunggu) */}
+              {/* Keputusan admin (hanya status Menunggu) */}
               {bisaDiputuskan ? (
                 <div className="pt-4 border-t border-[#E5EAE7] space-y-3">
                   {mitraTerpilih.peran === 'pengolah' && (

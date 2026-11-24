@@ -21,8 +21,8 @@ import {
 
 // Unit test untuk src/lib/hitung.js
 // Data uji dibuat kecil dan sengaja di sini, supaya:
-// 1) hasil yang benar mudah dihitung dengan kepala, dan
-// 2) test tidak rusak kalau data contoh di src/lib/data diubah.
+// - hasil yang benar mudah dihitung dengan kepala, dan
+// - test tidak rusak kalau data contoh di src/lib/data diubah.
 
 const batchUji = [
   { kode: 'A', status: STATUS_BATCH.SELESAI, jalurId: 'JLR-01', beratKg: 10, beratDiterimaKg: 9 },

@@ -149,7 +149,7 @@ export default function PengaturanPage() {
         />
       )}
 
-      {/* 1. Judul halaman */}
+      {/* Judul halaman */}
       <section className="pb-1">
         <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">Pengaturan Master Data</h1>
         <p className="text-sm text-[#66736C] mt-1">
@@ -157,7 +157,7 @@ export default function PengaturanPage() {
         </p>
       </section>
 
-      {/* 2. Kartu ringkasan (dihitung dari state) */}
+      {/* Kartu ringkasan (dihitung dari state) */}
       <section aria-label="Ringkasan pengaturan" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <article className="p-4 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs">
           <div className="flex items-center justify-between text-xs text-[#66736C]">
@@ -195,7 +195,7 @@ export default function PengaturanPage() {
         </article>
       </section>
 
-      {/* 3. Kategori material */}
+      {/* Tabel kategori material */}
       <section className="rounded-2xl bg-white border border-[#E5EAE7] shadow-xs overflow-hidden">
         <div className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
@@ -277,7 +277,7 @@ export default function PengaturanPage() {
         </div>
       </section>
 
-      {/* 4. Jalur pemanfaatan */}
+      {/* Kartu jalur pemanfaatan */}
       <section className="rounded-2xl bg-white border border-[#E5EAE7] shadow-xs p-6 space-y-5">
         <div>
           <h2 className="text-base font-bold text-[#17231D]">Jalur pemanfaatan</h2>
@@ -346,7 +346,7 @@ export default function PengaturanPage() {
         </div>
       </section>
 
-      {/* 5. Parameter verifikasi */}
+      {/* Form parameter verifikasi */}
       <section className="rounded-2xl bg-white border border-[#E5EAE7] shadow-xs p-6">
         <form onSubmit={handleSimpanParameter} noValidate className="space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -421,7 +421,7 @@ export default function PengaturanPage() {
         </form>
       </section>
 
-      {/* 6. Catatan */}
+      {/* Catatan peran aplikasi */}
       <aside className="p-4 rounded-2xl bg-[#F4F6F5] border border-[#E5EAE7] flex items-start gap-3 text-xs text-[#66736C]">
         <Info className="w-4 h-4 text-[#176B4D] shrink-0 mt-0.5" aria-hidden="true" />
         <p>Kelayakan material ditentukan oleh mitra pengolah, bukan oleh aplikasi.</p>

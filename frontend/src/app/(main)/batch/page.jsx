@@ -171,7 +171,7 @@ function IsiHalamanBatch({ kodeAwal }) {
         />
       )}
 
-      {/* 3. PAGE HEADER & METRIC KPI CARDS */}
+      {/* PAGE HEADER & METRIC KPI CARDS */}
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-1">
         <div>
           <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">
@@ -216,11 +216,11 @@ function IsiHalamanBatch({ kodeAwal }) {
         </div>
       </section>
 
-      {/* 4. FILTER CONTROLS & ACTIVE CHIPS BAR */}
+      {/* FILTER CONTROLS & ACTIVE CHIPS BAR */}
       <section aria-label="Filter Kontrol Batch" className="space-y-3">
         {/* Filter Inputs Row (4 Columns) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-          {/* 1. Search Input */}
+          {/* Search Input */}
           <div className="relative">
             <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#66736C]">
               <Search className="w-4 h-4" aria-hidden="true" />
@@ -235,7 +235,7 @@ function IsiHalamanBatch({ kodeAwal }) {
             />
           </div>
 
-          {/* 2. Status Select (pilihan dari STATUS_BATCH) */}
+          {/* Status Select (pilihan dari STATUS_BATCH) */}
           <div>
             <select
               value={filter.status}
@@ -251,7 +251,7 @@ function IsiHalamanBatch({ kodeAwal }) {
             </select>
           </div>
 
-          {/* 3. Kategori Select (pilihan dari master data) */}
+          {/* Kategori Select (pilihan dari master data) */}
           <div>
             <select
               value={filter.kategoriId}
@@ -267,7 +267,7 @@ function IsiHalamanBatch({ kodeAwal }) {
             </select>
           </div>
 
-          {/* 4. Jalur Select (pilihan dari master data) */}
+          {/* Jalur Select (pilihan dari master data) */}
           <div>
             <select
               value={filter.jalurId}
@@ -326,10 +326,10 @@ function IsiHalamanBatch({ kodeAwal }) {
         </div>
       </section>
 
-      {/* 5. TWO-COLUMN SPLIT LAYOUT (7:5 DESKTOP GRID) */}
+      {/* TWO-COLUMN SPLIT LAYOUT (7:5 DESKTOP GRID) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-        {/* A. LEFT COLUMN: BATCH LIST TABLE (lg:col-span-7) */}
+        {/* LEFT COLUMN: BATCH LIST TABLE (lg:col-span-7) */}
         <section className="lg:col-span-7 bg-white border border-[#E5EAE7] rounded-2xl p-5 shadow-sm flex flex-col justify-between min-h-[580px]">
           <div>
             {/* Table Header Section */}
@@ -496,11 +496,11 @@ function IsiHalamanBatch({ kodeAwal }) {
           </footer>
         </section>
 
-        {/* B. RIGHT COLUMN: BATCH DETAIL PANEL (lg:col-span-5) */}
+        {/* RIGHT COLUMN: BATCH DETAIL PANEL (lg:col-span-5) */}
         <aside className="lg:col-span-5 bg-white border border-[#E5EAE7] rounded-2xl p-6 shadow-sm flex flex-col gap-5">
           {batchTerpilih ? (
             <>
-              {/* 1. Header Row */}
+              {/* Header Row: kode batch & status */}
               <header className="pb-3 border-b border-[#E5EAE7]">
                 <div className="flex items-center justify-between gap-2">
                   <h2 className="text-lg font-bold text-[#17231D] tracking-tight">
@@ -515,7 +515,7 @@ function IsiHalamanBatch({ kodeAwal }) {
                 </div>
               </header>
 
-              {/* 2. Alasan revisi / penolakan (hanya kalau ada) */}
+              {/* Alasan revisi / penolakan (hanya kalau ada) */}
               {batchTerpilih.alasan && (
                 <section className="bg-[#FEF3C7]/60 border border-[#B7791F]/20 rounded-xl p-3 text-xs">
                   <p className="font-semibold text-[#B7791F]">Alasan {batchTerpilih.status.toLowerCase()}:</p>
@@ -523,7 +523,7 @@ function IsiHalamanBatch({ kodeAwal }) {
                 </section>
               )}
 
-              {/* 3. Data Key-Value Overview */}
+              {/* Data Key-Value Overview */}
               <section aria-labelledby="overview-heading" className="space-y-2.5 bg-[#F4F6F5]/50 border border-[#E5EAE7] rounded-xl p-4 text-xs">
                 <h3 id="overview-heading" className="sr-only">
                   Ringkasan Kunci Material
@@ -575,7 +575,7 @@ function IsiHalamanBatch({ kodeAwal }) {
                 </div>
               </section>
 
-              {/* 4. Riwayat Batch (Timeline Stepper) */}
+              {/* Riwayat Batch (Timeline Stepper) */}
               <section aria-labelledby="timeline-heading" className="space-y-3">
                 <h3 id="timeline-heading" className="text-xs font-bold text-[#66736C] uppercase tracking-wider">
                   RIWAYAT BATCH
@@ -599,7 +599,7 @@ function IsiHalamanBatch({ kodeAwal }) {
                 </div>
               </section>
 
-              {/* 5. Regulatory Disclaimer */}
+              {/* Catatan peran aplikasi */}
               <aside className="bg-[#F4F6F5] border border-[#E5EAE7] rounded-xl p-3 text-xs text-[#66736C] flex items-start gap-2">
                 <Info className="w-4 h-4 text-[#176B4D] shrink-0 mt-0.5" aria-hidden="true" />
                 <p className="text-[11px] leading-relaxed">
@@ -607,7 +607,7 @@ function IsiHalamanBatch({ kodeAwal }) {
                 </p>
               </aside>
 
-              {/* 6. Keputusan admin */}
+              {/* Keputusan admin */}
               {bisaDiputuskan ? (
                 <section aria-labelledby="keputusan-heading" className="space-y-3">
                   <h3 id="keputusan-heading" className="text-xs font-bold text-[#66736C] uppercase tracking-wider">

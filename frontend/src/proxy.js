@@ -48,7 +48,7 @@ export function proxy(request) {
     pathname.startsWith('/laporan') ||
     pathname.startsWith('/pengaturan');
 
-  // 1. If accessing protected routes without valid token -> redirect to /login
+  // If accessing protected routes without valid token -> redirect to /login
   if (isProtectedRoute && !hasValidToken) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('redirect', pathname);
@@ -60,14 +60,14 @@ export function proxy(request) {
     return response;
   }
 
-  // 2. Handle Root / Route: Redirect based on authentication state
+  // Handle Root / Route: Redirect based on authentication state
   if (pathname === '/') {
     return NextResponse.redirect(
       new URL(hasValidToken ? '/dashboard' : '/login', request.url)
     );
   }
 
-  // 3. If authenticated user visits /login -> redirect to /dashboard
+  // If authenticated user visits /login -> redirect to /dashboard
   if (pathname === '/login' && hasValidToken) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }

@@ -94,7 +94,7 @@ export default function LaporanPage() {
       {/* Toast Alert Feedback */}
       <Toast toast={toast} />
 
-      {/* 1. Judul halaman & tombol unduh */}
+      {/* Judul halaman & tombol unduh */}
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#E5EAE7]">
         <div>
           <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">Laporan Residu Organik</h1>
@@ -120,7 +120,7 @@ export default function LaporanPage() {
         </div>
       </section>
 
-      {/* 2. Kartu per kategori material */}
+      {/* Kartu per kategori material */}
       <section aria-label="Berat dilaporkan per kategori" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {ringkasanKategori.map((kategori, index) => {
           const Ikon = IKON_KATEGORI[index % IKON_KATEGORI.length];
@@ -149,7 +149,7 @@ export default function LaporanPage() {
         })}
       </section>
 
-      {/* 3. Selisih berat dilaporkan vs diterima */}
+      {/* Selisih berat dilaporkan vs diterima */}
       <section className="p-6 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs space-y-5">
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
           <div>
@@ -240,7 +240,7 @@ export default function LaporanPage() {
         )}
       </section>
 
-      {/* 4. Rekap kinerja mitra terverifikasi */}
+      {/* Rekap kinerja mitra terverifikasi */}
       <section className="p-6 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
@@ -312,7 +312,7 @@ export default function LaporanPage() {
         </div>
       </section>
 
-      {/* 5. Catatan */}
+      {/* Catatan peran aplikasi */}
       <aside className="p-4 rounded-2xl bg-[#F4F6F5] border border-[#E5EAE7] flex items-start gap-3 text-xs text-[#66736C]">
         <Info className="w-4 h-4 text-[#176B4D] shrink-0 mt-0.5" aria-hidden="true" />
         <p>
