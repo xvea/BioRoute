@@ -418,12 +418,11 @@ export default function DashboardPage() {
                       <StatusBadge status={batch.status} />
                     </td>
                     <td className="py-3 text-right">
-                      <button
-                        type="button"
-                        className="text-xs font-semibold text-[#176B4D] hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#176B4D] rounded px-1.5 py-0.5 cursor-pointer"
-                      >
+                      <Link
+                        href={`/batch?kode=${batch.kode}`}
+                        className="text-xs font-semibold text-[#176B4D] hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#176B4D] rounded px-1.5 py-0.5">
                         Detail
-                      </button>
+                      </Link>
                     </td>
                   </tr>
                 ))}
@@ -470,12 +469,11 @@ export default function DashboardPage() {
                       {mitra.kecamatan} • Daftar {formatTanggal(mitra.diajukanPada)}
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    className="shrink-0 text-xs font-medium bg-white hover:bg-[#EAF5F0] text-[#176B4D] border border-[#E5EAE7] hover:border-[#176B4D]/30 px-3 py-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] cursor-pointer"
-                  >
+                  <Link
+                    href={`/verifikasi?id=${mitra.id}`}
+                    className="shrink-0 text-xs font-medium bg-white hover:bg-[#EAF5F0] text-[#176B4D] border border-[#E5EAE7] hover:border-[#176B4D]/30 px-3 py-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D]">
                     Tinjau
-                  </button>
+                  </Link>
                 </div>
               ))}
             </div>

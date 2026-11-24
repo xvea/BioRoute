@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
@@ -253,7 +253,8 @@ function AdminShell({ children }) {
 
         {/* Dynamic Page Views */}
         <main className="flex-1 bg-white p-4 sm:p-6 lg:p-8">
-          {children}
+          {/* Suspense wajib karena halaman Batch & Verifikasi membaca alamat (useSearchParams) */}
+          <Suspense>{children}</Suspense>
         </main>
       </div>
 

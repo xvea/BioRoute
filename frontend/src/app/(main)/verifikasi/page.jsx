@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   Search,
   MapPin,
@@ -24,7 +25,7 @@ import { JENIS_AKSI } from '@/context/BioRouteReducer';
 import { STATUS_VERIFIKASI } from '@/lib/constants';
 import { formatKg, formatTanggal, formatTanggalJam } from '@/lib/format';
 import { cariById, hitungMitraPerStatus } from '@/lib/hitung';
-import { saringMitra, ambilHalaman } from '@/lib/tabel';
+import { saringMitra, ambilHalaman, halamanUntuk } from '@/lib/tabel';
 
 // Jumlah baris tabel per halaman.
 const PER_HALAMAN = 5;
@@ -43,17 +44,24 @@ const PERAN = {
 };
 
 /**
- * Halaman Verifikasi Mitra (W2): daftar pendaftaran mitra per status, detail mitra, serta keputusan Verifikasi / Tolak dari state BioRoute.
+ * Isi halaman Verifikasi Mitra (W2): daftar pendaftaran mitra per status, detail mitra, serta keputusan Verifikasi / Tolak dari state BioRoute. idAwal = id mitra dari alamat (?id=...), atau null kalau dibuka biasa.
  */
-export default function VerifikasiPage() {
+function IsiHalamanVerifikasi({ idAwal }) {
   const { state, dispatch } = useBioRoute();
   const { daftarMitra, kategoriMaterial, jalurPemanfaatan } = state;
   // State tampilan saja (bukan data): tab, pencarian, urutan, halaman, mitra terpilih, dan modal tolak.
   const [tab, setTab] = useState(STATUS_VERIFIKASI.MENUNGGU);
   const [kataKunci, setKataKunci] = useState('');
   const [urutan, setUrutan] = useState('terbaru');
-  const [halaman, setHalaman] = useState(1);
-  const [idTerpilih, setIdTerpilih] = useState(null);
+  // Mulai dari halaman tempat mitra idAwal berada di tab Menunggu (urutan terbaru).
+  const [halaman, setHalaman] = useState(() =>
+    halamanUntuk(
+      saringMitra(daftarMitra, { status: STATUS_VERIFIKASI.MENUNGGU, kataKunci: '', urutan: 'terbaru' }),
+      (mitra) => mitra.id === idAwal,
+      PER_HALAMAN
+    )
+  );
+  const [idTerpilih, setIdTerpilih] = useState(idAwal);
   const [modalTolakTerbuka, setModalTolakTerbuka] = useState(false);
   // Toast feedback
   const { toast, tampilkanToast } = useToast();
@@ -506,4 +514,13 @@ export default function VerifikasiPage() {
       </div>
     </div>
   );
+}
+
+/**
+ * Halaman Verifikasi Mitra. Membaca ?id= dari alamat (tombol Tinjau di Dashboard).
+ * key membuat isi halaman dimulai ulang setiap id berubah, supaya mitra yang terbuka selalu sesuai alamat.
+ */
+export default function VerifikasiPage() {
+  const idDariUrl = useSearchParams().get('id');
+  return <IsiHalamanVerifikasi key={idDariUrl} idAwal={idDariUrl} />;
 }

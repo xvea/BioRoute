@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   Scale,
   ShieldCheck,
@@ -31,7 +32,7 @@ import {
   batchTerbaru,
   pengolahUntukJalur,
 } from '@/lib/hitung';
-import { saringBatch, ambilHalaman } from '@/lib/tabel';
+import { saringBatch, ambilHalaman, halamanUntuk } from '@/lib/tabel';
 import ModalAlasan from '@/components/ui/ModalAlasan';
 // Jumlah baris tabel per halaman.
 const PER_HALAMAN = 5;
@@ -39,15 +40,19 @@ const PER_HALAMAN = 5;
 const FILTER_AWAL = { kataKunci: '', status: '', kategoriId: '', jalurId: '' };
 
 /**
- * Halaman Batch Material (W3): daftar batch, filter, pagination, dan detail batch dari state BioRoute.
+ * Isi halaman Batch Material (W3): daftar batch, filter, pagination, dan detail batch dari state BioRoute.
+ * kodeAwal = kode batch dari alamat (?kode=...), atau null kalau dibuka biasa.
  */
-export default function BatchPage() {
+function IsiHalamanBatch({ kodeAwal }) {
   const { state, dispatch } = useBioRoute();
   const { daftarBatch, daftarMitra, kategoriMaterial, jalurPemanfaatan } = state;
   // State tampilan saja (bukan data): filter, halaman, dan batch yang sedang dipilih.
   const [filter, setFilter] = useState(FILTER_AWAL);
-  const [halaman, setHalaman] = useState(1);
-  const [kodeTerpilih, setKodeTerpilih] = useState(null);
+  // Mulai dari halaman tempat batch kodeAwal berada (fungsi di dalam useState hanya dijalankan sekali).
+  const [halaman, setHalaman] = useState(() =>
+    halamanUntuk(batchTerbaru(daftarBatch, daftarBatch.length), (batch) => batch.kode === kodeAwal, PER_HALAMAN)
+  );
+  const [kodeTerpilih, setKodeTerpilih] = useState(kodeAwal);
   // State untuk keputusan admin: pengolah yang dipilih dan modal alasan.
   const [pengolahDipilih, setPengolahDipilih] = useState(null);
   const [jenisModal, setJenisModal] = useState(null); // null | 'revisi' | 'tolak'
@@ -690,4 +695,12 @@ export default function BatchPage() {
       </div>
     </div>
   );
+}
+
+/**
+ * Halaman Batch Material. Membaca ?kode= dari alamat (tombol Detail di Dashboard). key membuat isi halaman dimulai ulang setiap kode berubah, supaya batch yang terbuka selalu sesuai alamat.
+ */
+export default function BatchPage() {
+  const kodeDariUrl = useSearchParams().get('kode');
+  return <IsiHalamanBatch key={kodeDariUrl} kodeAwal={kodeDariUrl} />;
 }
