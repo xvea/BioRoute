@@ -64,3 +64,12 @@ export function saringMitra(daftarMitra, filter) {
     return filter.urutan === 'terlama' ? -selisih : selisih;
   });
 }
+
+/**
+ * Nomor halaman tempat item pertama yang cocok berada. Kalau tidak ada yang cocok, kembali ke halaman 1.
+ */
+export function halamanUntuk(daftar, cocok, perHalaman) {
+  const indeks = daftar.findIndex(cocok);
+  if (indeks === -1) return 1;
+  return Math.floor(indeks / perHalaman) + 1;
+}
