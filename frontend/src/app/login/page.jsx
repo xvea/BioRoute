@@ -3,27 +3,14 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import {
-  Mail,
-  Lock,
-  Eye,
-  EyeOff,
-  MapPin,
-  Loader2,
-  AlertCircle,
-  Check,
-  ArrowRight,
-} from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, MapPin, Loader2, AlertCircle, Check, ArrowRight } from 'lucide-react';
 
 /**
  * Topographical Contour Overlay (Subtle organic background vector)
  */
 function TopoContourBackground() {
   return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-15"
-    >
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-15">
       <svg
         className="w-full h-full object-cover scale-125"
         viewBox="0 0 500 700"
@@ -178,9 +165,7 @@ export default function AdminLoginPage() {
     } catch (err) {
       // Error State
       setStatus('error');
-      setErrorMessage(
-        err?.message || 'Terjadi kesalahan sistem saat menghubungi server otentikasi.'
-      );
+      setErrorMessage(err?.message || 'Terjadi kesalahan sistem saat menghubungi server otentikasi.');
     }
   };
 
@@ -196,11 +181,8 @@ export default function AdminLoginPage() {
     <main className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-white font-sans antialiased">
       {/* Centerpiece: Split Two-Column Authentication Card */}
       <section className="max-w-4xl w-full rounded-3xl overflow-hidden border border-[#E5EAE7] shadow-xl grid grid-cols-1 md:grid-cols-2 bg-white">
-        
-        {/* ========================================================= */}
-        {/* LEFT PANEL: BRANDING & OPERATIONAL CONTEXT                */}
-        {/* ========================================================= */}
-        <article className="relative bg-[#104D38] p-8 sm:p-10 flex flex-col justify-between text-white overflow-hidden min-h-[460px] md:min-h-[580px]">
+        {/* LEFT PANEL: BRANDING & OPERATIONAL CONTEXT */}
+        <article className="relative bg-[#104D38] p-8 sm:p-10 flex flex-col justify-between text-white overflow-hidden min-h-115 md:min-h-145">
           {/* Subtle Organic Topographical Contour Vector Overlay */}
           <TopoContourBackground />
 
@@ -219,11 +201,9 @@ export default function AdminLoginPage() {
                 />
               </div>
               <div>
-                <h1 className="text-xl font-bold tracking-tight text-white leading-tight">
-                  BioRoute Admin
-                </h1>
+                <h1 className="text-xl font-bold tracking-tight text-white leading-tight">BioRoute Admin</h1>
                 <p className="text-[10px] sm:text-xs font-semibold text-white/70 uppercase tracking-widest mt-0.5">
-                  SISTEM AGREGASI MATERIAL ORGANIK
+                  PENYALURAN RESIDU PANGAN ORGANIK
                 </p>
               </div>
             </div>
@@ -235,70 +215,47 @@ export default function AdminLoginPage() {
 
             {/* Description */}
             <p className="text-sm text-white/80 leading-relaxed mt-4">
-              Infrastruktur tata kelola terintegrasi untuk verifikasi mitra sumber, pengawasan alokasi residu, dan validasi batch di Banyumas Raya.
+              Verifikasi mitra, persetujuan batch residu, dan laporan penyaluran ke jalur kompos dan BSF / maggot.
             </p>
           </header>
 
           {/* Bottom Section */}
           <footer className="relative z-10 mt-8 pt-6 border-t border-white/15">
-            {/* Location Identifier */}
-            <div className="flex items-center justify-between gap-2 text-xs">
-              <div className="flex items-center gap-1.5 text-white/95 font-medium">
-                <MapPin className="w-4 h-4 text-[#B7D76A] shrink-0" aria-hidden="true" />
-                <span>Hub Operasional Purwokerto</span>
-              </div>
-              <span className="font-mono text-[11px] bg-white/10 px-2 py-0.5 rounded text-white/90 border border-white/15 tracking-wide">
-                Kode: 33.02.PWK
-              </span>
+            {/* Lokasi konteks proyek */}
+            <div className="flex items-center gap-1.5 text-xs text-white/95 font-medium">
+              <MapPin className="w-4 h-4 text-[#B7D76A] shrink-0" aria-hidden="true" />
+              <span>Purwokerto, Kabupaten Banyumas</span>
             </div>
 
-            {/* 2 Grid Cards / Metrics */}
+            {/* Dua kartu ringkasan: isinya sesuai scope MVP */}
             <div className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-3.5 mt-4 grid grid-cols-2 gap-3">
-              {/* Metric 1 */}
               <div>
-                <span className="text-xs text-white/70 block leading-tight">
-                  Cakupan Wilayah
-                </span>
-                <span className="font-bold text-sm text-white block mt-1 leading-tight">
-                  27 Kecamatan
-                </span>
-                <span className="text-[11px] text-white/60 block mt-0.5">
-                  Kabupaten Banyumas
-                </span>
+                <span className="text-xs text-white/70 block leading-tight">Jalur pemanfaatan</span>
+                <span className="font-bold text-sm text-white block mt-1 leading-tight">Kompos &amp; BSF / Maggot</span>
+                <span className="text-[11px] text-white/60 block mt-0.5">Diatur di menu Pengaturan</span>
               </div>
 
-              {/* Metric 2 */}
               <div className="border-l border-white/10 pl-3">
-                <span className="text-xs text-white/70 block leading-tight">
-                  Tipe Pemrosesan
-                </span>
-                <span className="font-bold text-sm text-white block mt-1 leading-tight">
-                  Kompos &amp; BSF
-                </span>
-                <span className="text-[11px] text-white/60 block mt-0.5">
-                  Fasilitas Terdaftar
-                </span>
+                <span className="text-xs text-white/70 block leading-tight">Pengguna mitra</span>
+                <span className="font-bold text-sm text-white block mt-1 leading-tight">Sumber &amp; Pengolah</span>
+                <span className="text-[11px] text-white/60 block mt-0.5">Lewat aplikasi mobile</span>
               </div>
             </div>
           </footer>
         </article>
 
-        {/* ========================================================= */}
-        {/* RIGHT PANEL: AUTHENTICATION FORM                          */}
-        {/* ========================================================= */}
+        {/* RIGHT PANEL: AUTHENTICATION FORM */}
         <section className="bg-white p-8 sm:p-10 flex flex-col justify-between">
           <div>
             {/* Header: Chip Badge & Titles */}
             <header>
               <div className="inline-flex items-center gap-1.5 bg-[#EAF5F0] text-[#16805D] text-xs font-medium px-3 py-1 rounded-full mb-3">
                 <span className="text-xs leading-none">●</span>
-                <span>Portal Terotentikasi</span>
+                <span>Khusus Admin</span>
               </div>
-              <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">
-                Masuk sebagai Admin
-              </h2>
+              <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">Masuk sebagai Admin</h2>
               <p className="text-xs text-[#66736C] mt-1 mb-6">
-                Kelola verifikasi mitra dan alokasi residu organik wilayah Purwokerto
+                Kelola verifikasi mitra, batch residu, laporan, dan pengaturan.
               </p>
             </header>
 
@@ -311,21 +268,18 @@ export default function AdminLoginPage() {
                 <div className="w-12 h-12 rounded-full bg-[#16805D] text-white flex items-center justify-center mx-auto mb-3 shadow-sm">
                   <Check className="w-6 h-6 stroke-[2.5]" aria-hidden="true" />
                 </div>
-                <h3 className="text-base font-bold text-[#17231D]">
-                  Otentikasi Berhasil
-                </h3>
+                <h3 className="text-base font-bold text-[#17231D]">Otentikasi Berhasil</h3>
                 <p className="text-xs text-[#66736C] mt-1.5 leading-relaxed">
-                  Selamat datang, <strong className="text-[#17231D]">{authenticatedUser?.name}</strong>. Mengarahkan sesi ke panel kendali wilayah Banyumas...
+                  Selamat datang, <strong className="text-[#17231D]">{authenticatedUser?.name}</strong>.
                 </p>
                 <div className="mt-4 pt-3 border-t border-[#16805D]/15 flex items-center justify-center gap-2 text-xs text-[#16805D] font-medium">
                   <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
-                  <span>Membuka Dashboard Operasional...</span>
+                  <span>Membuka Dashboard...</span>
                 </div>
               </div>
             ) : (
               /* Interactive Form */
               <form onSubmit={handleSubmit} noValidate className="space-y-4">
-                
                 {/* Robust Error Alert with Interactive Retry */}
                 {status === 'error' && (
                   <aside
@@ -352,10 +306,7 @@ export default function AdminLoginPage() {
 
                 {/* Email Input Field */}
                 <div>
-                  <label
-                    htmlFor="admin-email"
-                    className="text-xs font-semibold text-[#17231D] mb-1.5 block"
-                  >
+                  <label htmlFor="admin-email" className="text-xs font-semibold text-[#17231D] mb-1.5 block">
                     Email Admin
                   </label>
                   <div className="relative">
@@ -394,10 +345,7 @@ export default function AdminLoginPage() {
 
                 {/* Password Input Field */}
                 <div>
-                  <label
-                    htmlFor="admin-password"
-                    className="text-xs font-semibold text-[#17231D] mb-1.5 block"
-                  >
+                  <label htmlFor="admin-password" className="text-xs font-semibold text-[#17231D] mb-1.5 block">
                     Kata Sandi
                   </label>
                   <div className="relative">
@@ -414,9 +362,7 @@ export default function AdminLoginPage() {
                       placeholder="••••••••"
                       aria-required="true"
                       aria-invalid={Boolean(validationErrors.password)}
-                      aria-describedby={
-                        validationErrors.password ? 'password-error' : undefined
-                      }
+                      aria-describedby={validationErrors.password ? 'password-error' : undefined}
                       className={`w-full pl-9 pr-10 py-2.5 bg-[#F4F6F5] text-sm text-[#17231D] placeholder-[#66736C] rounded-xl border transition-all focus:outline-none focus:ring-2 ${
                         validationErrors.password
                           ? 'border-[#C2413B] focus:border-[#C2413B] focus:ring-[#C2413B]'
@@ -448,7 +394,7 @@ export default function AdminLoginPage() {
                   )}
                 </div>
 
-                {/* Helper Row: Remember Me & Forgot Password */}
+                {/* Helper Row: Remember Me */}
                 <div className="flex items-center justify-between pt-1">
                   <label
                     htmlFor="remember-session"
@@ -462,21 +408,8 @@ export default function AdminLoginPage() {
                       onChange={handleInputChange}
                       className="w-4 h-4 rounded text-[#176B4D] accent-[#176B4D] border-[#E5EAE7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] focus-visible:ring-offset-1 cursor-pointer transition-colors"
                     />
-                    <span className="group-hover:text-black transition-colors">
-                      Ingat sesi ini
-                    </span>
+                    <span className="group-hover:text-black transition-colors">Ingat sesi ini</span>
                   </label>
-
-                  <a
-                    href="#forgot-password"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      alert('Untuk pemulihan akun administrator, hubungi Unit TI DLH Banyumas di hotline operasional.');
-                    }}
-                    className="text-xs font-medium text-[#176B4D] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] focus-visible:ring-offset-1 rounded transition-colors"
-                  >
-                    Lupa kata sandi?
-                  </a>
                 </div>
 
                 {/* Submit Action Button */}
@@ -505,15 +438,10 @@ export default function AdminLoginPage() {
 
           {/* Footer Notice */}
           <footer className="pt-6 mt-6 border-t border-[#E5EAE7]">
-            <p className="text-[11px] font-medium text-[#66736C] text-center">
-              Sistem Terkonsolidasi Dinas Lingkungan Hidup &amp; Pengolah Organik Banyumas • v2.4
-            </p>
-            <p className="text-[10px] text-[#66736C]/80 text-center mt-1">
-              Akses terbatas untuk personil verifikasi dan administrator operasional BioRoute.
-            </p>
+            <p className="text-[11px] font-medium text-[#66736C] text-center">BioRoute - versi beta</p>
+            <p className="text-[10px] text-[#66736C]/80 text-center mt-1">Akses khusus administrator BioRoute.</p>
           </footer>
         </section>
-
       </section>
     </main>
   );

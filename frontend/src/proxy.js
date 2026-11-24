@@ -35,7 +35,7 @@ function isValidJWT(token) {
  * - Enforces authentication on protected routes (/(main)/* such as /dashboard)
  * - Redirects authenticated users from /login and / to /dashboard
  */
-export function middleware(request) {
+export function proxy(request) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get('token')?.value;
   const hasValidToken = isValidJWT(token);
@@ -48,7 +48,7 @@ export function middleware(request) {
     pathname.startsWith('/laporan') ||
     pathname.startsWith('/pengaturan');
 
-  // 1. If accessing protected routes without valid token -> redirect to /login
+  // If accessing protected routes without valid token -> redirect to /login
   if (isProtectedRoute && !hasValidToken) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('redirect', pathname);
@@ -60,14 +60,12 @@ export function middleware(request) {
     return response;
   }
 
-  // 2. Handle Root / Route: Redirect based on authentication state
+  // Handle Root / Route: Redirect based on authentication state
   if (pathname === '/') {
-    return NextResponse.redirect(
-      new URL(hasValidToken ? '/dashboard' : '/login', request.url)
-    );
+    return NextResponse.redirect(new URL(hasValidToken ? '/dashboard' : '/login', request.url));
   }
 
-  // 3. If authenticated user visits /login -> redirect to /dashboard
+  // If authenticated user visits /login -> redirect to /dashboard
   if (pathname === '/login' && hasValidToken) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }

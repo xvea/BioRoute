@@ -1,30 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import {
-  LayoutGrid,
-  ShieldCheck,
-  Package,
-  BarChart2,
-  Settings,
-  LogOut,
-  Search,
-  Calendar,
-  ChevronDown,
-  Bell,
-  User,
-  Menu,
-  X,
-} from 'lucide-react';
+import { LayoutGrid, ShieldCheck, Package, BarChart2, Settings, LogOut, Info, Menu, X } from 'lucide-react';
+import { BioRouteProvider, useBioRoute } from '@/context/BioRouteContext';
+import { mitraMenunggu } from '@/lib/hitung';
 
-export default function MainLayout({ children }) {
+/**
+ * Kerangka halaman admin: sidebar, topbar, dan area konten.
+ */
+function AdminShell({ children }) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  // AdminShell berada di dalam <BioRouteProvider>, jadi boleh membaca state bersama.
+  const { state } = useBioRoute();
+  const jumlahMitraMenunggu = mitraMenunggu(state.daftarMitra).length;
 
   const navigationItems = [
     {
@@ -36,7 +31,7 @@ export default function MainLayout({ children }) {
       name: 'Verifikasi Mitra',
       href: '/verifikasi',
       icon: ShieldCheck,
-      badge: '3',
+      badge: jumlahMitraMenunggu,
       badgeColor: 'bg-red-100 text-red-600',
     },
     {
@@ -56,6 +51,14 @@ export default function MainLayout({ children }) {
     },
   ];
 
+  /**
+   * true kalau menu sedang dibuka. Dashboard harus sama persis, menu lain cukup diawali alamatnya.
+   */
+  const apakahAktif = (href) => pathname === href || (href !== '/dashboard' && pathname?.startsWith(href));
+
+  // Menu yang sedang dibuka, dipakai untuk judul di topbar.
+  const menuAktif = navigationItems.find((item) => apakahAktif(item.href));
+
   const handleLogout = async () => {
     if (isLoggingOut) return;
     setIsLoggingOut(true);
@@ -72,9 +75,8 @@ export default function MainLayout({ children }) {
 
   return (
     <div className="min-h-screen bg-white flex flex-col md:flex-row font-sans text-[#17231D]">
-      
       {/* MOBILE HEADER */}
-      <div className="md:hidden bg-white border-b border-[#E5EAE7] px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+      <div className="print:hidden md:hidden bg-white border-b border-[#E5EAE7] px-4 py-3 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-xl bg-[#104D38] flex items-center justify-center p-1.5 shrink-0">
             <Image
@@ -85,9 +87,7 @@ export default function MainLayout({ children }) {
               className="w-4 h-4 object-contain brightness-0 invert"
             />
           </div>
-          <span className="font-bold text-base text-[#17231D] tracking-tight">
-            BioRoute
-          </span>
+          <span className="font-bold text-base text-[#17231D] tracking-tight">BioRoute</span>
           <span className="bg-[#F4F6F5] text-[#17231D] text-[10px] font-semibold px-2 py-0.5 rounded border border-[#E5EAE7]">
             Admin
           </span>
@@ -119,7 +119,7 @@ export default function MainLayout({ children }) {
 
       {/* SIDEBAR NAVIGATION */}
       <aside
-        className={`fixed md:sticky top-0 left-0 z-50 h-screen w-64 bg-white border-r border-[#E5EAE7] flex flex-col justify-between transition-transform duration-300 ease-in-out md:translate-x-0 ${
+        className={`print:hidden fixed md:sticky top-0 left-0 z-50 h-screen w-64 bg-white border-r border-[#E5EAE7] flex flex-col justify-between transition-transform duration-300 ease-in-out md:translate-x-0 ${
           mobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:shadow-none'
         }`}
       >
@@ -137,9 +137,7 @@ export default function MainLayout({ children }) {
               />
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-lg text-[#17231D] tracking-tight">
-                BioRoute
-              </span>
+              <span className="font-bold text-lg text-[#17231D] tracking-tight">BioRoute</span>
               <span className="bg-[#F4F6F5] text-[#17231D] text-xs font-semibold px-2 py-0.5 rounded border border-[#E5EAE7]">
                 Admin
               </span>
@@ -153,7 +151,7 @@ export default function MainLayout({ children }) {
             </h2>
             <ul className="space-y-1">
               {navigationItems.map((item) => {
-                const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname?.startsWith(item.href));
+                const isActive = apakahAktif(item.href);
                 const IconComponent = item.icon;
 
                 return (
@@ -176,10 +174,9 @@ export default function MainLayout({ children }) {
                         />
                         <span>{item.name}</span>
                       </div>
-                      {item.badge && (
-                        <span
-                          className={`text-xs px-2 py-0.5 rounded-full font-bold leading-none ${item.badgeColor}`}
-                        >
+                      {/* > 0 supaya angka 0 tidak ikut tampil */}
+                      {item.badge > 0 && (
+                        <span className={`text-xs px-2 py-0.5 rounded-full font-bold leading-none ${item.badgeColor}`}>
                           {item.badge}
                         </span>
                       )}
@@ -199,12 +196,8 @@ export default function MainLayout({ children }) {
                 AD
               </div>
               <div className="min-w-0 truncate">
-                <p className="text-sm font-semibold text-[#17231D] truncate leading-tight">
-                  Admin Banyumas
-                </p>
-                <p className="text-xs text-[#66736C] truncate mt-0.5">
-                  admin@bioroute.id
-                </p>
+                <p className="text-sm font-semibold text-[#17231D] truncate leading-tight">Admin Banyumas</p>
+                <p className="text-xs text-[#66736C] truncate mt-0.5">admin@bioroute.id</p>
               </div>
             </div>
             <button
@@ -223,58 +216,39 @@ export default function MainLayout({ children }) {
 
       {/* MAIN CONTENT AREA */}
       <div className="flex-1 flex flex-col min-w-0 bg-white">
-        
         {/* Top Header Bar */}
-        <header className="sticky top-0 z-30 h-16 bg-white border-b border-[#E5EAE7] px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+        <header className="print:hidden sticky top-0 z-30 h-16 bg-white border-b border-[#E5EAE7] px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
           <nav aria-label="Breadcrumb" className="min-w-0">
             <p className="text-xs text-[#66736C] truncate">
-              Ringkasan Sistem / <strong className="font-semibold text-[#17231D]">Console Wilayah</strong>
+              BioRoute Admin / <strong className="font-semibold text-[#17231D]">{menuAktif?.name}</strong>
             </p>
           </nav>
 
-          <div className="flex items-center gap-3">
-            <div className="relative hidden sm:block w-52 md:w-64">
-              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#66736C]">
-                <Search className="w-4 h-4" aria-hidden="true" />
-              </span>
-              <input
-                type="text"
-                placeholder="Cari batch, mitra..."
-                aria-label="Cari batch atau mitra"
-                className="w-full pl-9 pr-3.5 py-1.5 bg-[#F4F6F5] text-xs text-[#17231D] placeholder-[#66736C] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D] focus:border-[#176B4D] transition-all"
-              />
-            </div>
-
-            <div className="flex items-center gap-1.5 bg-[#F4F6F5] border border-[#E5EAE7] px-3 py-1.5 rounded-xl text-xs font-medium text-[#17231D] cursor-pointer hover:bg-[#EAF5F0] transition-colors">
-              <Calendar className="w-3.5 h-3.5 text-[#176B4D]" aria-hidden="true" />
-              <span>Nov 2026</span>
-              <ChevronDown className="w-3.5 h-3.5 text-[#66736C]" aria-hidden="true" />
-            </div>
-
-            <button
-              type="button"
-              aria-label="Notifikasi operasional"
-              className="relative p-2 rounded-xl text-[#66736C] hover:text-[#17231D] hover:bg-[#F4F6F5] border border-transparent hover:border-[#E5EAE7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] transition-colors cursor-pointer"
-            >
-              <Bell className="w-4 h-4" aria-hidden="true" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#C2413B] rounded-full ring-2 ring-white" />
-            </button>
-
-            <div
-              className="w-8 h-8 rounded-full bg-[#176B4D]/10 text-[#176B4D] border border-[#176B4D]/20 flex items-center justify-center font-bold text-xs"
-              aria-label="Profil Akun"
-            >
-              <User className="w-4 h-4" aria-hidden="true" />
-            </div>
-          </div>
+          {/* Pengingat jujur saat demo: data masih di memori browser, belum ada backend */}
+          <p className="hidden sm:inline-flex items-center gap-1.5 bg-[#F4F6F5] border border-[#E5EAE7] px-3 py-1.5 rounded-xl text-xs text-[#66736C]">
+            <Info className="w-3.5 h-3.5 text-[#176B4D] shrink-0" aria-hidden="true" />
+            <span>Data contoh · kembali ke awal saat halaman dimuat ulang</span>
+          </p>
         </header>
 
         {/* Dynamic Page Views */}
         <main className="flex-1 bg-white p-4 sm:p-6 lg:p-8">
-          {children}
+          {/* Suspense wajib karena halaman Batch & Verifikasi membaca alamat (useSearchParams) */}
+          <Suspense>{children}</Suspense>
         </main>
       </div>
-
     </div>
+  );
+}
+
+/**
+ * Layout utama halaman admin. BioRouteProvider dipasang paling luar supaya
+ * AdminShell (sidebar, topbar) dan semua halaman bisa memakai useBioRoute().
+ */
+export default function MainLayout({ children }) {
+  return (
+    <BioRouteProvider>
+      <AdminShell>{children}</AdminShell>
+    </BioRouteProvider>
   );
 }

@@ -1,491 +1,293 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   Scale,
   ShieldCheck,
   Search,
-  Calendar,
   Download,
-  RefreshCw,
   Clock,
-  Camera,
   Info,
-  FileText,
-  CheckSquare,
-  CheckCircle2,
-  AlertTriangle,
   ChevronLeft,
   ChevronRight,
-  Check,
-  Building2,
   Archive,
+  Check,
+  CheckSquare,
+  FileText,
+  XCircle,
 } from 'lucide-react';
+import StatusBadge from '@/components/ui/StatusBadge';
+import RouteBadge from '@/components/ui/RouteBadge';
+import Toast from '@/components/ui/Toast';
+import useToast from '@/hooks/useToast';
+import { useBioRoute } from '@/context/BioRouteContext';
+import { JENIS_AKSI } from '@/context/BioRouteReducer';
+import { STATUS_BATCH } from '@/lib/constants';
+import { formatKg, formatTanggalJam } from '@/lib/format';
+import { cariById, totalBeratDilaporkan, hitungBatchPerStatus, batchTerbaru, pengolahUntukJalur } from '@/lib/hitung';
+import { saringBatch, ambilHalaman, halamanUntuk } from '@/lib/tabel';
+import { csvBatch, namaFileUnduhan } from '@/lib/csv';
+import { unduhCsv } from '@/lib/unduh';
+import ModalAlasan from '@/components/ui/ModalAlasan';
+// Jumlah baris tabel per halaman.
+const PER_HALAMAN = 5;
+// Filter awal: teks kosong berarti "semua".
+const FILTER_AWAL = { kataKunci: '', status: '', kategoriId: '', jalurId: '' };
 
 /**
- * Status Badge for Batches
+ * Isi halaman Batch Material (W3): daftar batch, filter, pagination, dan detail batch dari state BioRoute.
+ * kodeAwal = kode batch dari alamat (?kode=...), atau null kalau dibuka biasa.
  */
-function BatchStatusBadge({ status }) {
-  const statusStyles = {
-    Tersedia: 'bg-[#EAF5F0] text-[#16805D] border-[#16805D]/20',
-    Selesai: 'bg-[#EAF5F0] text-[#16805D] border-[#16805D]/20',
-    Diproses: 'bg-[#FEF3C7] text-[#B7791F] border-[#B7791F]/20',
-    Dijadwalkan: 'bg-[#EFF6FF] text-[#2563EB] border-[#2563EB]/20',
-    'Perlu revisi': 'bg-[#FEE2E2] text-[#C2413B] border-[#C2413B]/20',
-  };
-
-  const style = statusStyles[status] || 'bg-[#F4F6F5] text-[#66736C] border-[#E5EAE7]';
-
-  return (
-    <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${style}`}
-    >
-      {status}
-    </span>
+function IsiHalamanBatch({ kodeAwal }) {
+  const { state, dispatch } = useBioRoute();
+  const { daftarBatch, daftarMitra, kategoriMaterial, jalurPemanfaatan } = state;
+  // State tampilan saja (bukan data): filter, halaman, dan batch yang sedang dipilih.
+  const [filter, setFilter] = useState(FILTER_AWAL);
+  // Mulai dari halaman tempat batch kodeAwal berada (fungsi di dalam useState hanya dijalankan sekali).
+  const [halaman, setHalaman] = useState(() =>
+    halamanUntuk(batchTerbaru(daftarBatch, daftarBatch.length), (batch) => batch.kode === kodeAwal, PER_HALAMAN)
   );
-}
-
-/**
- * Route Badge (Kompos vs BSF)
- */
-function RouteBadge({ jalur }) {
-  const isKompos = jalur === 'Kompos';
-  return (
-    <span
-      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
-        isKompos
-          ? 'bg-[#EAF5F0] text-[#16805D] border border-[#16805D]/15'
-          : 'bg-[#EFF6FF] text-[#2563EB] border border-[#2563EB]/15'
-      }`}
-    >
-      {jalur}
-    </span>
-  );
-}
-
-/**
- * Pulse Skeleton matching exact layout dimensions
- */
-function BatchSkeleton() {
-  return (
-    <div className="space-y-6 animate-pulse bg-white" aria-busy="true" aria-label="Memuat data batch material">
-      {/* Top Header Skeleton */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="space-y-2">
-          <div className="h-5 w-72 bg-gray-200 rounded-full" />
-          <div className="h-7 w-64 bg-gray-200 rounded-lg" />
-          <div className="h-4 w-96 bg-gray-100 rounded-md" />
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="h-16 w-36 bg-gray-200 rounded-2xl" />
-          <div className="h-16 w-36 bg-gray-200 rounded-2xl" />
-        </div>
-      </div>
-
-      {/* Filter Row Skeleton */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
-        {[1, 2, 3, 4, 5].map((i) => (
-          <div key={i} className="h-10 bg-gray-100 rounded-xl" />
-        ))}
-      </div>
-
-      {/* Grid 7:5 Skeleton */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div className="lg:col-span-7 p-6 rounded-2xl bg-white border border-[#E5EAE7] space-y-4">
-          <div className="h-6 w-48 bg-gray-200 rounded" />
-          <div className="space-y-3 pt-2">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-14 w-full bg-gray-100 rounded-xl" />
-            ))}
-          </div>
-        </div>
-        <div className="lg:col-span-5 p-6 rounded-2xl bg-white border border-[#E5EAE7] space-y-5">
-          <div className="h-7 w-48 bg-gray-200 rounded" />
-          <div className="h-24 w-full bg-gray-100 rounded-xl" />
-          <div className="h-32 w-full bg-gray-100 rounded-xl" />
-          <div className="h-28 w-full bg-gray-100 rounded-xl" />
-          <div className="h-10 w-full bg-gray-200 rounded-xl" />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default function BatchPage() {
-  const [batches, setBatches] = useState([]);
-  const [selectedBatchId, setSelectedBatchId] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [retryCount, setRetryCount] = useState(0);
-
-  // Filter States
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('Semua Status');
-  const [categoryFilter, setCategoryFilter] = useState('Semua Kategori');
-  const [routeFilter, setRouteFilter] = useState('Semua Jalur');
-  const [dateRange, setDateRange] = useState('26 Nov 2026');
-
-  // Selected processor for offering in Section 5
-  const [selectedProcessorId, setSelectedProcessorId] = useState('PGL-01');
-
+  const [kodeTerpilih, setKodeTerpilih] = useState(kodeAwal);
+  // State untuk keputusan admin: pengolah yang dipilih dan modal alasan.
+  const [pengolahDipilih, setPengolahDipilih] = useState(null);
+  const [jenisModal, setJenisModal] = useState(null); // null | 'revisi' | 'tolak'
   // Toast feedback
-  const [toast, setToast] = useState(null);
+  const { toast, tampilkanToast } = useToast();
 
   /**
-   * Fetch batch records dynamically from /data/batch-material.json
+   * Mengubah satu bagian filter, lalu kembali ke halaman 1.
    */
-  useEffect(() => {
-    let active = true;
-
-    async function fetchBatches() {
-      try {
-        const response = await fetch('/data/batch-material.json', {
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`Gagal memuat batch material (HTTP ${response.status})`);
-        }
-
-        const data = await response.json();
-        if (active) {
-          setBatches(Array.isArray(data) ? data : []);
-          if (Array.isArray(data) && data.length > 0) {
-            setSelectedBatchId(data[0].id);
-          }
-          setIsLoading(false);
-          setError(null);
-        }
-      } catch (err) {
-        if (active) {
-          console.error('Fetch batch error:', err);
-          setError(err?.message || 'Terjadi gangguan saat mengambil data batch material.');
-          setIsLoading(false);
-        }
-      }
-    }
-
-    fetchBatches();
-
-    return () => {
-      active = false;
-    };
-  }, [retryCount]);
-
-  /**
-   * Functional Retry Action
-   */
-  const handleRetry = () => {
-    setIsLoading(true);
-    setError(null);
-    setRetryCount((prev) => prev + 1);
+  const ubahFilter = (nama, nilai) => {
+    setFilter((sebelumnya) => ({ ...sebelumnya, [nama]: nilai }));
+    setHalaman(1);
   };
 
   /**
-   * Reset All Filters to Defaults
+   * Mengembalikan semua filter ke awal.
    */
   const handleResetFilters = () => {
-    setSearchQuery('');
-    setStatusFilter('Semua Status');
-    setCategoryFilter('Semua Kategori');
-    setRouteFilter('Semua Jalur');
-    setDateRange('26 Nov 2026');
+    setFilter(FILTER_AWAL);
+    setHalaman(1);
+  };
+  // Urutkan dari yang paling baru, saring, lalu potong per halaman.
+  const batchUrut = batchTerbaru(daftarBatch, daftarBatch.length);
+  const hasilSaring = saringBatch(batchUrut, daftarMitra, filter);
+  const halamanTabel = ambilHalaman(hasilSaring, halaman, PER_HALAMAN);
+  // Batch terpilih harus terlihat di halaman ini; kalau tidak ada, pakai baris pertama halaman ini.
+  const batchTerpilih = halamanTabel.isi.find((batch) => batch.kode === kodeTerpilih) ?? halamanTabel.isi[0] ?? null;
+  const sumberTerpilih = batchTerpilih ? cariById(daftarMitra, batchTerpilih.sumberId) : null;
+  const pengolahTerpilih = batchTerpilih ? cariById(daftarMitra, batchTerpilih.pengolahId) : null;
+  // Nomor tombol halaman: [1, 2, 3, ...]
+  const nomorHalaman = Array.from({ length: halamanTabel.totalHalaman }, (_, i) => i + 1);
+  // Keputusan admin hanya untuk batch berstatus Diajukan.
+  const bisaDiputuskan = batchTerpilih?.status === STATUS_BATCH.DIAJUKAN;
+  const daftarPengolah = batchTerpilih ? pengolahUntukJalur(daftarMitra, batchTerpilih.jalurId) : [];
+  // pilihan pengolah dari batch lain tidak berlaku untuk batch ini
+  const pengolahValid = daftarPengolah.some((mitra) => mitra.id === pengolahDipilih);
+
+  /**
+   * Mengunduh CSV berisi semua batch hasil filter (semua halaman, bukan hanya 5 baris yang tampil).
+   */
+  const handleEksporCsv = () => {
+    if (hasilSaring.length === 0) {
+      tampilkanToast('warning', 'Tidak ada batch yang cocok dengan filter, jadi tidak ada yang diekspor.');
+      return;
+    }
+    unduhCsv(namaFileUnduhan('batch'), csvBatch(hasilSaring, { daftarMitra, kategoriMaterial, jalurPemanfaatan }));
+    tampilkanToast('success', `${hasilSaring.length} batch diekspor ke CSV.`);
   };
 
   /**
-   * Filtered Batches based on controls
+   * Menyetujui batch dan menawarkannya ke pengolah yang dipilih (status → Tersedia).
    */
-  const filteredBatches = useMemo(() => {
-    return batches.filter((batch) => {
-      // Search by Code or Source
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const idMatch = batch.id?.toLowerCase().includes(q);
-        const refMatch = batch.refId?.toLowerCase().includes(q);
-        const sourceMatch = batch.sumber?.toLowerCase().includes(q);
-        if (!idMatch && !refMatch && !sourceMatch) return false;
-      }
-
-      // Status Filter
-      if (statusFilter !== 'Semua Status' && batch.status !== statusFilter) {
-        return false;
-      }
-
-      // Category Filter
-      if (categoryFilter !== 'Semua Kategori' && batch.kategori !== categoryFilter) {
-        return false;
-      }
-
-      // Route Filter
-      if (routeFilter !== 'Semua Jalur' && batch.jalur !== routeFilter) {
-        return false;
-      }
-
-      return true;
+  const handleSetujui = () => {
+    if (!bisaDiputuskan || !pengolahValid) return;
+    const pengolah = cariById(daftarMitra, pengolahDipilih);
+    dispatch({
+      type: JENIS_AKSI.SETUJUI_BATCH,
+      payload: { kode: batchTerpilih.kode, pengolahId: pengolahDipilih, waktu: new Date().toISOString() },
     });
-  }, [batches, searchQuery, statusFilter, categoryFilter, routeFilter]);
-
-  // Selected Active Batch
-  const selectedBatch = useMemo(() => {
-    if (!batches.length) return null;
-    return batches.find((b) => b.id === selectedBatchId) || filteredBatches[0] || batches[0];
-  }, [batches, selectedBatchId, filteredBatches]);
-
-  /**
-   * Action: Approve & Offer to Processor
-   */
-  const handleApproveAndOffer = (batch) => {
-    const processor = batch.pengolahSekitar?.find((p) => p.id === selectedProcessorId) || batch.pengolahSekitar?.[0];
-    const processorName = processor?.nama || 'Pengolah Terpilih';
-
-    setBatches((prev) =>
-      prev.map((b) =>
-        b.id === batch.id ? { ...b, status: 'Diproses' } : b
-      )
-    );
-
-    setToast({
-      type: 'success',
-      message: `Batch ${batch.id} (${batch.berat}) berhasil disetujui & ditawarkan ke "${processorName}".`,
-    });
-    setTimeout(() => setToast(null), 4000);
+    setPengolahDipilih(null);
+    tampilkanToast('success', `Batch ${batchTerpilih.kode} disetujui dan ditawarkan ke ${pengolah.nama}.`);
   };
 
   /**
-   * Action: Request Revision
+   * Membuka modal alasan untuk 'revisi' atau 'tolak'.
    */
-  const handleRequestRevision = (batch) => {
-    setBatches((prev) =>
-      prev.map((b) =>
-        b.id === batch.id ? { ...b, status: 'Perlu revisi' } : b
-      )
-    );
-
-    setToast({
-      type: 'warning',
-      message: `Permintaan revisi manifest telah dikirimkan ke mitra sumber "${batch.sumber}".`,
-    });
-    setTimeout(() => setToast(null), 4000);
+  const bukaModal = (jenis) => {
+    setJenisModal(jenis);
   };
 
-  // 1. Loading State
-  if (isLoading) {
-    return <BatchSkeleton />;
-  }
-
-  // 2. Error State with Functional Retry Button
-  if (error) {
-    return (
-      <section
-        role="alert"
-        aria-live="assertive"
-        className="max-w-xl mx-auto my-12 p-8 rounded-2xl bg-white border border-red-200 shadow-sm text-center"
-      >
-        <div className="w-12 h-12 rounded-full bg-red-50 text-[#C2413B] flex items-center justify-center mx-auto mb-4">
-          <AlertTriangle className="w-6 h-6" aria-hidden="true" />
-        </div>
-        <h2 className="text-lg font-bold text-[#17231D]">
-          Gagal Memuat Data Batch Material
-        </h2>
-        <p className="text-xs text-[#66736C] mt-2 mb-6 leading-relaxed">
-          {error}
-        </p>
-        <button
-          type="button"
-          onClick={handleRetry}
-          className="inline-flex items-center gap-2 bg-[#176B4D] hover:bg-[#104D38] text-white px-5 py-2.5 rounded-xl text-xs font-semibold shadow-xs hover:shadow transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] cursor-pointer"
-        >
-          <RefreshCw className="w-3.5 h-3.5" aria-hidden="true" />
-          <span>Coba Lagi</span>
-        </button>
-      </section>
-    );
-  }
-
-  // Metrics KPI calculations
-  const totalVolumeKg = batches.reduce((acc, curr) => acc + (curr.beratAngka || 0), 0);
-  const openVerificationCount = batches.filter((b) => b.status === 'Tersedia' || b.status === 'Diproses').length;
+  /**
+   * Menutup modal tanpa menyimpan apa pun.
+   */
+  const tutupModal = () => {
+    setJenisModal(null);
+  };
+  /**
+   * Menerima alasan yang sudah valid dari ModalAlasan, dispatch sesuai jenis modal, lalu tutup modal.
+   */
+  const handleKirimAlasan = (alasan) => {
+    const waktu = new Date().toISOString();
+    if (jenisModal === 'revisi') {
+      dispatch({
+        type: JENIS_AKSI.MINTA_REVISI_BATCH,
+        payload: { kode: batchTerpilih.kode, alasan, waktu },
+      });
+      tampilkanToast('warning', `Permintaan revisi untuk ${batchTerpilih.kode} dikirim ke ${sumberTerpilih?.nama}.`);
+    } else {
+      dispatch({
+        type: JENIS_AKSI.TOLAK_BATCH,
+        payload: { kode: batchTerpilih.kode, alasan, waktu },
+      });
+      tampilkanToast('error', `Batch ${batchTerpilih.kode} ditolak.`);
+    }
+    setJenisModal(null);
+  };
 
   return (
     <div className="space-y-6 bg-white">
-      
       {/* Toast Alert Feedback */}
-      {toast && (
-        <aside
-          role="status"
-          aria-live="polite"
-          className={`fixed bottom-6 right-6 z-50 p-4 rounded-xl shadow-xl border flex items-center gap-3 text-xs font-medium max-w-md animate-fade-in ${
-            toast.type === 'success'
-              ? 'bg-[#EAF5F0] border-[#16805D]/20 text-[#16805D]'
-              : 'bg-amber-50 border-amber-200 text-[#B7791F]'
-          }`}
-        >
-          {toast.type === 'success' ? (
-            <CheckCircle2 className="w-5 h-5 shrink-0 text-[#16805D]" />
-          ) : (
-            <Info className="w-5 h-5 shrink-0 text-[#B7791F]" />
-          )}
-          <span className="leading-snug">{toast.message}</span>
-        </aside>
+      <Toast toast={toast} />
+
+      {/* Modal alasan (Minta revisi / Tolak) */}
+      {jenisModal && (
+        <ModalAlasan
+          judul={`${jenisModal === 'revisi' ? 'Minta revisi' : 'Tolak batch'} ${batchTerpilih?.kode}`}
+          keterangan={`Alasan ini dikirim ke ${sumberTerpilih?.nama} dan tampil di detail batch.`}
+          labelKirim={jenisModal === 'revisi' ? 'Kirim permintaan revisi' : 'Tolak batch'}
+          varian={jenisModal === 'revisi' ? 'peringatan' : 'bahaya'}
+          onBatal={tutupModal}
+          onKirim={handleKirimAlasan}
+        />
       )}
 
-      {/* ========================================================= */}
-      {/* 3. PAGE HEADER & METRIC KPI CARDS                         */}
-      {/* ========================================================= */}
+      {/* PAGE HEADER & METRIC KPI CARDS */}
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-1">
         <div>
-          {/* Top Meta Tag / Breadcrumb */}
-          <div className="flex items-center flex-wrap gap-1.5">
-            <span className="inline-flex items-center rounded-full uppercase text-[11px] font-semibold bg-[#F4F6F5] text-[#17231D] px-2.5 py-0.5 border border-[#E5EAE7]">
-              WILAYAH OPERASIONAL BANYUMAS
-            </span>
-            <span className="text-xs text-[#66736C]">
-              Pusat Distribusi Purwokerto
-            </span>
-          </div>
-
-          {/* Main Title & Subtitle */}
-          <h1 className="text-2xl font-bold text-[#17231D] tracking-tight mt-1">
-            Tata Kelola Batch Material
-          </h1>
+          <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">Batch Material</h1>
           <p className="text-sm text-[#66736C] mt-0.5">
-            Monitoring penimbangan, alokasi jalur sirkular, dan persetujuan pengolah di Purwokerto
+            Tinjau batch yang diajukan mitra sumber: setujui dan tawarkan ke pengolah, minta revisi, atau tolak.
           </p>
         </div>
 
         {/* Top Right Metric KPI Cards */}
         <div className="flex items-center gap-3 shrink-0">
-          {/* Card 1: Volume Aktif */}
+          {/* Card 1: Berat tercatat */}
           <article className="p-3.5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex items-center gap-3 min-w-[140px]">
             <div className="p-2 rounded-xl bg-[#EAF5F0] text-[#176B4D]">
               <Scale className="w-4 h-4" aria-hidden="true" />
             </div>
             <div>
               <p className="text-[10px] font-bold text-[#66736C] tracking-wider uppercase leading-tight">
-                VOLUME AKTIF
+                BERAT TERCATAT
               </p>
               <p className="text-xl font-bold text-[#17231D] leading-tight mt-0.5">
-                {totalVolumeKg} kg
+                {formatKg(totalBeratDilaporkan(daftarBatch))}
               </p>
             </div>
           </article>
 
-          {/* Card 2: Verifikasi Terbuka */}
+          {/* Card 2: Menunggu keputusan admin */}
           <article className="p-3.5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex items-center gap-3 min-w-[140px]">
             <div className="p-2 rounded-xl bg-[#EFF6FF] text-[#2563EB]">
               <ShieldCheck className="w-4 h-4" aria-hidden="true" />
             </div>
             <div>
               <p className="text-[10px] font-bold text-[#66736C] tracking-wider uppercase leading-tight">
-                VERIFIKASI TERBUKA
+                MENUNGGU KEPUTUSAN
               </p>
               <p className="text-xl font-bold text-[#17231D] leading-tight mt-0.5">
-                {openVerificationCount} batch
+                {hitungBatchPerStatus(daftarBatch, STATUS_BATCH.DIAJUKAN)} batch
               </p>
             </div>
           </article>
         </div>
       </section>
 
-      {/* ========================================================= */}
-      {/* 4. FILTER CONTROLS & ACTIVE CHIPS BAR                     */}
-      {/* ========================================================= */}
+      {/* FILTER CONTROLS & ACTIVE CHIPS BAR */}
       <section aria-label="Filter Kontrol Batch" className="space-y-3">
-        {/* Filter Inputs Row (5 Columns) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
-          {/* 1. Search Input */}
+        {/* Filter Inputs Row (4 Columns) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+          {/* Search Input */}
           <div className="relative">
             <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#66736C]">
               <Search className="w-4 h-4" aria-hidden="true" />
             </span>
             <input
               type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="BR-2611"
+              value={filter.kataKunci}
+              onChange={(e) => ubahFilter('kataKunci', e.target.value)}
+              placeholder="Cari kode atau sumber"
               aria-label="Cari kode atau nama sumber"
               className="w-full pl-9 pr-3.5 py-2 bg-[#F4F6F5] text-xs text-[#17231D] placeholder-[#66736C] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D] focus:border-[#176B4D] transition-all"
             />
           </div>
 
-          {/* 2. Status Select */}
+          {/* Status Select (pilihan dari STATUS_BATCH) */}
           <div>
             <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
+              value={filter.status}
+              onChange={(e) => ubahFilter('status', e.target.value)}
               aria-label="Filter Status"
               className="w-full bg-[#F4F6F5] border border-[#E5EAE7] text-xs font-medium text-[#17231D] px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#176B4D] cursor-pointer"
             >
-              <option value="Semua Status">Semua Status</option>
-              <option value="Tersedia">Tersedia</option>
-              <option value="Diproses">Diproses</option>
-              <option value="Dijadwalkan">Dijadwalkan</option>
-              <option value="Perlu revisi">Perlu revisi</option>
-              <option value="Selesai">Selesai</option>
+              <option value="">Semua Status</option>
+              {Object.values(STATUS_BATCH).map((status) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
+              ))}
             </select>
           </div>
 
-          {/* 3. Kategori Select */}
+          {/* Kategori Select (pilihan dari master data) */}
           <div>
             <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
+              value={filter.kategoriId}
+              onChange={(e) => ubahFilter('kategoriId', e.target.value)}
               aria-label="Filter Kategori"
               className="w-full bg-[#F4F6F5] border border-[#E5EAE7] text-xs font-medium text-[#17231D] px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#176B4D] cursor-pointer"
             >
-              <option value="Semua Kategori">Semua Kategori</option>
-              <option value="Sisa sayur & buah">Sisa sayur &amp; buah</option>
-              <option value="Sisa olahan dapur">Sisa olahan dapur</option>
-              <option value="Limbah pasar">Limbah pasar</option>
-              <option value="Dedaunan & ranting">Dedaunan &amp; ranting</option>
+              <option value="">Semua Kategori</option>
+              {kategoriMaterial.map((kategori) => (
+                <option key={kategori.id} value={kategori.id}>
+                  {kategori.nama}
+                </option>
+              ))}
             </select>
           </div>
 
-          {/* 4. Jalur Select */}
+          {/* Jalur Select (pilihan dari master data) */}
           <div>
             <select
-              value={routeFilter}
-              onChange={(e) => setRouteFilter(e.target.value)}
+              value={filter.jalurId}
+              onChange={(e) => ubahFilter('jalurId', e.target.value)}
               aria-label="Filter Jalur"
               className="w-full bg-[#F4F6F5] border border-[#E5EAE7] text-xs font-medium text-[#17231D] px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#176B4D] cursor-pointer"
             >
-              <option value="Semua Jalur">Semua Jalur</option>
-              <option value="Kompos">Kompos</option>
-              <option value="BSF / Maggot">BSF / Maggot</option>
+              <option value="">Semua Jalur</option>
+              {jalurPemanfaatan.map((jalur) => (
+                <option key={jalur.id} value={jalur.id}>
+                  {jalur.nama}
+                </option>
+              ))}
             </select>
-          </div>
-
-          {/* 5. Date Range */}
-          <div className="relative">
-            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#176B4D]">
-              <Calendar className="w-4 h-4" aria-hidden="true" />
-            </span>
-            <input
-              type="text"
-              value={dateRange}
-              onChange={(e) => setDateRange(e.target.value)}
-              aria-label="Rentang Tanggal"
-              className="w-full pl-9 pr-3.5 py-2 bg-[#F4F6F5] text-xs font-medium text-[#17231D] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D] focus:border-[#176B4D] transition-all"
-            />
           </div>
         </div>
 
         {/* Filter Aktif Row & Chips */}
         <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs text-[#66736C]">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-semibold uppercase tracking-wider text-[11px] text-[#66736C]">
-              FILTER AKTIF:
-            </span>
+            <span className="font-semibold uppercase tracking-wider text-[11px] text-[#66736C]">FILTER AKTIF:</span>
 
             {/* Chip 1 */}
             <span className="inline-flex items-center gap-1.5 bg-[#F4F6F5] border border-[#E5EAE7] rounded-lg px-2.5 py-1 text-xs font-medium text-[#17231D]">
-              <span>Kategori: {categoryFilter === 'Semua Kategori' ? 'Semua' : categoryFilter}</span>
+              <span>Kategori: {cariById(kategoriMaterial, filter.kategoriId)?.nama ?? 'Semua'}</span>
               <button
                 type="button"
-                onClick={() => setCategoryFilter('Semua Kategori')}
+                onClick={() => ubahFilter('kategoriId', '')}
                 className="hover:text-[#C2413B] text-[#66736C] cursor-pointer"
                 aria-label="Hapus filter kategori"
               >
@@ -495,25 +297,12 @@ export default function BatchPage() {
 
             {/* Chip 2 */}
             <span className="inline-flex items-center gap-1.5 bg-[#F4F6F5] border border-[#E5EAE7] rounded-lg px-2.5 py-1 text-xs font-medium text-[#17231D]">
-              <span>Jalur: {routeFilter === 'Semua Jalur' ? 'Kompos + BSF' : routeFilter}</span>
+              <span>Jalur: {cariById(jalurPemanfaatan, filter.jalurId)?.nama ?? 'Semua'}</span>
               <button
                 type="button"
-                onClick={() => setRouteFilter('Semua Jalur')}
+                onClick={() => ubahFilter('jalurId', '')}
                 className="hover:text-[#C2413B] text-[#66736C] cursor-pointer"
                 aria-label="Hapus filter jalur"
-              >
-                ✕
-              </button>
-            </span>
-
-            {/* Chip 3 */}
-            <span className="inline-flex items-center gap-1.5 bg-[#F4F6F5] border border-[#E5EAE7] rounded-lg px-2.5 py-1 text-xs font-medium text-[#17231D]">
-              <span>Rentang: 7 Hari Terakhir</span>
-              <button
-                type="button"
-                onClick={() => setDateRange('26 Nov 2026')}
-                className="hover:text-[#C2413B] text-[#66736C] cursor-pointer"
-                aria-label="Hapus filter rentang waktu"
               >
                 ✕
               </button>
@@ -531,58 +320,36 @@ export default function BatchPage() {
         </div>
       </section>
 
-      {/* ========================================================= */}
-      {/* 5. TWO-COLUMN SPLIT LAYOUT (7:5 DESKTOP GRID)             */}
-      {/* ========================================================= */}
+      {/* TWO-COLUMN SPLIT LAYOUT (7:5 DESKTOP GRID) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        
-        {/* ======================================================= */}
-        {/* A. LEFT COLUMN: BATCH LIST TABLE (lg:col-span-7)        */}
-        {/* ======================================================= */}
+        {/* LEFT COLUMN: BATCH LIST TABLE (lg:col-span-7) */}
         <section className="lg:col-span-7 bg-white border border-[#E5EAE7] rounded-2xl p-5 shadow-sm flex flex-col justify-between min-h-[580px]">
           <div>
             {/* Table Header Section */}
             <div className="flex items-center justify-between pb-3 mb-2">
               <div>
-                <h2 className="font-bold text-base text-[#17231D] tracking-tight">
-                  Daftar Batch Terdaftar
-                </h2>
+                <h2 className="font-bold text-base text-[#17231D] tracking-tight">Daftar Batch Terdaftar</h2>
                 <p className="text-xs text-[#66736C]">
                   Antrean batch residu organik siap proses dan perlu tindak lanjut
                 </p>
               </div>
 
-              {/* Action Buttons: Export & Refresh */}
+              {/* Action Button: Export */}
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   title="Ekspor CSV"
                   aria-label="Ekspor CSV"
-                  onClick={() => {
-                    setToast({
-                      type: 'success',
-                      message: 'Data batch material berhasil diekspor (Format CSV).',
-                    });
-                    setTimeout(() => setToast(null), 3000);
-                  }}
+                  onClick={handleEksporCsv}
                   className="border border-[#E5EAE7] rounded-lg p-2 text-[#66736C] hover:bg-[#F4F6F5] hover:text-[#17231D] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] cursor-pointer"
                 >
                   <Download className="w-4 h-4" aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  title="Segarkan data batch"
-                  aria-label="Segarkan data batch"
-                  onClick={handleRetry}
-                  className="border border-[#E5EAE7] rounded-lg p-2 text-[#66736C] hover:bg-[#F4F6F5] hover:text-[#17231D] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] cursor-pointer"
-                >
-                  <RefreshCw className="w-4 h-4" aria-hidden="true" />
                 </button>
               </div>
             </div>
 
             {/* Table Body */}
-            {filteredBatches.length === 0 ? (
+            {hasilSaring.length === 0 ? (
               <div className="p-10 text-center border border-dashed border-[#E5EAE7] rounded-xl my-4">
                 <Archive className="w-8 h-8 text-[#66736C] mx-auto mb-2" />
                 <p className="text-sm font-semibold text-[#17231D]">Tidak ada batch yang cocok</p>
@@ -602,68 +369,76 @@ export default function BatchPage() {
                 <table className="w-full text-left border-collapse text-xs">
                   <thead>
                     <tr className="border-b border-[#E5EAE7] text-[#66736C] font-semibold">
-                      <th scope="col" className="pb-3 pl-3 font-medium">Kode Batch</th>
-                      <th scope="col" className="pb-3 font-medium">Sumber Material</th>
-                      <th scope="col" className="pb-3 font-medium hidden sm:table-cell">Kategori</th>
-                      <th scope="col" className="pb-3 font-medium">Berat</th>
-                      <th scope="col" className="pb-3 pr-3 font-medium">Jalur</th>
+                      <th scope="col" className="pb-3 pl-3 font-medium">
+                        Kode Batch
+                      </th>
+                      <th scope="col" className="pb-3 font-medium">
+                        Sumber Material
+                      </th>
+                      <th scope="col" className="pb-3 font-medium hidden xl:table-cell">
+                        Kategori
+                      </th>
+                      <th scope="col" className="pb-3 pr-3 font-medium">
+                        Berat
+                      </th>
+                      <th scope="col" className="pb-3 font-medium">
+                        Jalur
+                      </th>
+                      <th scope="col" className="pb-3 pr-3 font-medium">
+                        Status
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#E5EAE7]/60">
-                    {filteredBatches.map((batch) => {
-                      const isSelected = selectedBatch?.id === batch.id;
+                    {halamanTabel.isi.map((batch) => {
+                      const isSelected = batchTerpilih?.kode === batch.kode;
+                      const sumber = cariById(daftarMitra, batch.sumberId);
 
                       return (
                         <tr
-                          key={batch.id}
-                          onClick={() => setSelectedBatchId(batch.id)}
+                          key={batch.kode}
+                          onClick={() => setKodeTerpilih(batch.kode)}
                           tabIndex={0}
                           role="button"
                           onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === ' ') {
-                              setSelectedBatchId(batch.id);
+                              setKodeTerpilih(batch.kode);
                             }
                           }}
                           className={`cursor-pointer transition-colors ${
-                            isSelected
-                              ? 'bg-[#F4F6F5]/70 border-l-4 border-l-[#176B4D]'
-                              : 'hover:bg-[#F4F6F5]/50'
+                            isSelected ? 'bg-[#F4F6F5]/70 border-l-4 border-l-[#176B4D]' : 'hover:bg-[#F4F6F5]/50'
                           }`}
                         >
                           {/* Kode Batch */}
                           <td className="py-3.5 pl-3">
                             <div className="flex items-center gap-1.5 font-bold text-[#17231D]">
                               <span className="text-[#176B4D] text-[10px] leading-none">●</span>
-                              <span>{batch.id}</span>
+                              <span>{batch.kode}</span>
                             </div>
-                            <span className="text-[10px] text-[#66736C] font-mono block pl-3">
-                              {batch.refId}
-                            </span>
                           </td>
 
                           {/* Sumber Material */}
                           <td className="py-3.5">
-                            <p className="font-semibold text-[#17231D] leading-tight">
-                              {batch.sumber}
-                            </p>
-                            <p className="text-[11px] text-[#66736C] mt-0.5">
-                              {batch.lokasiSubtext}
-                            </p>
+                            <p className="font-semibold text-[#17231D] leading-tight">{sumber?.nama}</p>
+                            <p className="text-[11px] text-[#66736C] mt-0.5">{sumber?.kecamatan}</p>
                           </td>
 
                           {/* Kategori */}
-                          <td className="py-3.5 text-[#66736C] hidden sm:table-cell">
-                            {batch.kategori}
+                          <td className="py-3.5 text-[#66736C] hidden xl:table-cell">
+                            {cariById(kategoriMaterial, batch.kategoriId)?.nama}
                           </td>
 
                           {/* Berat */}
-                          <td className="py-3.5 font-bold text-[#17231D]">
-                            {batch.berat}
-                          </td>
+                          <td className="py-3.5 pr-3 font-bold text-[#17231D]">{formatKg(batch.beratKg)}</td>
 
                           {/* Jalur */}
+                          <td className="py-3.5">
+                            <RouteBadge jalur={cariById(jalurPemanfaatan, batch.jalurId)?.nama} />
+                          </td>
+
+                          {/* Status */}
                           <td className="py-3.5 pr-3">
-                            <RouteBadge jalur={batch.jalur} />
+                            <StatusBadge status={batch.status} />
                           </td>
                         </tr>
                       );
@@ -677,7 +452,7 @@ export default function BatchPage() {
           {/* Table Footer */}
           <footer className="pt-4 mt-4 border-t border-[#E5EAE7] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#66736C]">
             <span>
-              Menampilkan 1–{filteredBatches.length} dari {batches.length} batch aktif
+              Menampilkan {halamanTabel.dari}–{halamanTabel.sampai} dari {halamanTabel.total} batch
             </span>
 
             {/* Pagination */}
@@ -685,34 +460,37 @@ export default function BatchPage() {
               <button
                 type="button"
                 aria-label="Halaman sebelumnya"
-                disabled
-                className="w-7 h-7 rounded-lg border border-[#E5EAE7] flex items-center justify-center text-[#66736C] opacity-50 cursor-not-allowed"
+                onClick={() => setHalaman(halamanTabel.halaman - 1)}
+                disabled={halamanTabel.halaman === 1}
+                className="w-7 h-7 rounded-lg border border-[#E5EAE7] flex items-center justify-center text-[#66736C] hover:bg-[#F4F6F5] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
               </button>
-              <button
-                type="button"
-                aria-current="page"
-                className="w-7 h-7 rounded-lg bg-[#176B4D] text-white font-semibold flex items-center justify-center shadow-xs"
-              >
-                1
-              </button>
-              <button
-                type="button"
-                className="w-7 h-7 rounded-lg border border-[#E5EAE7] text-[#17231D] hover:bg-[#F4F6F5] flex items-center justify-center"
-              >
-                2
-              </button>
-              <button
-                type="button"
-                className="w-7 h-7 rounded-lg border border-[#E5EAE7] text-[#17231D] hover:bg-[#F4F6F5] flex items-center justify-center"
-              >
-                3
-              </button>
+              {nomorHalaman.map((nomor) => {
+                const isAktif = nomor === halamanTabel.halaman;
+                return (
+                  <button
+                    key={nomor}
+                    type="button"
+                    onClick={() => setHalaman(nomor)}
+                    aria-label={`Halaman ${nomor}`}
+                    aria-current={isAktif ? 'page' : undefined}
+                    className={`w-7 h-7 rounded-lg flex items-center justify-center cursor-pointer ${
+                      isAktif
+                        ? 'bg-[#176B4D] text-white font-semibold shadow-xs'
+                        : 'border border-[#E5EAE7] text-[#17231D] hover:bg-[#F4F6F5]'
+                    }`}
+                  >
+                    {nomor}
+                  </button>
+                );
+              })}
               <button
                 type="button"
                 aria-label="Halaman selanjutnya"
-                className="w-7 h-7 rounded-lg border border-[#E5EAE7] flex items-center justify-center text-[#66736C] hover:bg-[#F4F6F5] cursor-pointer"
+                onClick={() => setHalaman(halamanTabel.halaman + 1)}
+                disabled={halamanTabel.halaman === halamanTabel.totalHalaman}
+                className="w-7 h-7 rounded-lg border border-[#E5EAE7] flex items-center justify-center text-[#66736C] hover:bg-[#F4F6F5] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ChevronRight className="w-3.5 h-3.5" />
               </button>
@@ -720,68 +498,36 @@ export default function BatchPage() {
           </footer>
         </section>
 
-        {/* ======================================================= */}
-        {/* B. RIGHT COLUMN: BATCH DETAIL PANEL (lg:col-span-5)     */}
-        {/* ======================================================= */}
+        {/* RIGHT COLUMN: BATCH DETAIL PANEL (lg:col-span-5) */}
         <aside className="lg:col-span-5 bg-white border border-[#E5EAE7] rounded-2xl p-6 shadow-sm flex flex-col gap-5">
-          {selectedBatch ? (
+          {batchTerpilih ? (
             <>
-              {/* 1. Header Row */}
+              {/* Header Row: kode batch & status */}
               <header className="pb-3 border-b border-[#E5EAE7]">
                 <div className="flex items-center justify-between gap-2">
-                  <h2 className="text-lg font-bold text-[#17231D] tracking-tight">
-                    Detail Batch {selectedBatch.id}
-                  </h2>
-                  <div className="flex items-center gap-1.5">
-                    <BatchStatusBadge status={selectedBatch.status} />
-                    <span className="text-[11px] font-mono bg-[#F4F6F5] text-[#17231D] px-2 py-0.5 rounded border border-[#E5EAE7]">
-                      ID: {selectedBatch.refId}
-                    </span>
-                  </div>
+                  <h2 className="text-lg font-bold text-[#17231D] tracking-tight">Detail Batch {batchTerpilih.kode}</h2>
+                  <StatusBadge status={batchTerpilih.status} />
                 </div>
 
                 <div className="flex items-center gap-1.5 text-xs text-[#66736C] mt-1.5">
                   <Clock className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>{selectedBatch.waktuPengajuan}</span>
+                  <span>Diajukan {formatTanggalJam(batchTerpilih.diajukanPada)}</span>
                 </div>
               </header>
 
-              {/* 2. Dokumentasi Verifikasi Sumber */}
-              <section aria-labelledby="doc-heading" className="space-y-2.5">
-                <h3 id="doc-heading" className="text-xs font-bold text-[#66736C] uppercase tracking-wider">
-                  DOKUMENTASI VERIFIKASI SUMBER
-                </h3>
-                <div className="grid grid-cols-2 gap-3">
-                  {/* Box 1: Wadah */}
-                  <div className="bg-[#F4F6F5] border border-[#E5EAE7] rounded-xl p-3 text-center text-xs space-y-1">
-                    <div className="w-8 h-8 rounded-lg bg-white border border-[#E5EAE7] text-[#176B4D] flex items-center justify-center mx-auto mb-1">
-                      <Camera className="w-4 h-4" aria-hidden="true" />
-                    </div>
-                    <p className="font-semibold text-[#17231D] leading-tight">
-                      {selectedBatch.dokumentasi?.wadah || 'Wadah ember organik'}
-                    </p>
-                    <p className="text-[11px] text-[#66736C] font-mono">
-                      {selectedBatch.dokumentasi?.wadahFormat || 'Format: JPG • 2.1 MB'}
-                    </p>
-                  </div>
+              {/* Alasan revisi / penolakan (hanya kalau ada) */}
+              {batchTerpilih.alasan && (
+                <section className="bg-[#FEF3C7]/60 border border-[#B7791F]/20 rounded-xl p-3 text-xs">
+                  <p className="font-semibold text-[#B7791F]">Alasan {batchTerpilih.status.toLowerCase()}:</p>
+                  <p className="text-[#17231D] mt-0.5">{batchTerpilih.alasan}</p>
+                </section>
+              )}
 
-                  {/* Box 2: Timbangan */}
-                  <div className="bg-[#F4F6F5] border border-[#E5EAE7] rounded-xl p-3 text-center text-xs space-y-1">
-                    <div className="w-8 h-8 rounded-lg bg-white border border-[#E5EAE7] text-[#176B4D] flex items-center justify-center mx-auto mb-1">
-                      <Scale className="w-4 h-4" aria-hidden="true" />
-                    </div>
-                    <p className="font-semibold text-[#17231D] leading-tight">
-                      {selectedBatch.dokumentasi?.timbangan || 'Timbangan fisik'}
-                    </p>
-                    <p className="text-[11px] text-[#66736C]">
-                      {selectedBatch.dokumentasi?.timbanganDetail || 'Tervalidasi digital'}
-                    </p>
-                  </div>
-                </div>
-              </section>
-
-              {/* 3. Data Key-Value Overview */}
-              <section aria-labelledby="overview-heading" className="space-y-2.5 bg-[#F4F6F5]/50 border border-[#E5EAE7] rounded-xl p-4 text-xs">
+              {/* Data Key-Value Overview */}
+              <section
+                aria-labelledby="overview-heading"
+                className="space-y-2.5 bg-[#F4F6F5]/50 border border-[#E5EAE7] rounded-xl p-4 text-xs"
+              >
                 <h3 id="overview-heading" className="sr-only">
                   Ringkasan Kunci Material
                 </h3>
@@ -790,18 +536,19 @@ export default function BatchPage() {
                   <div>
                     <span className="text-[#66736C] block">Sumber Material:</span>
                     <p className="font-semibold text-[#17231D] mt-0.5">
-                      {selectedBatch.sumber} ({selectedBatch.pj})
+                      {sumberTerpilih?.nama} ({sumberTerpilih?.penanggungJawab})
                     </p>
                     <p className="text-[11px] text-[#66736C] mt-0.5">
-                      {selectedBatch.alamat}
+                      {sumberTerpilih?.alamat}, {sumberTerpilih?.kecamatan}
                     </p>
                   </div>
 
-                  {/* Berat Terverifikasi */}
+                  {/* Berat */}
                   <div className="pt-2 border-t border-[#E5EAE7]">
-                    <span className="text-[#66736C] block">Berat Terverifikasi:</span>
-                    <p className="text-2xl font-bold text-[#176B4D] mt-0.5">
-                      {selectedBatch.berat}
+                    <span className="text-[#66736C] block">Berat Dilaporkan Sumber:</span>
+                    <p className="text-2xl font-bold text-[#176B4D] mt-0.5">{formatKg(batchTerpilih.beratKg)}</p>
+                    <p className="text-[11px] text-[#66736C] mt-0.5">
+                      Ditimbang pengolah: {formatKg(batchTerpilih.beratDiterimaKg)}
                     </p>
                   </div>
 
@@ -809,112 +556,45 @@ export default function BatchPage() {
                   <div className="pt-2 border-t border-[#E5EAE7]">
                     <span className="text-[#66736C] block">Kategori Residu:</span>
                     <p className="font-medium text-[#17231D] mt-0.5">
-                      {selectedBatch.kategoriDetail || selectedBatch.kategori}
+                      {cariById(kategoriMaterial, batchTerpilih.kategoriId)?.nama} — {batchTerpilih.namaMaterial}
                     </p>
                   </div>
 
-                  {/* Metode Penjemputan */}
+                  {/* Metode & Pengolah */}
                   <div className="pt-2 border-t border-[#E5EAE7]">
                     <span className="text-[#66736C] block">Metode Penjemputan:</span>
-                    <p className="font-medium text-[#17231D] mt-0.5">
-                      {selectedBatch.metodePenjemputan}
-                    </p>
+                    <p className="font-medium text-[#17231D] mt-0.5">{batchTerpilih.metode}</p>
+                  </div>
+                  <div className="pt-2 border-t border-[#E5EAE7]">
+                    <span className="text-[#66736C] block">Mitra Pengolah:</span>
+                    <p className="font-medium text-[#17231D] mt-0.5">{pengolahTerpilih?.nama ?? 'Belum ditentukan'}</p>
                   </div>
                 </div>
               </section>
 
-              {/* 4. Riwayat Audit Operasional (Timeline Stepper) */}
+              {/* Riwayat Batch (Timeline Stepper) */}
               <section aria-labelledby="timeline-heading" className="space-y-3">
                 <h3 id="timeline-heading" className="text-xs font-bold text-[#66736C] uppercase tracking-wider">
-                  RIWAYAT AUDIT OPERASIONAL
+                  RIWAYAT BATCH
                 </h3>
                 <div className="relative pl-6 space-y-4">
                   {/* Connecting Line */}
                   <div className="absolute top-2 bottom-2 left-2 w-0.5 bg-[#E5EAE7]" />
 
-                  {selectedBatch.auditHistory?.map((item, idx) => {
-                    const isDone = item.status === 'done';
-                    return (
-                      <div key={idx} className="relative flex items-start gap-2.5">
-                        {/* Dot indicator */}
-                        <div
-                          className={`absolute -left-6 top-1 w-2.5 h-2.5 rounded-full ring-4 ring-white ${
-                            isDone ? 'bg-[#176B4D]' : 'bg-[#B7791F]'
-                          }`}
-                        />
-                        <div className="text-xs">
-                          <p className="font-bold text-[#17231D]">
-                            {item.step} <span className="text-[#66736C] font-normal">| {item.time}</span>
-                          </p>
-                          <p className="text-[11px] text-[#66736C] mt-0.5">
-                            {item.subtext}
-                          </p>
-                        </div>
+                  {batchTerpilih.riwayat.map((item) => (
+                    <div key={item.waktu + item.keterangan} className="relative flex items-start gap-2.5">
+                      {/* Dot indicator */}
+                      <div className="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full ring-4 ring-white bg-[#176B4D]" />
+                      <div className="text-xs">
+                        <p className="font-bold text-[#17231D]">{item.keterangan}</p>
+                        <p className="text-[11px] text-[#66736C] mt-0.5">{formatTanggalJam(item.waktu)}</p>
                       </div>
-                    );
-                  })}
+                    </div>
+                  ))}
                 </div>
               </section>
 
-              {/* 5. Tawarkan ke Pengolah Sekitar */}
-              <section aria-labelledby="offer-heading" className="space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <h3 id="offer-heading" className="text-xs font-bold text-[#66736C] uppercase tracking-wider">
-                    TAWARKAN KE PENGOLAH SEKITAR
-                  </h3>
-                  <span className="text-[11px] text-[#66736C]">
-                    Purwokerto Radius 5 km
-                  </span>
-                </div>
-
-                <div className="space-y-2">
-                  {selectedBatch.pengolahSekitar?.map((opt) => {
-                    const isSelected = selectedProcessorId === opt.id;
-                    return (
-                      <div
-                        key={opt.id}
-                        role="radio"
-                        aria-checked={isSelected}
-                        tabIndex={0}
-                        onClick={() => setSelectedProcessorId(opt.id)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            setSelectedProcessorId(opt.id);
-                          }
-                        }}
-                        className={`p-3 rounded-xl border text-xs cursor-pointer transition-all flex items-start justify-between gap-3 ${
-                          isSelected
-                            ? 'border-[#176B4D] bg-[#EAF5F0]/60 ring-1 ring-[#176B4D]'
-                            : 'border-[#E5EAE7] bg-[#F4F6F5]/40 hover:bg-[#F4F6F5]'
-                        }`}
-                      >
-                        <div className="flex items-start gap-2.5">
-                          <div
-                            className={`w-4 h-4 rounded-full border mt-0.5 flex items-center justify-center shrink-0 ${
-                              isSelected
-                                ? 'border-[#176B4D] bg-[#176B4D] text-white'
-                                : 'border-[#66736C] bg-white'
-                            }`}
-                          >
-                            {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-1.5 font-bold text-[#17231D]">
-                              <span>{opt.nama}</span>
-                              <span className="text-[#66736C] font-normal">• {opt.jarak}</span>
-                            </div>
-                            <p className="text-[11px] text-[#66736C] mt-0.5">
-                              Jalur: {opt.jalur} • Kapasitas sisa: {opt.sisaKapasitas}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </section>
-
-              {/* 6. Regulatory Disclaimer */}
+              {/* Catatan peran aplikasi */}
               <aside className="bg-[#F4F6F5] border border-[#E5EAE7] rounded-xl p-3 text-xs text-[#66736C] flex items-start gap-2">
                 <Info className="w-4 h-4 text-[#176B4D] shrink-0 mt-0.5" aria-hidden="true" />
                 <p className="text-[11px] leading-relaxed">
@@ -922,38 +602,105 @@ export default function BatchPage() {
                 </p>
               </aside>
 
-              {/* 7. Action Bottom Buttons */}
-              <footer className="grid grid-cols-2 gap-3 pt-2">
-                {/* Minta Revisi */}
-                <button
-                  type="button"
-                  onClick={() => handleRequestRevision(selectedBatch)}
-                  className="border border-[#E5EAE7] hover:bg-[#F4F6F5] text-sm font-medium py-2.5 rounded-xl text-[#17231D] flex items-center justify-center gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] cursor-pointer"
-                >
-                  <FileText className="w-4 h-4 text-[#66736C]" aria-hidden="true" />
-                  <span>Minta Revisi</span>
-                </button>
+              {/* Keputusan admin */}
+              {bisaDiputuskan ? (
+                <section aria-labelledby="keputusan-heading" className="space-y-3">
+                  <h3 id="keputusan-heading" className="text-xs font-bold text-[#66736C] uppercase tracking-wider">
+                    TAWARKAN KE MITRA PENGOLAH
+                  </h3>
 
-                {/* Setujui & Tawarkan */}
-                <button
-                  type="button"
-                  onClick={() => handleApproveAndOffer(selectedBatch)}
-                  className="bg-[#176B4D] hover:bg-[#104D38] text-white text-sm font-medium py-2.5 rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] cursor-pointer"
-                >
-                  <CheckSquare className="w-4 h-4" aria-hidden="true" />
-                  <span>Setujui &amp; Tawarkan</span>
-                </button>
-              </footer>
+                  {daftarPengolah.length === 0 ? (
+                    <p className="text-xs text-[#66736C]">Belum ada mitra pengolah terverifikasi untuk jalur ini.</p>
+                  ) : (
+                    <div role="radiogroup" aria-label="Pilih mitra pengolah" className="space-y-2">
+                      {daftarPengolah.map((mitra) => {
+                        const isDipilih = pengolahDipilih === mitra.id;
+                        return (
+                          <button
+                            key={mitra.id}
+                            type="button"
+                            role="radio"
+                            aria-checked={isDipilih}
+                            onClick={() => setPengolahDipilih(mitra.id)}
+                            className={`w-full text-left p-3 rounded-xl border text-xs cursor-pointer transition-all flex items-start gap-2.5 ${
+                              isDipilih
+                                ? 'border-[#176B4D] bg-[#EAF5F0]/60 ring-1 ring-[#176B4D]'
+                                : 'border-[#E5EAE7] bg-[#F4F6F5]/40 hover:bg-[#F4F6F5]'
+                            }`}
+                          >
+                            <span
+                              className={`w-4 h-4 rounded-full border mt-0.5 flex items-center justify-center shrink-0 ${
+                                isDipilih ? 'border-[#176B4D] bg-[#176B4D] text-white' : 'border-[#66736C] bg-white'
+                              }`}
+                            >
+                              {isDipilih && <Check className="w-2.5 h-2.5" aria-hidden="true" />}
+                            </span>
+                            <span>
+                              <span className="block font-bold text-[#17231D]">{mitra.nama}</span>
+                              <span className="block text-[11px] text-[#66736C] mt-0.5">
+                                {mitra.kecamatan} • Kapasitas {formatKg(mitra.kapasitasKgPerHari)}/hari
+                              </span>
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* Tombol keputusan */}
+                  <button
+                    type="button"
+                    onClick={handleSetujui}
+                    disabled={!pengolahValid}
+                    className="w-full bg-[#176B4D] hover:bg-[#104D38] text-white text-sm font-medium py-2.5 rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <CheckSquare className="w-4 h-4" aria-hidden="true" />
+                    <span>Setujui &amp; Tawarkan</span>
+                  </button>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => bukaModal('revisi')}
+                      className="border border-[#E5EAE7] hover:bg-[#F4F6F5] text-sm font-medium py-2.5 rounded-xl text-[#17231D] flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                    >
+                      <FileText className="w-4 h-4 text-[#B7791F]" aria-hidden="true" />
+                      <span>Minta Revisi</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => bukaModal('tolak')}
+                      className="border border-[#E5EAE7] hover:bg-[#FEE2E2] text-sm font-medium py-2.5 rounded-xl text-[#C2413B] flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                    >
+                      <XCircle className="w-4 h-4" aria-hidden="true" />
+                      <span>Tolak</span>
+                    </button>
+                  </div>
+                  {!pengolahValid && daftarPengolah.length > 0 && (
+                    <p className="text-[11px] text-[#66736C]">Pilih mitra pengolah dulu untuk menyetujui batch ini.</p>
+                  )}
+                </section>
+              ) : (
+                <p className="text-xs text-[#66736C] bg-[#F4F6F5] border border-[#E5EAE7] rounded-xl p-3">
+                  Batch ini berstatus <strong>{batchTerpilih.status}</strong>. Keputusan admin hanya untuk batch
+                  berstatus Diajukan.
+                </p>
+              )}
             </>
           ) : (
             <div className="p-8 text-center text-[#66736C] text-xs">
-              Pilih salah satu batch dari tabel di sebelah kiri untuk melihat rincian manifest material.
+              Pilih salah satu batch dari tabel di sebelah kiri untuk melihat rincian batch.
             </div>
           )}
         </aside>
-
       </div>
-
     </div>
   );
+}
+
+/**
+ * Halaman Batch Material. Membaca ?kode= dari alamat (tombol Detail di Dashboard). key membuat isi halaman dimulai ulang setiap kode berubah, supaya batch yang terbuka selalu sesuai alamat.
+ */
+export default function BatchPage() {
+  const kodeDariUrl = useSearchParams().get('kode');
+  return <IsiHalamanBatch key={kodeDariUrl} kodeAwal={kodeDariUrl} />;
 }

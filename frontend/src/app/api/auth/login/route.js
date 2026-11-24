@@ -7,11 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'bioroute-secret-key-3302-pwk';
  * Base64 URL Encoder
  */
 function base64UrlEncode(str) {
-  return Buffer.from(str)
-    .toString('base64')
-    .replace(/=/g, '')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_');
+  return Buffer.from(str).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
 }
 
 /**
@@ -51,10 +47,7 @@ export async function POST(request) {
 
     // Allow logout via POST action if desired
     if (action === 'logout') {
-      const response = NextResponse.json(
-        { success: true, message: 'Sesi telah berakhir.' },
-        { status: 200 }
-      );
+      const response = NextResponse.json({ success: true, message: 'Sesi telah berakhir.' }, { status: 200 });
       response.cookies.set({
         name: 'token',
         value: '',
