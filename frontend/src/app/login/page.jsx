@@ -482,10 +482,10 @@ export default function AdminLoginPage() {
           {/* Footer Notice */}
           <footer className="pt-6 mt-6 border-t border-[#E5EAE7]">
             <p className="text-[11px] font-medium text-[#66736C] text-center">
-              Sistem Terkonsolidasi Dinas Lingkungan Hidup &amp; Pengolah Organik Banyumas • v2.4
+              BioRoute - versi beta
             </p>
             <p className="text-[10px] text-[#66736C]/80 text-center mt-1">
-              Akses terbatas untuk personil verifikasi dan administrator operasional BioRoute.
+              Akses khusus administrator BioRoute.
             </p>
           </footer>
         </section>
