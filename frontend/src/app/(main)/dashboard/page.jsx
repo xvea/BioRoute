@@ -12,7 +12,6 @@ import {
   CheckCircle2,
   ArrowRight,
   Info,
-  Plus,
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -106,32 +105,13 @@ export default function DashboardPage() {
     <div className="space-y-6 bg-white">
 
       {/* HEADER SECTION */}
-      <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
-        <div>
-          <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">
-            Ringkasan Operasional Wilayah
-          </h1>
-          <p className="text-sm text-[#66736C] mt-1">
-            Konsolidasi penimbangan material organik dan status sirkulasi residu aktif Banyumas.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3 shrink-0">
-          {/* Status Badge */}
-          <div className="inline-flex items-center gap-1.5 bg-[#EAF5F0] text-[#16805D] text-xs font-semibold px-3 py-1.5 rounded-full border border-[#16805D]/15">
-            <span className="text-[10px] leading-none">●</span>
-            <span>Siklus Verifikasi Terbuka</span>
-          </div>
-
-          {/* Primary CTA */}
-          <button
-            type="button"
-            className="inline-flex items-center gap-1.5 bg-[#176B4D] hover:bg-[#104D38] active:bg-[#0e3b2b] text-white px-4 py-2 rounded-xl text-sm font-medium shadow-xs hover:shadow transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] cursor-pointer"
-          >
-            <Plus className="w-4 h-4" aria-hidden="true" />
-            <span>Audit Manual</span>
-          </button>
-        </div>
+      <section className="pb-2">
+        <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">
+          Ringkasan Operasional
+        </h1>
+        <p className="text-sm text-[#66736C] mt-1">
+          Berat residu, status batch, dan mitra yang perlu ditindaklanjuti. Semua angka dihitung dari data batch dan mitra.
+        </p>
       </section>
 
       {/* METRIC CARDS ROW (4 COLUMNS GRID) */}
@@ -309,12 +289,6 @@ export default function DashboardPage() {
               )}
             </div>
           </div>
-
-          {/* Card Footer */}
-          <footer className="pt-4 mt-2 border-t border-[#E5EAE7] flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-[#66736C]">
-            <span>Catatan log penimbangan divalidasi tiap pukul 18:00 WIB</span>
-            <span className="font-medium text-[#17231D]">Deviasi rerata timbang: ±0.3%</span>
-          </footer>
         </article>
 
         {/* Right Card: Jalur pemanfaatan */}
@@ -470,7 +444,7 @@ export default function DashboardPage() {
               </span>
             </div>
             <p className="text-xs text-[#66736C] mb-4">
-              Mitra baru mendaftar di Purwokerto
+              Mitra baru yang menunggu keputusan admin
             </p>
 
             {/* Partner List */}

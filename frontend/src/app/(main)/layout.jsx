@@ -11,11 +11,7 @@ import {
   BarChart2,
   Settings,
   LogOut,
-  Search,
-  Calendar,
-  ChevronDown,
-  Bell,
-  User,
+  Info,
   Menu,
   X,
 } from 'lucide-react';
@@ -64,6 +60,15 @@ function AdminShell({ children }) {
       icon: Settings,
     },
   ];
+
+  /**
+   * true kalau menu sedang dibuka. Dashboard harus sama persis, menu lain cukup diawali alamatnya.
+   */
+  const apakahAktif = (href) =>
+    pathname === href || (href !== '/dashboard' && pathname?.startsWith(href));
+
+  // Menu yang sedang dibuka, dipakai untuk judul di topbar.
+  const menuAktif = navigationItems.find((item) => apakahAktif(item.href));
 
   const handleLogout = async () => {
     if (isLoggingOut) return;
@@ -161,7 +166,7 @@ function AdminShell({ children }) {
             </h2>
             <ul className="space-y-1">
               {navigationItems.map((item) => {
-                const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname?.startsWith(item.href));
+                const isActive = apakahAktif(item.href);
                 const IconComponent = item.icon;
 
                 return (
@@ -235,45 +240,15 @@ function AdminShell({ children }) {
         <header className="sticky top-0 z-30 h-16 bg-white border-b border-[#E5EAE7] px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
           <nav aria-label="Breadcrumb" className="min-w-0">
             <p className="text-xs text-[#66736C] truncate">
-              Ringkasan Sistem / <strong className="font-semibold text-[#17231D]">Console Wilayah</strong>
+              BioRoute Admin / <strong className="font-semibold text-[#17231D]">{menuAktif?.name}</strong>
             </p>
           </nav>
 
-          <div className="flex items-center gap-3">
-            <div className="relative hidden sm:block w-52 md:w-64">
-              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#66736C]">
-                <Search className="w-4 h-4" aria-hidden="true" />
-              </span>
-              <input
-                type="text"
-                placeholder="Cari batch, mitra..."
-                aria-label="Cari batch atau mitra"
-                className="w-full pl-9 pr-3.5 py-1.5 bg-[#F4F6F5] text-xs text-[#17231D] placeholder-[#66736C] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D] focus:border-[#176B4D] transition-all"
-              />
-            </div>
-
-            <div className="flex items-center gap-1.5 bg-[#F4F6F5] border border-[#E5EAE7] px-3 py-1.5 rounded-xl text-xs font-medium text-[#17231D] cursor-pointer hover:bg-[#EAF5F0] transition-colors">
-              <Calendar className="w-3.5 h-3.5 text-[#176B4D]" aria-hidden="true" />
-              <span>Nov 2026</span>
-              <ChevronDown className="w-3.5 h-3.5 text-[#66736C]" aria-hidden="true" />
-            </div>
-
-            <button
-              type="button"
-              aria-label="Notifikasi operasional"
-              className="relative p-2 rounded-xl text-[#66736C] hover:text-[#17231D] hover:bg-[#F4F6F5] border border-transparent hover:border-[#E5EAE7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] transition-colors cursor-pointer"
-            >
-              <Bell className="w-4 h-4" aria-hidden="true" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#C2413B] rounded-full ring-2 ring-white" />
-            </button>
-
-            <div
-              className="w-8 h-8 rounded-full bg-[#176B4D]/10 text-[#176B4D] border border-[#176B4D]/20 flex items-center justify-center font-bold text-xs"
-              aria-label="Profil Akun"
-            >
-              <User className="w-4 h-4" aria-hidden="true" />
-            </div>
-          </div>
+          {/* Pengingat jujur saat demo: data masih di memori browser, belum ada backend */}
+          <p className="hidden sm:inline-flex items-center gap-1.5 bg-[#F4F6F5] border border-[#E5EAE7] px-3 py-1.5 rounded-xl text-xs text-[#66736C]">
+            <Info className="w-3.5 h-3.5 text-[#176B4D] shrink-0" aria-hidden="true" />
+            <span>Data contoh · kembali ke awal saat halaman dimuat ulang</span>
+          </p>
         </header>
 
         {/* Dynamic Page Views */}
