@@ -1,6 +1,5 @@
 'use client';
 
-import { useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import {
   Scale,
@@ -27,6 +26,7 @@ import {
 } from 'recharts';
 import StatusBadge from '@/components/ui/StatusBadge';
 import { useBioRoute } from '@/context/BioRouteContext';
+import useIsMounted from '@/hooks/useIsMounted';
 import { STATUS_BATCH } from '@/lib/constants';
 import { formatKg, formatPersen, formatTanggal } from '@/lib/format';
 import {
@@ -54,16 +54,6 @@ const GAYA_JALUR = [
  */
 function gayaJalur(index) {
   return GAYA_JALUR[index % GAYA_JALUR.length];
-}
-
-const emptySubscribe = () => () => {};
-
-function useIsMounted() {
-  return useSyncExternalStore(
-    emptySubscribe,
-    () => true,
-    () => false
-  );
 }
 
 /**
@@ -111,10 +101,10 @@ export default function DashboardPage() {
   const perJalur = beratDiterimaPerJalur(daftarBatch, jalurPemanfaatan);
   const daftarBatchTerbaru = batchTerbaru(daftarBatch, 6);
   const daftarMitraMenunggu = mitraMenunggu(daftarMitra);
-  
+
   return (
     <div className="space-y-6 bg-white">
-      
+
       {/* HEADER SECTION */}
       <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
         <div>
@@ -244,7 +234,7 @@ export default function DashboardPage() {
 
       {/* MIDDLE SECTION (7:5 DESKTOP GRID) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
+
         {/* Left Card: Berat per minggu (kg) */}
         <article className="lg:col-span-7 p-6 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between">
           <div>
@@ -256,7 +246,7 @@ export default function DashboardPage() {
                 <p className="text-xs text-[#66736C] mt-0.5">
                   Berat dilaporkan per minggu pengajuan (batch ditolak tidak dihitung)
                 </p>
-            </div>
+              </div>
 
               {/* Legenda dibuat dari daftar jalur */}
               <div className="flex items-center gap-4 text-xs font-medium self-start sm:self-auto">
@@ -397,7 +387,7 @@ export default function DashboardPage() {
 
       {/* BOTTOM SECTION (BATCHES & VERIFICATION) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
+
         {/* Left Card: Batch terbaru (7 cols) */}
         <article className="lg:col-span-7 p-6 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs">
           <div className="flex items-center justify-between mb-4">
@@ -451,7 +441,7 @@ export default function DashboardPage() {
                       {cariById(jalurPemanfaatan, batch.jalurId)?.nama}
                     </td>
                     <td className="py-3">
-                      <StatusBadge status={batch.status} />                      
+                      <StatusBadge status={batch.status} />
                     </td>
                     <td className="py-3 text-right">
                       <button

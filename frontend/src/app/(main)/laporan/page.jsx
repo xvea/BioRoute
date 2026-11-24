@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useSyncExternalStore } from 'react';
+import { useState } from 'react';
 import {
   Sprout,
   Archive,
@@ -23,6 +23,7 @@ import {
 } from 'recharts';
 import Toast from '@/components/ui/Toast';
 import useToast from '@/hooks/useToast';
+import useIsMounted from '@/hooks/useIsMounted';
 import { useBioRoute } from '@/context/BioRouteContext';
 import { formatKg, formatPersen } from '@/lib/format';
 import {
@@ -49,19 +50,6 @@ const PERAN = {
   sumber: { label: 'Mitra Sumber', gaya: 'bg-[#EAF5F0] text-[#16805D]' },
   pengolah: { label: 'Mitra Pengolah', gaya: 'bg-[#EFF6FF] text-[#2563EB]' },
 };
-
-const emptySubscribe = () => () => {};
-
-/**
- * true hanya di browser. Grafik recharts butuh ukuran layar, jadi baru digambar setelah halaman tampil di browser.
- */
-function useIsMounted() {
-  return useSyncExternalStore(
-    emptySubscribe,
-    () => true,
-    () => false
-  );
-}
 
 /**
  * Halaman Laporan (W4): ringkasan per kategori, selisih berat dilaporkan vs diterima, dan rekap kinerja mitra dari state BioRoute.
