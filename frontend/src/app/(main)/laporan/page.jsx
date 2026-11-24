@@ -82,10 +82,10 @@ export default function LaporanPage() {
   };
 
   /**
-   * Unduh PDF (diisi di W-05).
+   * Membuka dialog cetak browser. Pilih tujuan "Simpan sebagai PDF" (Save as PDF) untuk menyimpan laporan sebagai file PDF.
    */
   const handleUnduhPdf = () => {
-    tampilkanToast('warning', 'Unduh PDF sedang disiapkan dan akan tersedia di tahap berikutnya.');
+    window.print();
   };
 
   return (
@@ -102,7 +102,7 @@ export default function LaporanPage() {
             Rekap berat residu, hasil timbang, dan kinerja mitra dari seluruh batch yang tercatat.
           </p>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="print:hidden flex items-center gap-2 shrink-0">
           <button
             type="button"
             onClick={handleUnduhCsv}

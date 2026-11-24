@@ -32,3 +32,17 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
+
+/* Pengaturan saat halaman dicetak atau disimpan sebagai PDF (tombol Unduh PDF di Laporan) */
+@page {
+  size: A4;
+  margin: 12mm;
+}
+
+@media print {
+  /* Tetap cetak warna latar (badge, kartu), karena browser biasanya membuangnya saat mencetak */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

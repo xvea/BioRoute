@@ -88,7 +88,7 @@ function AdminShell({ children }) {
     <div className="min-h-screen bg-white flex flex-col md:flex-row font-sans text-[#17231D]">
 
       {/* MOBILE HEADER */}
-      <div className="md:hidden bg-white border-b border-[#E5EAE7] px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+      <div className="print:hidden md:hidden bg-white border-b border-[#E5EAE7] px-4 py-3 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-xl bg-[#104D38] flex items-center justify-center p-1.5 shrink-0">
             <Image
@@ -133,7 +133,7 @@ function AdminShell({ children }) {
 
       {/* SIDEBAR NAVIGATION */}
       <aside
-        className={`fixed md:sticky top-0 left-0 z-50 h-screen w-64 bg-white border-r border-[#E5EAE7] flex flex-col justify-between transition-transform duration-300 ease-in-out md:translate-x-0 ${mobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:shadow-none'
+        className={`print:hidden fixed md:sticky top-0 left-0 z-50 h-screen w-64 bg-white border-r border-[#E5EAE7] flex flex-col justify-between transition-transform duration-300 ease-in-out md:translate-x-0 ${mobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:shadow-none'
           }`}
       >
         <div className="p-5">
@@ -237,7 +237,7 @@ function AdminShell({ children }) {
       <div className="flex-1 flex flex-col min-w-0 bg-white">
 
         {/* Top Header Bar */}
-        <header className="sticky top-0 z-30 h-16 bg-white border-b border-[#E5EAE7] px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+        <header className="print:hidden sticky top-0 z-30 h-16 bg-white border-b border-[#E5EAE7] px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
           <nav aria-label="Breadcrumb" className="min-w-0">
             <p className="text-xs text-[#66736C] truncate">
               BioRoute Admin / <strong className="font-semibold text-[#17231D]">{menuAktif?.name}</strong>
