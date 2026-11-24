@@ -45,7 +45,6 @@ describe('saringBatch', () => {
   });
 
   it('menggabungkan filter kategori dan jalur', () => {
-    // KAT-01 saja → BR-01, BR-03, BR-04; JLR-02 saja → BR-02, BR-03; keduanya → hanya BR-03
     const hasil = saringBatch(batchUji, mitraUji, { ...tanpaFilter, kategoriId: 'KAT-01', jalurId: 'JLR-02' });
     expect(kode(hasil)).toEqual(['BR-03']);
   });
@@ -55,8 +54,8 @@ describe('saringBatch', () => {
   });
 });
 
+// 12 data, 5 per halaman → 3 halaman (5, 5, 2)
 describe('ambilHalaman', () => {
-  // 12 data, 5 per halaman → 3 halaman (5, 5, 2)
   const angka = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   it('mengambil halaman pertama beserta keterangannya', () => {
@@ -98,7 +97,6 @@ describe('ambilHalaman', () => {
 });
 
 describe('saringMitra', () => {
-  // Tanggal, nama, dan kecamatan dibuat berbeda supaya setiap urutan dan setiap kolom pencarian menghasilkan jawaban yang berbeda.
   const mitraVerifikasi = [
     { id: 'M1', nama: 'Warung Bu Slamet', penanggungJawab: 'Slamet Riyadi', kecamatan: 'Purwokerto Timur', statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU, diajukanPada: '2026-11-14T10:00:00+07:00' },
     { id: 'M2', nama: 'Dapur Organik', penanggungJawab: 'Hendra Setiawan', kecamatan: 'Purwokerto Barat', statusVerifikasi: STATUS_VERIFIKASI.MENUNGGU, diajukanPada: '2026-11-16T09:00:00+07:00' },
