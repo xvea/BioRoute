@@ -180,9 +180,9 @@ export default function AdminLoginPage() {
   return (
     <main className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-white font-sans antialiased">
       {/* Centerpiece: Split Two-Column Authentication Card */}
-      <section className="max-w-4xl w-full rounded-3xl overflow-hidden border border-[#E5EAE7] shadow-xl grid grid-cols-1 md:grid-cols-2 bg-white">
+      <section className="max-w-4xl w-full rounded-3xl overflow-hidden border border-garis shadow-xl grid grid-cols-1 md:grid-cols-2 bg-white">
         {/* LEFT PANEL: BRANDING & OPERATIONAL CONTEXT */}
-        <article className="relative bg-[#104D38] p-8 sm:p-10 flex flex-col justify-between text-white overflow-hidden min-h-115 md:min-h-145">
+        <article className="relative bg-brand-tua p-8 sm:p-10 flex flex-col justify-between text-white overflow-hidden min-h-115 md:min-h-145">
           {/* Subtle Organic Topographical Contour Vector Overlay */}
           <TopoContourBackground />
 
@@ -223,7 +223,7 @@ export default function AdminLoginPage() {
           <footer className="relative z-10 mt-8 pt-6 border-t border-white/15">
             {/* Lokasi konteks proyek */}
             <div className="flex items-center gap-1.5 text-xs text-white/95 font-medium">
-              <MapPin className="w-4 h-4 text-[#B7D76A] shrink-0" aria-hidden="true" />
+              <MapPin className="w-4 h-4 text-aksen shrink-0" aria-hidden="true" />
               <span>Purwokerto, Kabupaten Banyumas</span>
             </div>
 
@@ -249,12 +249,12 @@ export default function AdminLoginPage() {
           <div>
             {/* Header: Chip Badge & Titles */}
             <header>
-              <div className="inline-flex items-center gap-1.5 bg-[#EAF5F0] text-[#16805D] text-xs font-medium px-3 py-1 rounded-full mb-3">
+              <div className="inline-flex items-center gap-1.5 bg-sukses-muda text-sukses text-xs font-medium px-3 py-1 rounded-full mb-3">
                 <span className="text-xs leading-none">●</span>
                 <span>Khusus Admin</span>
               </div>
-              <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">Masuk sebagai Admin</h2>
-              <p className="text-xs text-[#66736C] mt-1 mb-6">
+              <h2 className="text-2xl font-bold text-teks tracking-tight">Masuk sebagai Admin</h2>
+              <p className="text-xs text-teks-redup mt-1 mb-6">
                 Kelola verifikasi mitra, batch residu, laporan, dan pengaturan.
               </p>
             </header>
@@ -263,16 +263,16 @@ export default function AdminLoginPage() {
             {status === 'success' ? (
               <div
                 role="status"
-                className="bg-[#EAF5F0] border border-[#16805D]/20 rounded-2xl p-6 text-center animate-fade-in my-4"
+                className="bg-sukses-muda border border-sukses/20 rounded-2xl p-6 text-center animate-fade-in my-4"
               >
-                <div className="w-12 h-12 rounded-full bg-[#16805D] text-white flex items-center justify-center mx-auto mb-3 shadow-sm">
+                <div className="w-12 h-12 rounded-full bg-sukses text-white flex items-center justify-center mx-auto mb-3 shadow-sm">
                   <Check className="w-6 h-6 stroke-[2.5]" aria-hidden="true" />
                 </div>
-                <h3 className="text-base font-bold text-[#17231D]">Otentikasi Berhasil</h3>
-                <p className="text-xs text-[#66736C] mt-1.5 leading-relaxed">
-                  Selamat datang, <strong className="text-[#17231D]">{authenticatedUser?.name}</strong>.
+                <h3 className="text-base font-bold text-teks">Otentikasi Berhasil</h3>
+                <p className="text-xs text-teks-redup mt-1.5 leading-relaxed">
+                  Selamat datang, <strong className="text-teks">{authenticatedUser?.name}</strong>.
                 </p>
-                <div className="mt-4 pt-3 border-t border-[#16805D]/15 flex items-center justify-center gap-2 text-xs text-[#16805D] font-medium">
+                <div className="mt-4 pt-3 border-t border-sukses/15 flex items-center justify-center gap-2 text-xs text-sukses font-medium">
                   <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
                   <span>Membuka Dashboard...</span>
                 </div>
@@ -285,10 +285,10 @@ export default function AdminLoginPage() {
                   <aside
                     role="alert"
                     aria-live="assertive"
-                    className="bg-red-50 border border-red-200 rounded-xl p-3.5 flex items-start justify-between gap-3 text-[#C2413B]"
+                    className="bg-red-50 border border-red-200 rounded-xl p-3.5 flex items-start justify-between gap-3 text-bahaya"
                   >
                     <div className="flex items-start gap-2.5">
-                      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-[#C2413B]" aria-hidden="true" />
+                      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-bahaya" aria-hidden="true" />
                       <div className="text-xs leading-relaxed">
                         <strong className="font-semibold block">Gagal Masuk:</strong>
                         <span>{errorMessage}</span>
@@ -297,7 +297,7 @@ export default function AdminLoginPage() {
                     <button
                       type="button"
                       onClick={handleRetry}
-                      className="shrink-0 text-xs font-semibold text-[#C2413B] hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C2413B] rounded px-1.5 py-0.5 cursor-pointer"
+                      className="shrink-0 text-xs font-semibold text-bahaya hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-bahaya rounded px-1.5 py-0.5 cursor-pointer"
                     >
                       Coba Lagi
                     </button>
@@ -306,11 +306,11 @@ export default function AdminLoginPage() {
 
                 {/* Email Input Field */}
                 <div>
-                  <label htmlFor="admin-email" className="text-xs font-semibold text-[#17231D] mb-1.5 block">
+                  <label htmlFor="admin-email" className="text-xs font-semibold text-teks mb-1.5 block">
                     Email Admin
                   </label>
                   <div className="relative">
-                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#66736C]">
+                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-teks-redup">
                       <Mail className="w-4 h-4" aria-hidden="true" />
                     </span>
                     <input
@@ -324,10 +324,10 @@ export default function AdminLoginPage() {
                       aria-required="true"
                       aria-invalid={Boolean(validationErrors.email)}
                       aria-describedby={validationErrors.email ? 'email-error' : undefined}
-                      className={`w-full pl-9 pr-3.5 py-2.5 bg-[#F4F6F5] text-sm text-[#17231D] placeholder-[#66736C] rounded-xl border transition-all focus:outline-none focus:ring-2 ${
+                      className={`w-full pl-9 pr-3.5 py-2.5 bg-latar-redup text-sm text-teks placeholder-teks-redup rounded-xl border transition-all focus:outline-none focus:ring-2 ${
                         validationErrors.email
-                          ? 'border-[#C2413B] focus:border-[#C2413B] focus:ring-[#C2413B]'
-                          : 'border-[#E5EAE7] focus:border-[#176B4D] focus:ring-[#176B4D]'
+                          ? 'border-bahaya focus:border-bahaya focus:ring-bahaya'
+                          : 'border-garis focus:border-brand focus:ring-brand'
                       }`}
                     />
                   </div>
@@ -335,7 +335,7 @@ export default function AdminLoginPage() {
                     <p
                       id="email-error"
                       role="alert"
-                      className="text-xs text-[#C2413B] mt-1.5 flex items-center gap-1 font-medium"
+                      className="text-xs text-bahaya mt-1.5 flex items-center gap-1 font-medium"
                     >
                       <span>⚠</span>
                       <span>{validationErrors.email}</span>
@@ -345,11 +345,11 @@ export default function AdminLoginPage() {
 
                 {/* Password Input Field */}
                 <div>
-                  <label htmlFor="admin-password" className="text-xs font-semibold text-[#17231D] mb-1.5 block">
+                  <label htmlFor="admin-password" className="text-xs font-semibold text-teks mb-1.5 block">
                     Kata Sandi
                   </label>
                   <div className="relative">
-                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#66736C]">
+                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-teks-redup">
                       <Lock className="w-4 h-4" aria-hidden="true" />
                     </span>
                     <input
@@ -363,17 +363,17 @@ export default function AdminLoginPage() {
                       aria-required="true"
                       aria-invalid={Boolean(validationErrors.password)}
                       aria-describedby={validationErrors.password ? 'password-error' : undefined}
-                      className={`w-full pl-9 pr-10 py-2.5 bg-[#F4F6F5] text-sm text-[#17231D] placeholder-[#66736C] rounded-xl border transition-all focus:outline-none focus:ring-2 ${
+                      className={`w-full pl-9 pr-10 py-2.5 bg-latar-redup text-sm text-teks placeholder-teks-redup rounded-xl border transition-all focus:outline-none focus:ring-2 ${
                         validationErrors.password
-                          ? 'border-[#C2413B] focus:border-[#C2413B] focus:ring-[#C2413B]'
-                          : 'border-[#E5EAE7] focus:border-[#176B4D] focus:ring-[#176B4D]'
+                          ? 'border-bahaya focus:border-bahaya focus:ring-bahaya'
+                          : 'border-garis focus:border-brand focus:ring-brand'
                       }`}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword((prev) => !prev)}
                       aria-label={showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#66736C] hover:text-[#17231D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] rounded-lg transition-colors cursor-pointer"
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-teks-redup hover:text-teks focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-lg transition-colors cursor-pointer"
                     >
                       {showPassword ? (
                         <EyeOff className="w-4 h-4" aria-hidden="true" />
@@ -386,7 +386,7 @@ export default function AdminLoginPage() {
                     <p
                       id="password-error"
                       role="alert"
-                      className="text-xs text-[#C2413B] mt-1.5 flex items-center gap-1 font-medium"
+                      className="text-xs text-bahaya mt-1.5 flex items-center gap-1 font-medium"
                     >
                       <span>⚠</span>
                       <span>{validationErrors.password}</span>
@@ -398,7 +398,7 @@ export default function AdminLoginPage() {
                 <div className="flex items-center justify-between pt-1">
                   <label
                     htmlFor="remember-session"
-                    className="inline-flex items-center gap-2 text-xs text-[#17231D] cursor-pointer select-none group"
+                    className="inline-flex items-center gap-2 text-xs text-teks cursor-pointer select-none group"
                   >
                     <input
                       id="remember-session"
@@ -406,7 +406,7 @@ export default function AdminLoginPage() {
                       type="checkbox"
                       checked={formData.rememberMe}
                       onChange={handleInputChange}
-                      className="w-4 h-4 rounded text-[#176B4D] accent-[#176B4D] border-[#E5EAE7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] focus-visible:ring-offset-1 cursor-pointer transition-colors"
+                      className="w-4 h-4 rounded text-brand accent-brand border-garis focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-1 cursor-pointer transition-colors"
                     />
                     <span className="group-hover:text-black transition-colors">Ingat sesi ini</span>
                   </label>
@@ -417,7 +417,7 @@ export default function AdminLoginPage() {
                   <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="w-full flex items-center justify-center gap-2 bg-[#176B4D] hover:bg-[#104D38] active:bg-[#0d3c2b] text-white text-sm font-medium rounded-xl py-3 px-4 shadow-sm hover:shadow transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] focus-visible:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                    className="w-full flex items-center justify-center gap-2 bg-brand hover:bg-brand-tua active:bg-brand-gelap text-white text-sm font-medium rounded-xl py-3 px-4 shadow-sm hover:shadow transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                   >
                     {status === 'loading' ? (
                       <>
@@ -437,9 +437,9 @@ export default function AdminLoginPage() {
           </div>
 
           {/* Footer Notice */}
-          <footer className="pt-6 mt-6 border-t border-[#E5EAE7]">
-            <p className="text-[11px] font-medium text-[#66736C] text-center">BioRoute - versi beta</p>
-            <p className="text-[10px] text-[#66736C]/80 text-center mt-1">Akses khusus administrator BioRoute.</p>
+          <footer className="pt-6 mt-6 border-t border-garis">
+            <p className="text-[11px] font-medium text-teks-redup text-center">BioRoute - versi beta</p>
+            <p className="text-[10px] text-teks-redup/80 text-center mt-1">Akses khusus administrator BioRoute.</p>
           </footer>
         </section>
       </section>

@@ -49,18 +49,18 @@ export default function ModalKategori({ kategoriAwal, daftarKategori, onBatal, o
         role="dialog"
         aria-modal="true"
         aria-labelledby="judul-modal-kategori"
-        className="bg-white rounded-2xl border border-[#E5EAE7] shadow-xl w-full max-w-md p-6"
+        className="bg-white rounded-2xl border border-garis shadow-xl w-full max-w-md p-6"
       >
-        <h2 id="judul-modal-kategori" className="text-lg font-bold text-[#17231D]">
+        <h2 id="judul-modal-kategori" className="text-lg font-bold text-teks">
           {modeUbah ? `Ubah kategori ${kategoriAwal.id}` : 'Tambah kategori material'}
         </h2>
-        <p className="text-xs text-[#66736C] mt-1">
+        <p className="text-xs text-teks-redup mt-1">
           Kategori dipakai mitra sumber saat mencatat batch dan tampil di Laporan.
         </p>
 
         <form onSubmit={handleSimpan} noValidate className="space-y-4 mt-4">
           <div>
-            <label htmlFor="kategori-nama" className="text-xs font-semibold text-[#17231D]">
+            <label htmlFor="kategori-nama" className="text-xs font-semibold text-teks">
               Nama kategori
             </label>
             <input
@@ -70,17 +70,17 @@ export default function ModalKategori({ kategoriAwal, daftarKategori, onBatal, o
               onChange={(e) => ubahKolom('nama', e.target.value)}
               autoFocus
               placeholder="Contoh: Ampas kopi"
-              className="mt-1 w-full px-3 py-2 bg-[#F4F6F5] text-xs text-[#17231D] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D]"
+              className="mt-1 w-full px-3 py-2 bg-latar-redup text-xs text-teks rounded-xl border border-garis focus:outline-none focus:ring-2 focus:ring-brand"
             />
             {tampilkanError && error.nama && (
-              <p role="alert" className="text-xs text-[#C2413B] mt-1">
+              <p role="alert" className="text-xs text-bahaya mt-1">
                 {error.nama}
               </p>
             )}
           </div>
 
           <div>
-            <label htmlFor="kategori-contoh" className="text-xs font-semibold text-[#17231D]">
+            <label htmlFor="kategori-contoh" className="text-xs font-semibold text-teks">
               Contoh residu
             </label>
             <textarea
@@ -89,17 +89,17 @@ export default function ModalKategori({ kategoriAwal, daftarKategori, onBatal, o
               value={form.contoh}
               onChange={(e) => ubahKolom('contoh', e.target.value)}
               placeholder="Contoh: Ampas kopi dari kafe dan kedai"
-              className="mt-1 w-full px-3 py-2 bg-[#F4F6F5] text-xs text-[#17231D] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D]"
+              className="mt-1 w-full px-3 py-2 bg-latar-redup text-xs text-teks rounded-xl border border-garis focus:outline-none focus:ring-2 focus:ring-brand"
             />
             {tampilkanError && error.contoh && (
-              <p role="alert" className="text-xs text-[#C2413B] mt-1">
+              <p role="alert" className="text-xs text-bahaya mt-1">
                 {error.contoh}
               </p>
             )}
           </div>
 
           <div>
-            <label htmlFor="kategori-kriteria" className="text-xs font-semibold text-[#17231D]">
+            <label htmlFor="kategori-kriteria" className="text-xs font-semibold text-teks">
               Kriteria fisik (opsional, pisahkan dengan koma)
             </label>
             <input
@@ -108,7 +108,7 @@ export default function ModalKategori({ kategoriAwal, daftarKategori, onBatal, o
               value={form.kriteria}
               onChange={(e) => ubahKolom('kriteria', e.target.value)}
               placeholder="Contoh: Kering, Bebas plastik"
-              className="mt-1 w-full px-3 py-2 bg-[#F4F6F5] text-xs text-[#17231D] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D]"
+              className="mt-1 w-full px-3 py-2 bg-latar-redup text-xs text-teks rounded-xl border border-garis focus:outline-none focus:ring-2 focus:ring-brand"
             />
           </div>
 
@@ -116,13 +116,13 @@ export default function ModalKategori({ kategoriAwal, daftarKategori, onBatal, o
             <button
               type="button"
               onClick={onBatal}
-              className="border border-[#E5EAE7] hover:bg-[#F4F6F5] text-sm font-medium px-4 py-2 rounded-xl text-[#17231D] cursor-pointer"
+              className="border border-garis hover:bg-latar-redup text-sm font-medium px-4 py-2 rounded-xl text-teks cursor-pointer"
             >
               Batal
             </button>
             <button
               type="submit"
-              className="bg-[#176B4D] hover:bg-[#104D38] text-sm font-medium px-4 py-2 rounded-xl text-white cursor-pointer"
+              className="bg-brand hover:bg-brand-tua text-sm font-medium px-4 py-2 rounded-xl text-white cursor-pointer"
             >
               {modeUbah ? 'Simpan perubahan' : 'Tambah kategori'}
             </button>
