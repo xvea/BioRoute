@@ -19,6 +19,7 @@ import { useBioRoute } from '@/context/BioRouteContext';
 import useIsMounted from '@/hooks/useIsMounted';
 import { STATUS_BATCH } from '@/lib/constants';
 import { formatKg, formatPersen, formatTanggal } from '@/lib/format';
+import { WARNA_GRAFIK, WARNA_JALUR } from '@/lib/warnaGrafik';
 import {
   cariById,
   totalBeratDilaporkan,
@@ -33,10 +34,11 @@ import {
 } from '@/lib/hitung';
 
 // Warna dan ikon tiap jalur, dipilih berdasarkan urutan jalur di master data. Kalau admin menambah jalur baru, gayanya mengulang dari awal.
+// Warna batang grafik diambil dari src/lib/warnaGrafik.js.
 const GAYA_JALUR = [
-  { warna: '#176B4D', Ikon: Sprout, latarIkon: 'bg-brand-muda text-brand' },
-  { warna: '#2563EB', Ikon: Bug, latarIkon: 'bg-blue-50 text-info' },
-  { warna: '#B7791F', Ikon: Layers, latarIkon: 'bg-amber-50 text-peringatan' },
+  { warna: WARNA_JALUR[0], Ikon: Sprout, latarIkon: 'bg-brand-muda text-brand' },
+  { warna: WARNA_JALUR[1], Ikon: Bug, latarIkon: 'bg-blue-50 text-info' },
+  { warna: WARNA_JALUR[2], Ikon: Layers, latarIkon: 'bg-amber-50 text-peringatan' },
 ];
 
 /**
@@ -216,17 +218,17 @@ export default function DashboardPage() {
               {isClient && (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={dataMingguan} margin={{ top: 22, right: 10, left: -20, bottom: 0 }} barGap={6}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5EAE7" />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={WARNA_GRAFIK.garisBantu} />
                     <XAxis
                       dataKey="minggu"
-                      tick={{ fill: '#66736C', fontSize: 11 }}
-                      stroke="#E5EAE7"
-                      axisLine={{ stroke: '#E5EAE7' }}
+                      tick={{ fill: WARNA_GRAFIK.labelSumbu, fontSize: 11 }}
+                      stroke={WARNA_GRAFIK.garisBantu}
+                      axisLine={{ stroke: WARNA_GRAFIK.garisBantu }}
                       tickLine={false}
                     />
                     <YAxis
-                      tick={{ fill: '#66736C', fontSize: 11 }}
-                      stroke="#E5EAE7"
+                      tick={{ fill: WARNA_GRAFIK.labelSumbu, fontSize: 11 }}
+                      stroke={WARNA_GRAFIK.garisBantu}
                       axisLine={false}
                       tickLine={false}
                     />

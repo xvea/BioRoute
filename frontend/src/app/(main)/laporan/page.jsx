@@ -8,6 +8,7 @@ import useToast from '@/hooks/useToast';
 import useIsMounted from '@/hooks/useIsMounted';
 import { useBioRoute } from '@/context/BioRouteContext';
 import { formatKg, formatPersen } from '@/lib/format';
+import { WARNA_GRAFIK, WARNA_SELISIH } from '@/lib/warnaGrafik';
 import { csvRekapMitra, namaFileUnduhan } from '@/lib/csv';
 import { unduhCsv } from '@/lib/unduh';
 import {
@@ -175,18 +176,23 @@ export default function LaporanPage() {
               {isClient && (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={daftarSelisih} margin={{ top: 10, right: 10, left: -20, bottom: 0 }} barGap={4}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5EAE7" />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={WARNA_GRAFIK.garisBantu} />
                     <XAxis
                       dataKey="kode"
-                      tick={{ fill: '#66736C', fontSize: 10 }}
-                      axisLine={{ stroke: '#E5EAE7' }}
+                      tick={{ fill: WARNA_GRAFIK.labelSumbu, fontSize: 10 }}
+                      axisLine={{ stroke: WARNA_GRAFIK.garisBantu }}
                       tickLine={false}
                     />
-                    <YAxis tick={{ fill: '#66736C', fontSize: 11 }} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fill: WARNA_GRAFIK.labelSumbu, fontSize: 11 }} axisLine={false} tickLine={false} />
                     <Tooltip formatter={(nilai) => formatKg(nilai)} />
                     <Legend wrapperStyle={{ fontSize: 11 }} />
-                    <Bar dataKey="dilaporkanKg" name="Dilaporkan" fill="#B7D76A" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="diterimaKg" name="Diterima" fill="#176B4D" radius={[4, 4, 0, 0]} />
+                    <Bar
+                      dataKey="dilaporkanKg"
+                      name="Dilaporkan"
+                      fill={WARNA_SELISIH.dilaporkan}
+                      radius={[4, 4, 0, 0]}
+                    />
+                    <Bar dataKey="diterimaKg" name="Diterima" fill={WARNA_SELISIH.diterima} radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               )}
