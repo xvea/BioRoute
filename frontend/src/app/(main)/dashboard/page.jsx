@@ -34,9 +34,9 @@ import {
 
 // Warna dan ikon tiap jalur, dipilih berdasarkan urutan jalur di master data. Kalau admin menambah jalur baru, gayanya mengulang dari awal.
 const GAYA_JALUR = [
-  { warna: '#176B4D', Ikon: Sprout, latarIkon: 'bg-[#EAF5F0] text-[#176B4D]' },
-  { warna: '#2563EB', Ikon: Bug, latarIkon: 'bg-blue-50 text-[#2563EB]' },
-  { warna: '#B7791F', Ikon: Layers, latarIkon: 'bg-amber-50 text-[#B7791F]' },
+  { warna: '#176B4D', Ikon: Sprout, latarIkon: 'bg-brand-muda text-brand' },
+  { warna: '#2563EB', Ikon: Bug, latarIkon: 'bg-blue-50 text-info' },
+  { warna: '#B7791F', Ikon: Layers, latarIkon: 'bg-amber-50 text-peringatan' },
 ];
 
 /**
@@ -52,8 +52,8 @@ function gayaJalur(index) {
 function CustomChartTooltip({ active, payload, label }) {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-3 rounded-xl border border-[#E5EAE7] shadow-lg text-xs">
-        <p className="font-semibold text-[#17231D] mb-1.5">{label}</p>
+      <div className="bg-white p-3 rounded-xl border border-garis shadow-lg text-xs">
+        <p className="font-semibold text-teks mb-1.5">{label}</p>
         <div className="space-y-1">
           {payload.map((item) => (
             <p
@@ -96,8 +96,8 @@ export default function DashboardPage() {
     <div className="space-y-6 bg-white">
       {/* HEADER SECTION */}
       <section className="pb-2">
-        <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">Ringkasan Operasional</h1>
-        <p className="text-sm text-[#66736C] mt-1">
+        <h1 className="text-2xl font-bold text-teks tracking-tight">Ringkasan Operasional</h1>
+        <p className="text-sm text-teks-redup mt-1">
           Berat residu, status batch, dan mitra yang perlu ditindaklanjuti. Semua angka dihitung dari data batch dan
           mitra.
         </p>
@@ -109,81 +109,79 @@ export default function DashboardPage() {
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5"
       >
         {/* Metric 1: Berat tercatat */}
-        <article className="p-5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between hover:border-[#176B4D]/30 transition-colors">
+        <article className="p-5 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between hover:border-brand/30 transition-colors">
           <div className="flex items-start justify-between">
-            <span className="text-xs font-medium text-[#66736C]">Berat tercatat</span>
-            <div className="p-1.5 rounded-lg bg-[#EAF5F0] text-[#16805D]">
+            <span className="text-xs font-medium text-teks-redup">Berat tercatat</span>
+            <div className="p-1.5 rounded-lg bg-sukses-muda text-sukses">
               <Scale className="w-3.5 h-3.5" aria-hidden="true" />
             </div>
           </div>
           <div className="my-2.5">
-            <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">
+            <h2 className="text-2xl font-bold text-teks tracking-tight">
               {formatKg(totalBeratDilaporkan(daftarBatch))}
             </h2>
-            <span className="inline-flex items-center text-[11px] font-semibold text-[#16805D] mt-0.5">
+            <span className="inline-flex items-center text-[11px] font-semibold text-sukses mt-0.5">
               {daftarBatch.length - jumlahDitolak} batch tercatat
             </span>
           </div>
-          <p className="text-[11px] text-[#66736C] pt-2 border-t border-[#E5EAE7]/70 truncate">
+          <p className="text-[11px] text-teks-redup pt-2 border-t border-garis/70 truncate">
             Batch yang ditolak tidak dihitung
           </p>
         </article>
 
         {/* Metric 2: Diterima pengolah */}
-        <article className="p-5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between hover:border-[#176B4D]/30 transition-colors">
+        <article className="p-5 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between hover:border-brand/30 transition-colors">
           <div className="flex items-start justify-between">
-            <span className="text-xs font-medium text-[#66736C]">Diterima pengolah</span>
-            <div className="p-1.5 rounded-lg bg-blue-50 text-[#2563EB]">
+            <span className="text-xs font-medium text-teks-redup">Diterima pengolah</span>
+            <div className="p-1.5 rounded-lg bg-blue-50 text-info">
               <TrendingUp className="w-3.5 h-3.5" aria-hidden="true" />
             </div>
           </div>
           <div className="my-2.5">
-            <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">{formatKg(totalDiterima)}</h2>
-            <span className="inline-flex items-center text-[11px] font-semibold text-[#2563EB] mt-0.5">
+            <h2 className="text-2xl font-bold text-teks tracking-tight">{formatKg(totalDiterima)}</h2>
+            <span className="inline-flex items-center text-[11px] font-semibold text-info mt-0.5">
               {jumlahDitimbang} batch sudah ditimbang
             </span>
           </div>
-          <p className="text-[11px] text-[#66736C] pt-2 border-t border-[#E5EAE7]/70 truncate">
+          <p className="text-[11px] text-teks-redup pt-2 border-t border-garis/70 truncate">
             Hasil timbang manual saat serah terima
           </p>
         </article>
 
         {/* Metric 3: Ditolak */}
-        <article className="p-5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between hover:border-[#176B4D]/30 transition-colors">
+        <article className="p-5 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between hover:border-brand/30 transition-colors">
           <div className="flex items-start justify-between">
-            <span className="text-xs font-medium text-[#66736C]">Ditolak</span>
-            <div className="p-1.5 rounded-lg bg-red-50 text-[#C2413B]">
+            <span className="text-xs font-medium text-teks-redup">Ditolak</span>
+            <div className="p-1.5 rounded-lg bg-red-50 text-bahaya">
               <AlertTriangle className="w-3.5 h-3.5" aria-hidden="true" />
             </div>
           </div>
           <div className="my-2.5">
-            <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">
-              {formatKg(totalBeratDitolak(daftarBatch))}
-            </h2>
-            <span className="inline-flex items-center text-[11px] font-semibold text-[#C2413B] mt-0.5">
+            <h2 className="text-2xl font-bold text-teks tracking-tight">{formatKg(totalBeratDitolak(daftarBatch))}</h2>
+            <span className="inline-flex items-center text-[11px] font-semibold text-bahaya mt-0.5">
               {jumlahDitolak} batch ditolak
             </span>
           </div>
-          <p className="text-[11px] text-[#66736C] pt-2 border-t border-[#E5EAE7]/70 truncate">
+          <p className="text-[11px] text-teks-redup pt-2 border-t border-garis/70 truncate">
             Alasan penolakan wajib dicatat
           </p>
         </article>
 
         {/* Metric 4: Batch aktif */}
-        <article className="p-5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between hover:border-[#176B4D]/30 transition-colors">
+        <article className="p-5 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between hover:border-brand/30 transition-colors">
           <div className="flex items-start justify-between">
-            <span className="text-xs font-medium text-[#66736C]">Batch aktif</span>
-            <div className="p-1.5 rounded-lg bg-amber-50 text-[#B7791F]">
+            <span className="text-xs font-medium text-teks-redup">Batch aktif</span>
+            <div className="p-1.5 rounded-lg bg-amber-50 text-peringatan">
               <Layers className="w-3.5 h-3.5" aria-hidden="true" />
             </div>
           </div>
           <div className="my-2.5">
-            <h2 className="text-2xl font-bold text-[#17231D] tracking-tight">{hitungBatchAktif(daftarBatch)} batch</h2>
-            <span className="inline-flex items-center text-[11px] font-semibold text-[#B7791F] mt-0.5">
+            <h2 className="text-2xl font-bold text-teks tracking-tight">{hitungBatchAktif(daftarBatch)} batch</h2>
+            <span className="inline-flex items-center text-[11px] font-semibold text-peringatan mt-0.5">
               {hitungBatchPerStatus(daftarBatch, STATUS_BATCH.DIAJUKAN)} menunggu persetujuan
             </span>
           </div>
-          <p className="text-[11px] text-[#66736C] pt-2 border-t border-[#E5EAE7]/70 truncate">
+          <p className="text-[11px] text-teks-redup pt-2 border-t border-garis/70 truncate">
             {hitungBatchPerStatus(daftarBatch, STATUS_BATCH.DIPROSES)} sedang diproses pengolah
           </p>
         </article>
@@ -192,12 +190,12 @@ export default function DashboardPage() {
       {/* MIDDLE SECTION (7:5 DESKTOP GRID) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Card: Berat per minggu (kg) */}
-        <article className="lg:col-span-7 p-6 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between">
+        <article className="lg:col-span-7 p-6 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between">
           <div>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
               <div>
-                <h2 className="text-base font-bold text-[#17231D]">Berat per minggu (kg)</h2>
-                <p className="text-xs text-[#66736C] mt-0.5">
+                <h2 className="text-base font-bold text-teks">Berat per minggu (kg)</h2>
+                <p className="text-xs text-teks-redup mt-0.5">
                   Berat dilaporkan per minggu pengajuan (batch ditolak tidak dihitung)
                 </p>
               </div>
@@ -207,7 +205,7 @@ export default function DashboardPage() {
                 {jalurPemanfaatan.map((jalur, index) => (
                   <div key={jalur.id} className="flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-xs" style={{ backgroundColor: gayaJalur(index).warna }} />
-                    <span className="text-[#17231D]">{jalur.nama}</span>
+                    <span className="text-teks">{jalur.nama}</span>
                   </div>
                 ))}
               </div>
@@ -259,13 +257,13 @@ export default function DashboardPage() {
         </article>
 
         {/* Right Card: Jalur pemanfaatan */}
-        <article className="lg:col-span-5 p-6 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between">
+        <article className="lg:col-span-5 p-6 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <GitFork className="w-4 h-4 text-[#176B4D]" aria-hidden="true" />
-              <h2 className="text-base font-bold text-[#17231D]">Jalur pemanfaatan</h2>
+              <GitFork className="w-4 h-4 text-brand" aria-hidden="true" />
+              <h2 className="text-base font-bold text-teks">Jalur pemanfaatan</h2>
             </div>
-            <p className="text-xs text-[#66736C] mb-5">Berat hasil timbang pengolah per jalur</p>
+            <p className="text-xs text-teks-redup mb-5">Berat hasil timbang pengolah per jalur</p>
 
             {/* Allocation Items */}
             <div className="space-y-4">
@@ -274,29 +272,29 @@ export default function DashboardPage() {
                 const detailJalur = cariById(jalurPemanfaatan, jalur.id);
 
                 return (
-                  <div key={jalur.id} className="p-3.5 rounded-xl bg-[#F4F6F5] border border-[#E5EAE7]">
+                  <div key={jalur.id} className="p-3.5 rounded-xl bg-latar-redup border border-garis">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <div className={`p-1.5 rounded-lg ${latarIkon}`}>
                           <Ikon className="w-3.5 h-3.5" aria-hidden="true" />
                         </div>
-                        <span className="text-xs font-semibold text-[#17231D]">{jalur.nama}</span>
+                        <span className="text-xs font-semibold text-teks">{jalur.nama}</span>
                       </div>
                       <div className="text-right">
-                        <span className="text-xs font-bold text-[#17231D]">{formatKg(jalur.kg)}</span>
-                        <span className="text-[11px] text-[#66736C] ml-1">({formatPersen(jalur.persen)})</span>
+                        <span className="text-xs font-bold text-teks">{formatKg(jalur.kg)}</span>
+                        <span className="text-[11px] text-teks-redup ml-1">({formatPersen(jalur.persen)})</span>
                       </div>
                     </div>
 
                     {/* Progress Bar */}
-                    <div className="w-full bg-[#E5EAE7] h-2 rounded-full overflow-hidden">
+                    <div className="w-full bg-garis h-2 rounded-full overflow-hidden">
                       <div
                         className="h-full transition-all duration-500 rounded-full"
                         style={{ width: `${jalur.persen}%`, backgroundColor: warna }}
                       />
                     </div>
 
-                    <p className="text-[11px] text-[#66736C] mt-2">{detailJalur?.materialDiterima}</p>
+                    <p className="text-[11px] text-teks-redup mt-2">{detailJalur?.materialDiterima}</p>
                   </div>
                 );
               })}
@@ -304,9 +302,9 @@ export default function DashboardPage() {
           </div>
 
           {/* Summary Box */}
-          <div className="mt-5 p-3.5 rounded-xl bg-[#EAF5F0] border border-[#16805D]/20 flex items-start gap-2.5">
-            <CheckCircle2 className="w-4 h-4 text-[#16805D] shrink-0 mt-0.5" aria-hidden="true" />
-            <p className="text-xs text-[#16805D] leading-snug">
+          <div className="mt-5 p-3.5 rounded-xl bg-sukses-muda border border-sukses/20 flex items-start gap-2.5">
+            <CheckCircle2 className="w-4 h-4 text-sukses shrink-0 mt-0.5" aria-hidden="true" />
+            <p className="text-xs text-sukses leading-snug">
               <strong>Total diterima: {formatKg(totalDiterima)}</strong> — dari {jalurPemanfaatan.length} jalur
               pemanfaatan
             </p>
@@ -317,15 +315,15 @@ export default function DashboardPage() {
       {/* BOTTOM SECTION (BATCHES & VERIFICATION) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Card: Batch terbaru (7 cols) */}
-        <article className="lg:col-span-7 p-6 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs">
+        <article className="lg:col-span-7 p-6 rounded-2xl bg-white border border-garis shadow-xs">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <h2 className="text-base font-bold text-[#17231D]">Batch terbaru</h2>
-              <span className="bg-[#EAF5F0] text-[#16805D] text-xs font-medium px-2.5 py-0.5 rounded-full border border-[#16805D]/15">
+              <h2 className="text-base font-bold text-teks">Batch terbaru</h2>
+              <span className="bg-sukses-muda text-sukses text-xs font-medium px-2.5 py-0.5 rounded-full border border-sukses/15">
                 {daftarBatchTerbaru.length} terbaru dari {daftarBatch.length}
               </span>
             </div>
-            <Link href="/batch" className="text-xs font-medium text-[#176B4D] hover:underline flex items-center gap-1">
+            <Link href="/batch" className="text-xs font-medium text-brand hover:underline flex items-center gap-1">
               <span>Lihat semua</span>
               <ArrowRight className="w-3 h-3" aria-hidden="true" />
             </Link>
@@ -335,7 +333,7 @@ export default function DashboardPage() {
           <div className="overflow-x-auto -mx-6 px-6">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-[#E5EAE7] text-[#66736C] font-semibold">
+                <tr className="border-b border-garis text-teks-redup font-semibold">
                   <th scope="col" className="pb-2.5 font-medium">
                     Kode
                   </th>
@@ -359,16 +357,16 @@ export default function DashboardPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E5EAE7]/60">
+              <tbody className="divide-y divide-garis/60">
                 {daftarBatchTerbaru.map((batch) => (
-                  <tr key={batch.kode} className="hover:bg-[#F4F6F5]/50 transition-colors">
-                    <td className="py-3 font-mono text-[11px] text-[#17231D] font-medium">{batch.kode}</td>
-                    <td className="py-3 font-medium text-[#17231D]">{cariById(daftarMitra, batch.sumberId)?.nama}</td>
-                    <td className="py-3 text-[#66736C] hidden sm:table-cell">
+                  <tr key={batch.kode} className="hover:bg-latar-redup/50 transition-colors">
+                    <td className="py-3 font-mono text-[11px] text-teks font-medium">{batch.kode}</td>
+                    <td className="py-3 font-medium text-teks">{cariById(daftarMitra, batch.sumberId)?.nama}</td>
+                    <td className="py-3 text-teks-redup hidden sm:table-cell">
                       {cariById(kategoriMaterial, batch.kategoriId)?.nama}
                     </td>
-                    <td className="py-3 font-semibold text-[#17231D]">{formatKg(batch.beratKg)}</td>
-                    <td className="py-3 text-[#66736C] hidden md:table-cell">
+                    <td className="py-3 font-semibold text-teks">{formatKg(batch.beratKg)}</td>
+                    <td className="py-3 text-teks-redup hidden md:table-cell">
                       {cariById(jalurPemanfaatan, batch.jalurId)?.nama}
                     </td>
                     <td className="py-3">
@@ -377,7 +375,7 @@ export default function DashboardPage() {
                     <td className="py-3 text-right">
                       <Link
                         href={`/batch?kode=${batch.kode}`}
-                        className="text-xs font-semibold text-[#176B4D] hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#176B4D] rounded px-1.5 py-0.5"
+                        className="text-xs font-semibold text-brand hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand rounded px-1.5 py-0.5"
                       >
                         Detail
                       </Link>
@@ -390,40 +388,40 @@ export default function DashboardPage() {
         </article>
 
         {/* Right Card: Perlu verifikasi (5 cols) */}
-        <article className="lg:col-span-5 p-6 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between">
+        <article className="lg:col-span-5 p-6 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-1">
-              <h2 className="text-base font-bold text-[#17231D]">Perlu verifikasi</h2>
+              <h2 className="text-base font-bold text-teks">Perlu verifikasi</h2>
               <span className="bg-red-50 text-red-600 font-bold px-2.5 py-0.5 rounded-full text-xs">
                 {daftarMitraMenunggu.length} menunggu
               </span>
             </div>
-            <p className="text-xs text-[#66736C] mb-4">Mitra baru yang menunggu keputusan admin</p>
+            <p className="text-xs text-teks-redup mb-4">Mitra baru yang menunggu keputusan admin</p>
 
             {/* Partner List */}
             <div className="space-y-3">
               {daftarMitraMenunggu.length === 0 && (
-                <p className="text-xs text-[#66736C]">Tidak ada mitra yang menunggu verifikasi.</p>
+                <p className="text-xs text-teks-redup">Tidak ada mitra yang menunggu verifikasi.</p>
               )}
               {daftarMitraMenunggu.map((mitra) => (
                 <div
                   key={mitra.id}
-                  className="p-3 rounded-xl border border-[#E5EAE7] hover:border-[#176B4D]/30 transition-all flex items-center justify-between gap-3 bg-[#F4F6F5]/40"
+                  className="p-3 rounded-xl border border-garis hover:border-brand/30 transition-all flex items-center justify-between gap-3 bg-latar-redup/40"
                 >
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <p className="text-xs font-bold text-[#17231D] truncate">{mitra.nama}</p>
-                      <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-white border border-[#E5EAE7] text-[#66736C]">
+                      <p className="text-xs font-bold text-teks truncate">{mitra.nama}</p>
+                      <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-white border border-garis text-teks-redup">
                         {mitra.peran === 'sumber' ? 'Sumber' : 'Pengolah'}
                       </span>
                     </div>
-                    <p className="text-[11px] text-[#66736C] truncate mt-0.5">
+                    <p className="text-[11px] text-teks-redup truncate mt-0.5">
                       {mitra.kecamatan} • Daftar {formatTanggal(mitra.diajukanPada)}
                     </p>
                   </div>
                   <Link
                     href={`/verifikasi?id=${mitra.id}`}
-                    className="shrink-0 text-xs font-medium bg-white hover:bg-[#EAF5F0] text-[#176B4D] border border-[#E5EAE7] hover:border-[#176B4D]/30 px-3 py-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D]"
+                    className="shrink-0 text-xs font-medium bg-white hover:bg-brand-muda text-brand border border-garis hover:border-brand/30 px-3 py-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
                   >
                     Tinjau
                   </Link>
@@ -433,8 +431,8 @@ export default function DashboardPage() {
           </div>
 
           {/* Note Banner */}
-          <aside className="mt-5 p-3 rounded-xl bg-[#F4F6F5] border border-[#E5EAE7] flex items-start gap-2.5 text-[#66736C]">
-            <Info className="w-4 h-4 text-[#176B4D] shrink-0 mt-0.5" aria-hidden="true" />
+          <aside className="mt-5 p-3 rounded-xl bg-latar-redup border border-garis flex items-start gap-2.5 text-teks-redup">
+            <Info className="w-4 h-4 text-brand shrink-0 mt-0.5" aria-hidden="true" />
             <p className="text-[11px] leading-relaxed">
               Kelayakan material ditentukan oleh mitra pengolah, bukan oleh aplikasi.
             </p>

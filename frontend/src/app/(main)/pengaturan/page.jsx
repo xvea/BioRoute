@@ -26,8 +26,8 @@ function ToggleSwitch({ active, onToggle, ariaLabel }) {
       aria-checked={active}
       aria-label={ariaLabel}
       onClick={onToggle}
-      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] focus-visible:ring-offset-2 ${
-        active ? 'bg-[#176B4D]' : 'bg-[#E5EAE7]'
+      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
+        active ? 'bg-brand' : 'bg-garis'
       }`}
     >
       <span
@@ -141,65 +141,65 @@ export default function PengaturanPage() {
 
       {/* Judul halaman */}
       <section className="pb-1">
-        <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">Pengaturan Master Data</h1>
-        <p className="text-sm text-[#66736C] mt-1">
+        <h1 className="text-2xl font-bold text-teks tracking-tight">Pengaturan Master Data</h1>
+        <p className="text-sm text-teks-redup mt-1">
           Kelola kategori material, jalur pemanfaatan, dan parameter verifikasi yang dipakai di seluruh aplikasi.
         </p>
       </section>
 
       {/* Kartu ringkasan (dihitung dari state) */}
       <section aria-label="Ringkasan pengaturan" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <article className="p-4 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs">
-          <div className="flex items-center justify-between text-xs text-[#66736C]">
+        <article className="p-4 rounded-2xl bg-white border border-garis shadow-xs">
+          <div className="flex items-center justify-between text-xs text-teks-redup">
             <span>Kategori aktif</span>
             <Layers className="w-4 h-4" aria-hidden="true" />
           </div>
-          <p className="text-2xl font-bold text-[#17231D] mt-1">
+          <p className="text-2xl font-bold text-teks mt-1">
             {jumlahKategoriAktif}{' '}
-            <span className="text-xs font-medium text-[#66736C]">dari {kategoriMaterial.length} kategori</span>
+            <span className="text-xs font-medium text-teks-redup">dari {kategoriMaterial.length} kategori</span>
           </p>
         </article>
-        <article className="p-4 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs">
-          <div className="flex items-center justify-between text-xs text-[#66736C]">
+        <article className="p-4 rounded-2xl bg-white border border-garis shadow-xs">
+          <div className="flex items-center justify-between text-xs text-teks-redup">
             <span>Jalur aktif</span>
             <GitFork className="w-4 h-4" aria-hidden="true" />
           </div>
-          <p className="text-2xl font-bold text-[#17231D] mt-1">
+          <p className="text-2xl font-bold text-teks mt-1">
             {jumlahJalurAktif}{' '}
-            <span className="text-xs font-medium text-[#66736C]">dari {jalurPemanfaatan.length} jalur</span>
+            <span className="text-xs font-medium text-teks-redup">dari {jalurPemanfaatan.length} jalur</span>
           </p>
         </article>
-        <article className="p-4 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs">
-          <div className="flex items-center justify-between text-xs text-[#66736C]">
+        <article className="p-4 rounded-2xl bg-white border border-garis shadow-xs">
+          <div className="flex items-center justify-between text-xs text-teks-redup">
             <span>Toleransi selisih</span>
             <Scale className="w-4 h-4" aria-hidden="true" />
           </div>
-          <p className="text-2xl font-bold text-[#17231D] mt-1">{formatKg(parameterVerifikasi.toleransiSelisihKg)}</p>
+          <p className="text-2xl font-bold text-teks mt-1">{formatKg(parameterVerifikasi.toleransiSelisihKg)}</p>
         </article>
-        <article className="p-4 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs">
-          <div className="flex items-center justify-between text-xs text-[#66736C]">
+        <article className="p-4 rounded-2xl bg-white border border-garis shadow-xs">
+          <div className="flex items-center justify-between text-xs text-teks-redup">
             <span>Satuan baku</span>
             <Package className="w-4 h-4" aria-hidden="true" />
           </div>
-          <p className="text-2xl font-bold text-[#17231D] mt-1">
-            Kilogram <span className="text-xs font-medium text-[#66736C]">(kg)</span>
+          <p className="text-2xl font-bold text-teks mt-1">
+            Kilogram <span className="text-xs font-medium text-teks-redup">(kg)</span>
           </p>
         </article>
       </section>
 
       {/* Tabel kategori material */}
-      <section className="rounded-2xl bg-white border border-[#E5EAE7] shadow-xs overflow-hidden">
+      <section className="rounded-2xl bg-white border border-garis shadow-xs overflow-hidden">
         <div className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h2 className="text-base font-bold text-[#17231D]">Kategori material organik</h2>
-            <p className="text-xs text-[#66736C] mt-0.5">
+            <h2 className="text-base font-bold text-teks">Kategori material organik</h2>
+            <p className="text-xs text-teks-redup mt-0.5">
               Kategori nonaktif tidak bisa dipilih untuk batch baru; batch lama tetap memakai kategorinya.
             </p>
           </div>
           <button
             type="button"
             onClick={() => setModalKategori('tambah')}
-            className="inline-flex items-center gap-1.5 bg-[#176B4D] hover:bg-[#104D38] text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors cursor-pointer shrink-0"
+            className="inline-flex items-center gap-1.5 bg-brand hover:bg-brand-tua text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors cursor-pointer shrink-0"
           >
             <Plus className="w-4 h-4" aria-hidden="true" />
             <span>Tambah Kategori</span>
@@ -208,7 +208,7 @@ export default function PengaturanPage() {
 
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
-            <thead className="bg-[#F4F6F5] text-[#66736C]">
+            <thead className="bg-latar-redup text-teks-redup">
               <tr>
                 <th scope="col" className="py-3 pl-6 font-medium">
                   Ikon
@@ -227,28 +227,28 @@ export default function PengaturanPage() {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#E5EAE7]/60">
+            <tbody className="divide-y divide-garis/60">
               {kategoriMaterial.map((kategori, index) => {
                 const Ikon = IKON_KATEGORI[index % IKON_KATEGORI.length];
                 return (
-                  <tr key={kategori.id} className={kategori.aktif ? '' : 'bg-[#F4F6F5]/50'}>
+                  <tr key={kategori.id} className={kategori.aktif ? '' : 'bg-latar-redup/50'}>
                     <td className="py-4 pl-6">
-                      <div className="w-9 h-9 rounded-xl border border-[#E5EAE7] bg-[#F4F6F5] flex items-center justify-center text-[#176B4D]">
+                      <div className="w-9 h-9 rounded-xl border border-garis bg-latar-redup flex items-center justify-center text-brand">
                         <Ikon className="w-4 h-4" aria-hidden="true" />
                       </div>
                     </td>
                     <td className="py-4">
-                      <p className="text-sm font-semibold text-[#17231D]">{kategori.nama}</p>
-                      <p className="text-[11px] font-mono text-[#66736C] mt-0.5">Kode: {kategori.id}</p>
+                      <p className="text-sm font-semibold text-teks">{kategori.nama}</p>
+                      <p className="text-[11px] font-mono text-teks-redup mt-0.5">Kode: {kategori.id}</p>
                     </td>
                     <td className="py-4 max-w-sm">
-                      <p className="text-[#17231D]">{kategori.contoh}</p>
+                      <p className="text-teks">{kategori.contoh}</p>
                       {kategori.kriteria.length > 0 && (
                         <ul className="flex flex-wrap gap-1.5 mt-1.5">
                           {kategori.kriteria.map((kriteria) => (
                             <li
                               key={kriteria}
-                              className="px-2 py-0.5 rounded border border-[#E5EAE7] bg-[#F4F6F5] text-[11px] font-medium text-[#66736C]"
+                              className="px-2 py-0.5 rounded border border-garis bg-latar-redup text-[11px] font-medium text-teks-redup"
                             >
                               {kriteria}
                             </li>
@@ -263,7 +263,7 @@ export default function PengaturanPage() {
                           onToggle={() => handleToggleKategori(kategori)}
                           ariaLabel={`Status kategori ${kategori.nama}`}
                         />
-                        <span className="font-semibold text-[#17231D]">{kategori.aktif ? 'Aktif' : 'Nonaktif'}</span>
+                        <span className="font-semibold text-teks">{kategori.aktif ? 'Aktif' : 'Nonaktif'}</span>
                       </div>
                     </td>
                     <td className="py-4 pr-6 text-right">
@@ -271,7 +271,7 @@ export default function PengaturanPage() {
                         type="button"
                         onClick={() => setModalKategori(kategori)}
                         aria-label={`Ubah kategori ${kategori.nama}`}
-                        className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#E5EAE7] text-[#66736C] hover:bg-[#F4F6F5] hover:text-[#17231D] cursor-pointer"
+                        className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-garis text-teks-redup hover:bg-latar-redup hover:text-teks cursor-pointer"
                       >
                         <Pencil className="w-4 h-4" aria-hidden="true" />
                       </button>
@@ -285,10 +285,10 @@ export default function PengaturanPage() {
       </section>
 
       {/* Kartu jalur pemanfaatan */}
-      <section className="rounded-2xl bg-white border border-[#E5EAE7] shadow-xs p-6 space-y-5">
+      <section className="rounded-2xl bg-white border border-garis shadow-xs p-6 space-y-5">
         <div>
-          <h2 className="text-base font-bold text-[#17231D]">Jalur pemanfaatan</h2>
-          <p className="text-xs text-[#66736C] mt-0.5">
+          <h2 className="text-base font-bold text-teks">Jalur pemanfaatan</h2>
+          <p className="text-xs text-teks-redup mt-0.5">
             Batch hanya bisa ditawarkan ke mitra pengolah terverifikasi pada jalur yang sama. Minimal satu jalur harus
             tetap aktif.
           </p>
@@ -301,20 +301,20 @@ export default function PengaturanPage() {
             return (
               <article
                 key={jalur.id}
-                className={`p-5 rounded-2xl border border-[#E5EAE7] space-y-4 ${jalur.aktif ? 'bg-white' : 'bg-[#F4F6F5]/60'}`}
+                className={`p-5 rounded-2xl border border-garis space-y-4 ${jalur.aktif ? 'bg-white' : 'bg-latar-redup/60'}`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-[#EAF5F0] text-[#176B4D] flex items-center justify-center">
+                    <div className="w-9 h-9 rounded-xl bg-brand-muda text-brand flex items-center justify-center">
                       <Ikon className="w-4 h-4" aria-hidden="true" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-bold text-[#17231D]">{jalur.nama}</h3>
-                      <p className="text-[11px] font-mono text-[#66736C]">ID: {jalur.id}</p>
+                      <h3 className="text-sm font-bold text-teks">{jalur.nama}</h3>
+                      <p className="text-[11px] font-mono text-teks-redup">ID: {jalur.id}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-[#17231D]">{jalur.aktif ? 'Aktif' : 'Nonaktif'}</span>
+                    <span className="text-xs font-semibold text-teks">{jalur.aktif ? 'Aktif' : 'Nonaktif'}</span>
                     <ToggleSwitch
                       active={jalur.aktif}
                       onToggle={() => handleToggleJalur(jalur)}
@@ -323,31 +323,28 @@ export default function PengaturanPage() {
                   </div>
                 </div>
 
-                <p className="text-xs text-[#66736C]">{jalur.deskripsi}</p>
+                <p className="text-xs text-teks-redup">{jalur.deskripsi}</p>
 
-                <div className="p-3 rounded-xl bg-[#F4F6F5] text-xs">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-[#66736C]">Material diterima</p>
-                  <p className="text-[#17231D] mt-1">{jalur.materialDiterima}</p>
+                <div className="p-3 rounded-xl bg-latar-redup text-xs">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-teks-redup">Material diterima</p>
+                  <p className="text-teks mt-1">{jalur.materialDiterima}</p>
                 </div>
 
                 <div>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-[#66736C]">Mitra pengolah terverifikasi</span>
-                    <span className="px-2 py-0.5 rounded-full bg-[#EAF5F0] text-[#16805D] font-semibold">
+                    <span className="text-teks-redup">Mitra pengolah terverifikasi</span>
+                    <span className="px-2 py-0.5 rounded-full bg-sukses-muda text-sukses font-semibold">
                       {daftarPengolah.length} pengolah
                     </span>
                   </div>
                   {daftarPengolah.length === 0 ? (
-                    <p className="text-xs text-[#66736C] mt-2">
+                    <p className="text-xs text-teks-redup mt-2">
                       Belum ada mitra pengolah terverifikasi untuk jalur ini.
                     </p>
                   ) : (
                     <ul className="flex flex-wrap gap-2 mt-2">
                       {daftarPengolah.map((mitra) => (
-                        <li
-                          key={mitra.id}
-                          className="px-2.5 py-1 rounded-lg border border-[#E5EAE7] text-xs text-[#17231D]"
-                        >
+                        <li key={mitra.id} className="px-2.5 py-1 rounded-lg border border-garis text-xs text-teks">
                           {mitra.nama}
                         </li>
                       ))}
@@ -361,16 +358,16 @@ export default function PengaturanPage() {
       </section>
 
       {/* Form parameter verifikasi */}
-      <section className="rounded-2xl bg-white border border-[#E5EAE7] shadow-xs p-6">
+      <section className="rounded-2xl bg-white border border-garis shadow-xs p-6">
         <form onSubmit={handleSimpanParameter} noValidate className="space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h2 className="text-base font-bold text-[#17231D]">Parameter verifikasi</h2>
-              <p className="text-xs text-[#66736C] mt-0.5">Batas toleransi timbang manual dan waktu tinjau batch.</p>
+              <h2 className="text-base font-bold text-teks">Parameter verifikasi</h2>
+              <p className="text-xs text-teks-redup mt-0.5">Batas toleransi timbang manual dan waktu tinjau batch.</p>
             </div>
             <button
               type="submit"
-              className="bg-[#176B4D] hover:bg-[#104D38] text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors cursor-pointer shrink-0"
+              className="bg-brand hover:bg-brand-tua text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors cursor-pointer shrink-0"
             >
               Simpan Perubahan
             </button>
@@ -378,7 +375,7 @@ export default function PengaturanPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div>
-              <label htmlFor="param-toleransi" className="text-xs font-semibold text-[#17231D]">
+              <label htmlFor="param-toleransi" className="text-xs font-semibold text-teks">
                 Toleransi selisih berat (kg)
               </label>
               <input
@@ -387,21 +384,21 @@ export default function PengaturanPage() {
                 inputMode="decimal"
                 value={formParameter.toleransiSelisihKg}
                 onChange={(e) => ubahParameter('toleransiSelisihKg', e.target.value)}
-                className="mt-1 w-full px-3 py-2 bg-[#F4F6F5] text-sm text-[#17231D] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D]"
+                className="mt-1 w-full px-3 py-2 bg-latar-redup text-sm text-teks rounded-xl border border-garis focus:outline-none focus:ring-2 focus:ring-brand"
               />
               {tampilkanErrorParameter && errorParameter.toleransiSelisihKg ? (
-                <p role="alert" className="text-xs text-[#C2413B] mt-1">
+                <p role="alert" className="text-xs text-bahaya mt-1">
                   {errorParameter.toleransiSelisihKg}
                 </p>
               ) : (
-                <p className="text-[11px] text-[#66736C] mt-1">
+                <p className="text-[11px] text-teks-redup mt-1">
                   Selisih timbang di atas angka ini ditandai &quot;Melebihi toleransi&quot; di halaman Laporan.
                 </p>
               )}
             </div>
 
             <div>
-              <label htmlFor="param-waktu" className="text-xs font-semibold text-[#17231D]">
+              <label htmlFor="param-waktu" className="text-xs font-semibold text-teks">
                 Maksimal waktu tinjau batch (jam)
               </label>
               <input
@@ -410,21 +407,21 @@ export default function PengaturanPage() {
                 inputMode="numeric"
                 value={formParameter.maksWaktuTinjauJam}
                 onChange={(e) => ubahParameter('maksWaktuTinjauJam', e.target.value)}
-                className="mt-1 w-full px-3 py-2 bg-[#F4F6F5] text-sm text-[#17231D] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D]"
+                className="mt-1 w-full px-3 py-2 bg-latar-redup text-sm text-teks rounded-xl border border-garis focus:outline-none focus:ring-2 focus:ring-brand"
               />
               {tampilkanErrorParameter && errorParameter.maksWaktuTinjauJam ? (
-                <p role="alert" className="text-xs text-[#C2413B] mt-1">
+                <p role="alert" className="text-xs text-bahaya mt-1">
                   {errorParameter.maksWaktuTinjauJam}
                 </p>
               ) : (
-                <p className="text-[11px] text-[#66736C] mt-1">
+                <p className="text-[11px] text-teks-redup mt-1">
                   Batas waktu admin meninjau batch baru (dipakai untuk pengingat setelah backend tersedia).
                 </p>
               )}
             </div>
 
             <div>
-              <label htmlFor="param-satuan" className="text-xs font-semibold text-[#17231D]">
+              <label htmlFor="param-satuan" className="text-xs font-semibold text-teks">
                 Satuan pengukuran
               </label>
               <input
@@ -432,17 +429,17 @@ export default function PengaturanPage() {
                 type="text"
                 value="Kilogram (kg)"
                 disabled
-                className="mt-1 w-full px-3 py-2 bg-[#F4F6F5] text-sm text-[#66736C] rounded-xl border border-[#E5EAE7] cursor-not-allowed"
+                className="mt-1 w-full px-3 py-2 bg-latar-redup text-sm text-teks-redup rounded-xl border border-garis cursor-not-allowed"
               />
-              <p className="text-[11px] text-[#66736C] mt-1">Satuan dikunci agar semua laporan bisa dibandingkan.</p>
+              <p className="text-[11px] text-teks-redup mt-1">Satuan dikunci agar semua laporan bisa dibandingkan.</p>
             </div>
           </div>
         </form>
       </section>
 
       {/* Catatan peran aplikasi */}
-      <aside className="p-4 rounded-2xl bg-[#F4F6F5] border border-[#E5EAE7] flex items-start gap-3 text-xs text-[#66736C]">
-        <Info className="w-4 h-4 text-[#176B4D] shrink-0 mt-0.5" aria-hidden="true" />
+      <aside className="p-4 rounded-2xl bg-latar-redup border border-garis flex items-start gap-3 text-xs text-teks-redup">
+        <Info className="w-4 h-4 text-brand shrink-0 mt-0.5" aria-hidden="true" />
         <p>Kelayakan material ditentukan oleh mitra pengolah, bukan oleh aplikasi.</p>
       </aside>
     </div>

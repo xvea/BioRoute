@@ -39,8 +39,8 @@ const PILIHAN_URUTAN = [
 ];
 // Label dan warna badge peran mitra.
 const PERAN = {
-  sumber: { label: 'Mitra Sumber', gaya: 'bg-[#EAF5F0] text-[#16805D]' },
-  pengolah: { label: 'Mitra Pengolah', gaya: 'bg-[#EFF6FF] text-[#2563EB]' },
+  sumber: { label: 'Mitra Sumber', gaya: 'bg-sukses-muda text-sukses' },
+  pengolah: { label: 'Mitra Pengolah', gaya: 'bg-info-muda text-info' },
 };
 
 /**
@@ -140,14 +140,14 @@ function IsiHalamanVerifikasi({ idAwal }) {
 
       {/* Judul halaman */}
       <section className="pb-1">
-        <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">Verifikasi Mitra</h1>
-        <p className="text-sm text-[#66736C] mt-1">
+        <h1 className="text-2xl font-bold text-teks tracking-tight">Verifikasi Mitra</h1>
+        <p className="text-sm text-teks-redup mt-1">
           Periksa identitas, lokasi, dan kapasitas mitra sebelum akunnya diaktifkan.
         </p>
       </section>
 
       {/* Tab status (angka dihitung dari state) */}
-      <nav aria-label="Status verifikasi mitra" className="border-b border-[#E5EAE7]">
+      <nav aria-label="Status verifikasi mitra" className="border-b border-garis">
         <div role="tablist" className="flex items-center gap-8">
           {DAFTAR_TAB.map((status) => {
             const isAktif = tab === status;
@@ -159,9 +159,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 aria-selected={isAktif}
                 onClick={() => gantiTab(status)}
                 className={`pb-3 inline-flex items-center gap-2 text-sm font-medium transition-all cursor-pointer ${
-                  isAktif
-                    ? 'text-[#176B4D] font-bold border-b-2 border-[#176B4D]'
-                    : 'text-[#66736C] hover:text-[#17231D]'
+                  isAktif ? 'text-brand font-bold border-b-2 border-brand' : 'text-teks-redup hover:text-teks'
                 }`}
               >
                 <span>{status}</span>
@@ -169,7 +167,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                   className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
                     status === STATUS_VERIFIKASI.MENUNGGU && jumlahPerStatus[status] > 0
                       ? 'bg-red-50 text-red-600'
-                      : 'bg-[#F4F6F5] text-[#66736C]'
+                      : 'bg-latar-redup text-teks-redup'
                   }`}
                 >
                   {jumlahPerStatus[status]}
@@ -183,12 +181,12 @@ function IsiHalamanVerifikasi({ idAwal }) {
       {/* Dua kolom: tabel (kiri) dan detail mitra (kanan) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Kolom kiri: tabel mitra */}
-        <section className="lg:col-span-7 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs p-5 flex flex-col justify-between min-h-[480px]">
+        <section className="lg:col-span-7 rounded-2xl bg-white border border-garis shadow-xs p-5 flex flex-col justify-between min-h-[480px]">
           <div>
             {/* Pencarian & urutan */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4">
               <div className="relative flex-1">
-                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#66736C]">
+                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-teks-redup">
                   <Search className="w-4 h-4" aria-hidden="true" />
                 </span>
                 <input
@@ -197,19 +195,19 @@ function IsiHalamanVerifikasi({ idAwal }) {
                   onChange={(e) => ubahKataKunci(e.target.value)}
                   placeholder="Cari nama, penanggung jawab, atau kecamatan"
                   aria-label="Cari nama, penanggung jawab, atau kecamatan"
-                  className="w-full pl-9 pr-3.5 py-2 bg-[#F4F6F5] text-xs text-[#17231D] placeholder-[#66736C] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D] focus:border-[#176B4D] transition-all"
+                  className="w-full pl-9 pr-3.5 py-2 bg-latar-redup text-xs text-teks placeholder-teks-redup rounded-xl border border-garis focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all"
                 />
               </div>
 
               <div className="flex items-center gap-1.5 shrink-0">
-                <label htmlFor="pilih-urutan" className="text-[11px] font-semibold text-[#66736C] uppercase">
+                <label htmlFor="pilih-urutan" className="text-[11px] font-semibold text-teks-redup uppercase">
                   Urutkan:
                 </label>
                 <select
                   id="pilih-urutan"
                   value={urutan}
                   onChange={(e) => ubahUrutan(e.target.value)}
-                  className="bg-[#F4F6F5] border border-[#E5EAE7] text-xs font-medium text-[#17231D] px-2.5 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#176B4D] cursor-pointer"
+                  className="bg-latar-redup border border-garis text-xs font-medium text-teks px-2.5 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand cursor-pointer"
                 >
                   {PILIHAN_URUTAN.map((pilihan) => (
                     <option key={pilihan.nilai} value={pilihan.nilai}>
@@ -222,10 +220,10 @@ function IsiHalamanVerifikasi({ idAwal }) {
 
             {/* Tabel atau keadaan kosong */}
             {hasilSaring.length === 0 ? (
-              <div className="p-8 text-center border border-dashed border-[#E5EAE7] rounded-xl my-4">
-                <Building2 className="w-8 h-8 text-[#66736C] mx-auto mb-2" aria-hidden="true" />
-                <p className="text-sm font-semibold text-[#17231D]">Tidak ada mitra yang cocok</p>
-                <p className="text-xs text-[#66736C] mt-1">
+              <div className="p-8 text-center border border-dashed border-garis rounded-xl my-4">
+                <Building2 className="w-8 h-8 text-teks-redup mx-auto mb-2" aria-hidden="true" />
+                <p className="text-sm font-semibold text-teks">Tidak ada mitra yang cocok</p>
+                <p className="text-xs text-teks-redup mt-1">
                   Belum ada mitra berstatus {tab}
                   {kataKunci.trim() ? ` dengan kata kunci "${kataKunci.trim()}"` : ''}.
                 </p>
@@ -233,7 +231,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                   <button
                     type="button"
                     onClick={() => ubahKataKunci('')}
-                    className="mt-3 text-xs font-semibold text-[#176B4D] hover:underline cursor-pointer"
+                    className="mt-3 text-xs font-semibold text-brand hover:underline cursor-pointer"
                   >
                     Hapus pencarian
                   </button>
@@ -243,7 +241,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
               <div className="overflow-x-auto -mx-5 px-5">
                 <table className="w-full text-left border-collapse text-xs">
                   <thead>
-                    <tr className="border-b border-[#E5EAE7] text-[#66736C] font-semibold">
+                    <tr className="border-b border-garis text-teks-redup font-semibold">
                       <th scope="col" className="pb-3 pl-3 font-medium">
                         Nama Mitra
                       </th>
@@ -261,7 +259,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#E5EAE7]/60">
+                  <tbody className="divide-y divide-garis/60">
                     {halamanTabel.isi.map((mitra) => {
                       const isSelected = mitraTerpilih?.id === mitra.id;
                       const peran = PERAN[mitra.peran];
@@ -278,13 +276,13 @@ function IsiHalamanVerifikasi({ idAwal }) {
                             }
                           }}
                           className={`cursor-pointer transition-colors ${
-                            isSelected ? 'bg-[#F4F6F5]/70 border-l-4 border-l-[#176B4D]' : 'hover:bg-[#F4F6F5]/50'
+                            isSelected ? 'bg-latar-redup/70 border-l-4 border-l-brand' : 'hover:bg-latar-redup/50'
                           }`}
                         >
                           {/* Nama & penanggung jawab */}
                           <td className="py-3.5 pl-3">
-                            <p className="font-bold text-[#17231D] leading-tight">{mitra.nama}</p>
-                            <p className="text-[11px] text-[#66736C] mt-0.5">PJ: {mitra.penanggungJawab}</p>
+                            <p className="font-bold text-teks leading-tight">{mitra.nama}</p>
+                            <p className="text-[11px] text-teks-redup mt-0.5">PJ: {mitra.penanggungJawab}</p>
                           </td>
 
                           {/* Jenis (peran) */}
@@ -297,10 +295,10 @@ function IsiHalamanVerifikasi({ idAwal }) {
                           </td>
 
                           {/* Lokasi */}
-                          <td className="py-3.5 text-[#17231D] hidden md:table-cell">{mitra.kecamatan}</td>
+                          <td className="py-3.5 text-teks hidden md:table-cell">{mitra.kecamatan}</td>
 
                           {/* Tanggal pengajuan */}
-                          <td className="py-3.5 text-[#66736C] hidden sm:table-cell">
+                          <td className="py-3.5 text-teks-redup hidden sm:table-cell">
                             {formatTanggal(mitra.diajukanPada)}
                           </td>
 
@@ -318,7 +316,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
           </div>
 
           {/* Footer tabel: keterangan & pagination */}
-          <footer className="pt-4 mt-4 border-t border-[#E5EAE7] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#66736C]">
+          <footer className="pt-4 mt-4 border-t border-garis flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-teks-redup">
             <span>
               Menampilkan {halamanTabel.dari}–{halamanTabel.sampai} dari {halamanTabel.total} mitra
             </span>
@@ -329,7 +327,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 aria-label="Halaman sebelumnya"
                 onClick={() => setHalaman(halamanTabel.halaman - 1)}
                 disabled={halamanTabel.halaman === 1}
-                className="w-7 h-7 rounded-lg border border-[#E5EAE7] flex items-center justify-center text-[#66736C] hover:bg-[#F4F6F5] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-7 h-7 rounded-lg border border-garis flex items-center justify-center text-teks-redup hover:bg-latar-redup cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
               </button>
@@ -343,7 +341,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                     aria-label={`Halaman ${nomor}`}
                     aria-current={isAktif ? 'page' : undefined}
                     className={`w-7 h-7 rounded-lg text-xs font-semibold cursor-pointer ${
-                      isAktif ? 'bg-[#176B4D] text-white' : 'border border-[#E5EAE7] text-[#17231D] hover:bg-[#F4F6F5]'
+                      isAktif ? 'bg-brand text-white' : 'border border-garis text-teks hover:bg-latar-redup'
                     }`}
                   >
                     {nomor}
@@ -355,7 +353,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 aria-label="Halaman berikutnya"
                 onClick={() => setHalaman(halamanTabel.halaman + 1)}
                 disabled={halamanTabel.halaman === halamanTabel.totalHalaman}
-                className="w-7 h-7 rounded-lg border border-[#E5EAE7] flex items-center justify-center text-[#66736C] hover:bg-[#F4F6F5] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-7 h-7 rounded-lg border border-garis flex items-center justify-center text-teks-redup hover:bg-latar-redup cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ChevronRight className="w-3.5 h-3.5" />
               </button>
@@ -364,18 +362,18 @@ function IsiHalamanVerifikasi({ idAwal }) {
         </section>
 
         {/* Kolom kanan: detail mitra terpilih */}
-        <aside className="lg:col-span-5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs p-6 space-y-6">
+        <aside className="lg:col-span-5 rounded-2xl bg-white border border-garis shadow-xs p-6 space-y-6">
           {!mitraTerpilih ? (
-            <p className="text-sm text-[#66736C] text-center py-10">Pilih mitra di tabel untuk melihat detailnya.</p>
+            <p className="text-sm text-teks-redup text-center py-10">Pilih mitra di tabel untuk melihat detailnya.</p>
           ) : (
             <>
               {/* Judul detail */}
-              <header className="pb-4 border-b border-[#E5EAE7]">
+              <header className="pb-4 border-b border-garis">
                 <div className="flex items-start justify-between gap-3">
-                  <h2 className="text-xl font-bold text-[#104D38] tracking-tight">{mitraTerpilih.nama}</h2>
+                  <h2 className="text-xl font-bold text-brand-tua tracking-tight">{mitraTerpilih.nama}</h2>
                   <StatusBadge status={mitraTerpilih.statusVerifikasi} />
                 </div>
-                <div className="flex flex-wrap items-center gap-2 mt-2 text-xs text-[#66736C]">
+                <div className="flex flex-wrap items-center gap-2 mt-2 text-xs text-teks-redup">
                   <span
                     className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${PERAN[mitraTerpilih.peran].gaya}`}
                   >
@@ -391,51 +389,51 @@ function IsiHalamanVerifikasi({ idAwal }) {
 
               {/* Alasan penolakan (hanya kalau Ditolak) */}
               {mitraTerpilih.statusVerifikasi === STATUS_VERIFIKASI.DITOLAK && (
-                <div className="p-3 rounded-xl bg-[#FEE2E2] border border-[#C2413B]/20 text-xs">
-                  <p className="font-semibold text-[#C2413B]">Alasan penolakan:</p>
-                  <p className="text-[#17231D] mt-0.5">{mitraTerpilih.alasan}</p>
+                <div className="p-3 rounded-xl bg-bahaya-muda border border-bahaya/20 text-xs">
+                  <p className="font-semibold text-bahaya">Alasan penolakan:</p>
+                  <p className="text-teks mt-0.5">{mitraTerpilih.alasan}</p>
                 </div>
               )}
 
               {/* Identitas & kapasitas */}
               <section aria-labelledby="judul-identitas" className="space-y-3">
-                <h3 id="judul-identitas" className="text-xs font-bold text-[#66736C] tracking-wider uppercase">
+                <h3 id="judul-identitas" className="text-xs font-bold text-teks-redup tracking-wider uppercase">
                   Identitas &amp; kapasitas
                 </h3>
-                <div className="p-4 rounded-2xl bg-[#F4F6F5] grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div className="p-4 rounded-2xl bg-latar-redup grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div>
-                    <p className="text-[#66736C] flex items-center gap-1">
+                    <p className="text-teks-redup flex items-center gap-1">
                       <User className="w-3.5 h-3.5" aria-hidden="true" /> Penanggung jawab
                     </p>
-                    <p className="font-semibold text-[#17231D] mt-0.5">{mitraTerpilih.penanggungJawab}</p>
+                    <p className="font-semibold text-teks mt-0.5">{mitraTerpilih.penanggungJawab}</p>
                   </div>
                   <div>
-                    <p className="text-[#66736C] flex items-center gap-1">
+                    <p className="text-teks-redup flex items-center gap-1">
                       <Phone className="w-3.5 h-3.5" aria-hidden="true" /> Telepon
                     </p>
-                    <p className="font-semibold text-[#17231D] mt-0.5">{mitraTerpilih.telepon}</p>
+                    <p className="font-semibold text-teks mt-0.5">{mitraTerpilih.telepon}</p>
                   </div>
                   <div className="sm:col-span-2">
-                    <p className="text-[#66736C] flex items-center gap-1">
+                    <p className="text-teks-redup flex items-center gap-1">
                       <Mail className="w-3.5 h-3.5" aria-hidden="true" /> Email
                     </p>
-                    <p className="font-semibold text-[#17231D] mt-0.5">{mitraTerpilih.email}</p>
+                    <p className="font-semibold text-teks mt-0.5">{mitraTerpilih.email}</p>
                   </div>
-                  <div className="sm:col-span-2 pt-3 border-t border-[#E5EAE7]">
+                  <div className="sm:col-span-2 pt-3 border-t border-garis">
                     {mitraTerpilih.peran === 'sumber' ? (
                       <>
-                        <p className="text-[#66736C]">Estimasi residu harian</p>
-                        <p className="text-2xl font-bold text-[#176B4D] mt-0.5">
+                        <p className="text-teks-redup">Estimasi residu harian</p>
+                        <p className="text-2xl font-bold text-brand mt-0.5">
                           {formatKg(mitraTerpilih.estimasiKgPerHari)}
-                          <span className="text-xs font-semibold text-[#17231D]"> / hari</span>
+                          <span className="text-xs font-semibold text-teks"> / hari</span>
                         </p>
                       </>
                     ) : (
                       <>
-                        <p className="text-[#66736C]">Kapasitas olah harian</p>
-                        <p className="text-2xl font-bold text-[#176B4D] mt-0.5">
+                        <p className="text-teks-redup">Kapasitas olah harian</p>
+                        <p className="text-2xl font-bold text-brand mt-0.5">
                           {formatKg(mitraTerpilih.kapasitasKgPerHari)}
-                          <span className="text-xs font-semibold text-[#17231D]"> / hari</span>
+                          <span className="text-xs font-semibold text-teks"> / hari</span>
                         </p>
                       </>
                     )}
@@ -445,16 +443,16 @@ function IsiHalamanVerifikasi({ idAwal }) {
 
               {/* Alamat & titik lokasi */}
               <section aria-labelledby="judul-lokasi" className="space-y-3">
-                <h3 id="judul-lokasi" className="text-xs font-bold text-[#66736C] tracking-wider uppercase">
+                <h3 id="judul-lokasi" className="text-xs font-bold text-teks-redup tracking-wider uppercase">
                   Alamat &amp; titik lokasi
                 </h3>
-                <p className="text-xs text-[#17231D] flex items-start gap-1.5">
-                  <MapPin className="w-4 h-4 text-[#176B4D] shrink-0" aria-hidden="true" />
+                <p className="text-xs text-teks flex items-start gap-1.5">
+                  <MapPin className="w-4 h-4 text-brand shrink-0" aria-hidden="true" />
                   <span>
                     {mitraTerpilih.alamat}, {mitraTerpilih.kecamatan}, Kab. Banyumas
                   </span>
                 </p>
-                <p className="text-[11px] text-[#66736C] font-mono">
+                <p className="text-[11px] text-teks-redup font-mono">
                   Koordinat: {mitraTerpilih.koordinat.lat}, {mitraTerpilih.koordinat.lng}
                 </p>
               </section>
@@ -462,14 +460,14 @@ function IsiHalamanVerifikasi({ idAwal }) {
               {/* Material (sumber) atau jalur pemanfaatan (pengolah) */}
               {mitraTerpilih.peran === 'sumber' ? (
                 <section aria-labelledby="judul-material" className="space-y-3">
-                  <h3 id="judul-material" className="text-xs font-bold text-[#66736C] tracking-wider uppercase">
+                  <h3 id="judul-material" className="text-xs font-bold text-teks-redup tracking-wider uppercase">
                     Kategori material yang dihasilkan
                   </h3>
                   <ul className="flex flex-wrap gap-2">
                     {mitraTerpilih.kategoriIds.map((kategoriId) => (
                       <li
                         key={kategoriId}
-                        className="px-3 py-1.5 rounded-xl border border-[#E5EAE7] text-xs font-semibold text-[#17231D]"
+                        className="px-3 py-1.5 rounded-xl border border-garis text-xs font-semibold text-teks"
                       >
                         {cariById(kategoriMaterial, kategoriId)?.nama}
                       </li>
@@ -478,18 +476,18 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 </section>
               ) : (
                 <section aria-labelledby="judul-jalur" className="space-y-3">
-                  <h3 id="judul-jalur" className="text-xs font-bold text-[#66736C] tracking-wider uppercase">
+                  <h3 id="judul-jalur" className="text-xs font-bold text-teks-redup tracking-wider uppercase">
                     Jalur pemanfaatan
                   </h3>
-                  <div className="p-3 rounded-xl border border-[#E5EAE7] text-xs">
-                    <p className="font-semibold text-[#17231D]">{jalurPengolah?.nama}</p>
-                    <p className="text-[#66736C] mt-0.5">Material diterima: {jalurPengolah?.materialDiterima}</p>
+                  <div className="p-3 rounded-xl border border-garis text-xs">
+                    <p className="font-semibold text-teks">{jalurPengolah?.nama}</p>
+                    <p className="text-teks-redup mt-0.5">Material diterima: {jalurPengolah?.materialDiterima}</p>
                   </div>
                 </section>
               )}
 
               {/* Catatan batas peran aplikasi */}
-              <div className="p-3 rounded-xl bg-[#F4F6F5] text-xs text-[#66736C] flex items-start gap-2">
+              <div className="p-3 rounded-xl bg-latar-redup text-xs text-teks-redup flex items-start gap-2">
                 <Info className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
                 <p>
                   Kelayakan material ditentukan oleh mitra pengolah, bukan oleh aplikasi. Verifikasi akun hanya
@@ -499,9 +497,9 @@ function IsiHalamanVerifikasi({ idAwal }) {
 
               {/* Keputusan admin (hanya status Menunggu) */}
               {bisaDiputuskan ? (
-                <div className="pt-4 border-t border-[#E5EAE7] space-y-3">
+                <div className="pt-4 border-t border-garis space-y-3">
                   {mitraTerpilih.peran === 'pengolah' && (
-                    <p className="text-[11px] text-[#66736C]">
+                    <p className="text-[11px] text-teks-redup">
                       Setelah diverifikasi, mitra ini bisa dipilih saat menyetujui batch jalur {jalurPengolah?.nama}.
                     </p>
                   )}
@@ -509,7 +507,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                     <button
                       type="button"
                       onClick={() => setModalTolakTerbuka(true)}
-                      className="border border-[#E5EAE7] hover:bg-[#FEE2E2] text-sm font-medium py-2.5 rounded-xl text-[#C2413B] flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      className="border border-garis hover:bg-bahaya-muda text-sm font-medium py-2.5 rounded-xl text-bahaya flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
                       <XCircle className="w-4 h-4" aria-hidden="true" />
                       <span>Tolak Pendaftaran</span>
@@ -517,7 +515,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                     <button
                       type="button"
                       onClick={handleVerifikasi}
-                      className="bg-[#176B4D] hover:bg-[#104D38] text-sm font-medium py-2.5 rounded-xl text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      className="bg-brand hover:bg-brand-tua text-sm font-medium py-2.5 rounded-xl text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
                       <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
                       <span>Verifikasi Mitra</span>
@@ -525,7 +523,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                   </div>
                 </div>
               ) : (
-                <p className="pt-4 border-t border-[#E5EAE7] text-xs text-[#66736C]">
+                <p className="pt-4 border-t border-garis text-xs text-teks-redup">
                   Mitra ini berstatus <strong>{mitraTerpilih.statusVerifikasi}</strong>. Keputusan admin hanya untuk
                   mitra berstatus Menunggu.
                 </p>

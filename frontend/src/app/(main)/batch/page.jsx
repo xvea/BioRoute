@@ -166,8 +166,8 @@ function IsiHalamanBatch({ kodeAwal }) {
       {/* PAGE HEADER & METRIC KPI CARDS */}
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-1">
         <div>
-          <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">Batch Material</h1>
-          <p className="text-sm text-[#66736C] mt-0.5">
+          <h1 className="text-2xl font-bold text-teks tracking-tight">Batch Material</h1>
+          <p className="text-sm text-teks-redup mt-0.5">
             Tinjau batch yang diajukan mitra sumber: setujui dan tawarkan ke pengolah, minta revisi, atau tolak.
           </p>
         </div>
@@ -175,30 +175,30 @@ function IsiHalamanBatch({ kodeAwal }) {
         {/* Top Right Metric KPI Cards */}
         <div className="flex items-center gap-3 shrink-0">
           {/* Card 1: Berat tercatat */}
-          <article className="p-3.5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex items-center gap-3 min-w-[140px]">
-            <div className="p-2 rounded-xl bg-[#EAF5F0] text-[#176B4D]">
+          <article className="p-3.5 rounded-2xl bg-white border border-garis shadow-xs flex items-center gap-3 min-w-[140px]">
+            <div className="p-2 rounded-xl bg-brand-muda text-brand">
               <Scale className="w-4 h-4" aria-hidden="true" />
             </div>
             <div>
-              <p className="text-[10px] font-bold text-[#66736C] tracking-wider uppercase leading-tight">
+              <p className="text-[10px] font-bold text-teks-redup tracking-wider uppercase leading-tight">
                 BERAT TERCATAT
               </p>
-              <p className="text-xl font-bold text-[#17231D] leading-tight mt-0.5">
+              <p className="text-xl font-bold text-teks leading-tight mt-0.5">
                 {formatKg(totalBeratDilaporkan(daftarBatch))}
               </p>
             </div>
           </article>
 
           {/* Card 2: Menunggu keputusan admin */}
-          <article className="p-3.5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex items-center gap-3 min-w-[140px]">
-            <div className="p-2 rounded-xl bg-[#EFF6FF] text-[#2563EB]">
+          <article className="p-3.5 rounded-2xl bg-white border border-garis shadow-xs flex items-center gap-3 min-w-[140px]">
+            <div className="p-2 rounded-xl bg-info-muda text-info">
               <ShieldCheck className="w-4 h-4" aria-hidden="true" />
             </div>
             <div>
-              <p className="text-[10px] font-bold text-[#66736C] tracking-wider uppercase leading-tight">
+              <p className="text-[10px] font-bold text-teks-redup tracking-wider uppercase leading-tight">
                 MENUNGGU KEPUTUSAN
               </p>
-              <p className="text-xl font-bold text-[#17231D] leading-tight mt-0.5">
+              <p className="text-xl font-bold text-teks leading-tight mt-0.5">
                 {hitungBatchPerStatus(daftarBatch, STATUS_BATCH.DIAJUKAN)} batch
               </p>
             </div>
@@ -212,7 +212,7 @@ function IsiHalamanBatch({ kodeAwal }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
           {/* Search Input */}
           <div className="relative">
-            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#66736C]">
+            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-teks-redup">
               <Search className="w-4 h-4" aria-hidden="true" />
             </span>
             <input
@@ -221,7 +221,7 @@ function IsiHalamanBatch({ kodeAwal }) {
               onChange={(e) => ubahFilter('kataKunci', e.target.value)}
               placeholder="Cari kode atau sumber"
               aria-label="Cari kode atau nama sumber"
-              className="w-full pl-9 pr-3.5 py-2 bg-[#F4F6F5] text-xs text-[#17231D] placeholder-[#66736C] rounded-xl border border-[#E5EAE7] focus:outline-none focus:ring-2 focus:ring-[#176B4D] focus:border-[#176B4D] transition-all"
+              className="w-full pl-9 pr-3.5 py-2 bg-latar-redup text-xs text-teks placeholder-teks-redup rounded-xl border border-garis focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all"
             />
           </div>
 
@@ -231,7 +231,7 @@ function IsiHalamanBatch({ kodeAwal }) {
               value={filter.status}
               onChange={(e) => ubahFilter('status', e.target.value)}
               aria-label="Filter Status"
-              className="w-full bg-[#F4F6F5] border border-[#E5EAE7] text-xs font-medium text-[#17231D] px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#176B4D] cursor-pointer"
+              className="w-full bg-latar-redup border border-garis text-xs font-medium text-teks px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand cursor-pointer"
             >
               <option value="">Semua Status</option>
               {Object.values(STATUS_BATCH).map((status) => (
@@ -248,7 +248,7 @@ function IsiHalamanBatch({ kodeAwal }) {
               value={filter.kategoriId}
               onChange={(e) => ubahFilter('kategoriId', e.target.value)}
               aria-label="Filter Kategori"
-              className="w-full bg-[#F4F6F5] border border-[#E5EAE7] text-xs font-medium text-[#17231D] px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#176B4D] cursor-pointer"
+              className="w-full bg-latar-redup border border-garis text-xs font-medium text-teks px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand cursor-pointer"
             >
               <option value="">Semua Kategori</option>
               {kategoriMaterial.map((kategori) => (
@@ -265,7 +265,7 @@ function IsiHalamanBatch({ kodeAwal }) {
               value={filter.jalurId}
               onChange={(e) => ubahFilter('jalurId', e.target.value)}
               aria-label="Filter Jalur"
-              className="w-full bg-[#F4F6F5] border border-[#E5EAE7] text-xs font-medium text-[#17231D] px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#176B4D] cursor-pointer"
+              className="w-full bg-latar-redup border border-garis text-xs font-medium text-teks px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand cursor-pointer"
             >
               <option value="">Semua Jalur</option>
               {jalurPemanfaatan.map((jalur) => (
@@ -278,17 +278,17 @@ function IsiHalamanBatch({ kodeAwal }) {
         </div>
 
         {/* Filter Aktif Row & Chips */}
-        <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs text-[#66736C]">
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs text-teks-redup">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-semibold uppercase tracking-wider text-[11px] text-[#66736C]">FILTER AKTIF:</span>
+            <span className="font-semibold uppercase tracking-wider text-[11px] text-teks-redup">FILTER AKTIF:</span>
 
             {/* Chip 1 */}
-            <span className="inline-flex items-center gap-1.5 bg-[#F4F6F5] border border-[#E5EAE7] rounded-lg px-2.5 py-1 text-xs font-medium text-[#17231D]">
+            <span className="inline-flex items-center gap-1.5 bg-latar-redup border border-garis rounded-lg px-2.5 py-1 text-xs font-medium text-teks">
               <span>Kategori: {cariById(kategoriMaterial, filter.kategoriId)?.nama ?? 'Semua'}</span>
               <button
                 type="button"
                 onClick={() => ubahFilter('kategoriId', '')}
-                className="hover:text-[#C2413B] text-[#66736C] cursor-pointer"
+                className="hover:text-bahaya text-teks-redup cursor-pointer"
                 aria-label="Hapus filter kategori"
               >
                 ✕
@@ -296,12 +296,12 @@ function IsiHalamanBatch({ kodeAwal }) {
             </span>
 
             {/* Chip 2 */}
-            <span className="inline-flex items-center gap-1.5 bg-[#F4F6F5] border border-[#E5EAE7] rounded-lg px-2.5 py-1 text-xs font-medium text-[#17231D]">
+            <span className="inline-flex items-center gap-1.5 bg-latar-redup border border-garis rounded-lg px-2.5 py-1 text-xs font-medium text-teks">
               <span>Jalur: {cariById(jalurPemanfaatan, filter.jalurId)?.nama ?? 'Semua'}</span>
               <button
                 type="button"
                 onClick={() => ubahFilter('jalurId', '')}
-                className="hover:text-[#C2413B] text-[#66736C] cursor-pointer"
+                className="hover:text-bahaya text-teks-redup cursor-pointer"
                 aria-label="Hapus filter jalur"
               >
                 ✕
@@ -313,7 +313,7 @@ function IsiHalamanBatch({ kodeAwal }) {
           <button
             type="button"
             onClick={handleResetFilters}
-            className="hover:text-[#176B4D] font-medium transition cursor-pointer text-xs underline decoration-dotted"
+            className="hover:text-brand font-medium transition cursor-pointer text-xs underline decoration-dotted"
           >
             Reset Filter
           </button>
@@ -323,13 +323,13 @@ function IsiHalamanBatch({ kodeAwal }) {
       {/* TWO-COLUMN SPLIT LAYOUT (7:5 DESKTOP GRID) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* LEFT COLUMN: BATCH LIST TABLE (lg:col-span-7) */}
-        <section className="lg:col-span-7 bg-white border border-[#E5EAE7] rounded-2xl p-5 shadow-sm flex flex-col justify-between min-h-[580px]">
+        <section className="lg:col-span-7 bg-white border border-garis rounded-2xl p-5 shadow-sm flex flex-col justify-between min-h-[580px]">
           <div>
             {/* Table Header Section */}
             <div className="flex items-center justify-between pb-3 mb-2">
               <div>
-                <h2 className="font-bold text-base text-[#17231D] tracking-tight">Daftar Batch Terdaftar</h2>
-                <p className="text-xs text-[#66736C]">
+                <h2 className="font-bold text-base text-teks tracking-tight">Daftar Batch Terdaftar</h2>
+                <p className="text-xs text-teks-redup">
                   Antrean batch residu organik siap proses dan perlu tindak lanjut
                 </p>
               </div>
@@ -341,7 +341,7 @@ function IsiHalamanBatch({ kodeAwal }) {
                   title="Ekspor CSV"
                   aria-label="Ekspor CSV"
                   onClick={handleEksporCsv}
-                  className="border border-[#E5EAE7] rounded-lg p-2 text-[#66736C] hover:bg-[#F4F6F5] hover:text-[#17231D] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B4D] cursor-pointer"
+                  className="border border-garis rounded-lg p-2 text-teks-redup hover:bg-latar-redup hover:text-teks transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand cursor-pointer"
                 >
                   <Download className="w-4 h-4" aria-hidden="true" />
                 </button>
@@ -350,16 +350,16 @@ function IsiHalamanBatch({ kodeAwal }) {
 
             {/* Table Body */}
             {hasilSaring.length === 0 ? (
-              <div className="p-10 text-center border border-dashed border-[#E5EAE7] rounded-xl my-4">
-                <Archive className="w-8 h-8 text-[#66736C] mx-auto mb-2" />
-                <p className="text-sm font-semibold text-[#17231D]">Tidak ada batch yang cocok</p>
-                <p className="text-xs text-[#66736C] mt-1">
+              <div className="p-10 text-center border border-dashed border-garis rounded-xl my-4">
+                <Archive className="w-8 h-8 text-teks-redup mx-auto mb-2" />
+                <p className="text-sm font-semibold text-teks">Tidak ada batch yang cocok</p>
+                <p className="text-xs text-teks-redup mt-1">
                   Ubah kata kunci pencarian atau reset filter untuk menampilkan kembali daftar batch.
                 </p>
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="mt-3 text-xs font-semibold text-[#176B4D] hover:underline"
+                  className="mt-3 text-xs font-semibold text-brand hover:underline"
                 >
                   Reset Semua Filter
                 </button>
@@ -368,7 +368,7 @@ function IsiHalamanBatch({ kodeAwal }) {
               <div className="overflow-x-auto -mx-5 px-5">
                 <table className="w-full text-left border-collapse text-xs">
                   <thead>
-                    <tr className="border-b border-[#E5EAE7] text-[#66736C] font-semibold">
+                    <tr className="border-b border-garis text-teks-redup font-semibold">
                       <th scope="col" className="pb-3 pl-3 font-medium">
                         Kode Batch
                       </th>
@@ -389,7 +389,7 @@ function IsiHalamanBatch({ kodeAwal }) {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#E5EAE7]/60">
+                  <tbody className="divide-y divide-garis/60">
                     {halamanTabel.isi.map((batch) => {
                       const isSelected = batchTerpilih?.kode === batch.kode;
                       const sumber = cariById(daftarMitra, batch.sumberId);
@@ -406,30 +406,30 @@ function IsiHalamanBatch({ kodeAwal }) {
                             }
                           }}
                           className={`cursor-pointer transition-colors ${
-                            isSelected ? 'bg-[#F4F6F5]/70 border-l-4 border-l-[#176B4D]' : 'hover:bg-[#F4F6F5]/50'
+                            isSelected ? 'bg-latar-redup/70 border-l-4 border-l-brand' : 'hover:bg-latar-redup/50'
                           }`}
                         >
                           {/* Kode Batch */}
                           <td className="py-3.5 pl-3">
-                            <div className="flex items-center gap-1.5 font-bold text-[#17231D]">
-                              <span className="text-[#176B4D] text-[10px] leading-none">●</span>
+                            <div className="flex items-center gap-1.5 font-bold text-teks">
+                              <span className="text-brand text-[10px] leading-none">●</span>
                               <span>{batch.kode}</span>
                             </div>
                           </td>
 
                           {/* Sumber Material */}
                           <td className="py-3.5">
-                            <p className="font-semibold text-[#17231D] leading-tight">{sumber?.nama}</p>
-                            <p className="text-[11px] text-[#66736C] mt-0.5">{sumber?.kecamatan}</p>
+                            <p className="font-semibold text-teks leading-tight">{sumber?.nama}</p>
+                            <p className="text-[11px] text-teks-redup mt-0.5">{sumber?.kecamatan}</p>
                           </td>
 
                           {/* Kategori */}
-                          <td className="py-3.5 text-[#66736C] hidden xl:table-cell">
+                          <td className="py-3.5 text-teks-redup hidden xl:table-cell">
                             {cariById(kategoriMaterial, batch.kategoriId)?.nama}
                           </td>
 
                           {/* Berat */}
-                          <td className="py-3.5 pr-3 font-bold text-[#17231D]">{formatKg(batch.beratKg)}</td>
+                          <td className="py-3.5 pr-3 font-bold text-teks">{formatKg(batch.beratKg)}</td>
 
                           {/* Jalur */}
                           <td className="py-3.5">
@@ -450,7 +450,7 @@ function IsiHalamanBatch({ kodeAwal }) {
           </div>
 
           {/* Table Footer */}
-          <footer className="pt-4 mt-4 border-t border-[#E5EAE7] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#66736C]">
+          <footer className="pt-4 mt-4 border-t border-garis flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-teks-redup">
             <span>
               Menampilkan {halamanTabel.dari}–{halamanTabel.sampai} dari {halamanTabel.total} batch
             </span>
@@ -462,7 +462,7 @@ function IsiHalamanBatch({ kodeAwal }) {
                 aria-label="Halaman sebelumnya"
                 onClick={() => setHalaman(halamanTabel.halaman - 1)}
                 disabled={halamanTabel.halaman === 1}
-                className="w-7 h-7 rounded-lg border border-[#E5EAE7] flex items-center justify-center text-[#66736C] hover:bg-[#F4F6F5] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-7 h-7 rounded-lg border border-garis flex items-center justify-center text-teks-redup hover:bg-latar-redup cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
               </button>
@@ -477,8 +477,8 @@ function IsiHalamanBatch({ kodeAwal }) {
                     aria-current={isAktif ? 'page' : undefined}
                     className={`w-7 h-7 rounded-lg flex items-center justify-center cursor-pointer ${
                       isAktif
-                        ? 'bg-[#176B4D] text-white font-semibold shadow-xs'
-                        : 'border border-[#E5EAE7] text-[#17231D] hover:bg-[#F4F6F5]'
+                        ? 'bg-brand text-white font-semibold shadow-xs'
+                        : 'border border-garis text-teks hover:bg-latar-redup'
                     }`}
                   >
                     {nomor}
@@ -490,7 +490,7 @@ function IsiHalamanBatch({ kodeAwal }) {
                 aria-label="Halaman selanjutnya"
                 onClick={() => setHalaman(halamanTabel.halaman + 1)}
                 disabled={halamanTabel.halaman === halamanTabel.totalHalaman}
-                className="w-7 h-7 rounded-lg border border-[#E5EAE7] flex items-center justify-center text-[#66736C] hover:bg-[#F4F6F5] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-7 h-7 rounded-lg border border-garis flex items-center justify-center text-teks-redup hover:bg-latar-redup cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ChevronRight className="w-3.5 h-3.5" />
               </button>
@@ -499,17 +499,17 @@ function IsiHalamanBatch({ kodeAwal }) {
         </section>
 
         {/* RIGHT COLUMN: BATCH DETAIL PANEL (lg:col-span-5) */}
-        <aside className="lg:col-span-5 bg-white border border-[#E5EAE7] rounded-2xl p-6 shadow-sm flex flex-col gap-5">
+        <aside className="lg:col-span-5 bg-white border border-garis rounded-2xl p-6 shadow-sm flex flex-col gap-5">
           {batchTerpilih ? (
             <>
               {/* Header Row: kode batch & status */}
-              <header className="pb-3 border-b border-[#E5EAE7]">
+              <header className="pb-3 border-b border-garis">
                 <div className="flex items-center justify-between gap-2">
-                  <h2 className="text-lg font-bold text-[#17231D] tracking-tight">Detail Batch {batchTerpilih.kode}</h2>
+                  <h2 className="text-lg font-bold text-teks tracking-tight">Detail Batch {batchTerpilih.kode}</h2>
                   <StatusBadge status={batchTerpilih.status} />
                 </div>
 
-                <div className="flex items-center gap-1.5 text-xs text-[#66736C] mt-1.5">
+                <div className="flex items-center gap-1.5 text-xs text-teks-redup mt-1.5">
                   <Clock className="w-3.5 h-3.5" aria-hidden="true" />
                   <span>Diajukan {formatTanggalJam(batchTerpilih.diajukanPada)}</span>
                 </div>
@@ -517,16 +517,16 @@ function IsiHalamanBatch({ kodeAwal }) {
 
               {/* Alasan revisi / penolakan (hanya kalau ada) */}
               {batchTerpilih.alasan && (
-                <section className="bg-[#FEF3C7]/60 border border-[#B7791F]/20 rounded-xl p-3 text-xs">
-                  <p className="font-semibold text-[#B7791F]">Alasan {batchTerpilih.status.toLowerCase()}:</p>
-                  <p className="text-[#17231D] mt-0.5">{batchTerpilih.alasan}</p>
+                <section className="bg-peringatan-muda/60 border border-peringatan/20 rounded-xl p-3 text-xs">
+                  <p className="font-semibold text-peringatan">Alasan {batchTerpilih.status.toLowerCase()}:</p>
+                  <p className="text-teks mt-0.5">{batchTerpilih.alasan}</p>
                 </section>
               )}
 
               {/* Data Key-Value Overview */}
               <section
                 aria-labelledby="overview-heading"
-                className="space-y-2.5 bg-[#F4F6F5]/50 border border-[#E5EAE7] rounded-xl p-4 text-xs"
+                className="space-y-2.5 bg-latar-redup/50 border border-garis rounded-xl p-4 text-xs"
               >
                 <h3 id="overview-heading" className="sr-only">
                   Ringkasan Kunci Material
@@ -534,60 +534,60 @@ function IsiHalamanBatch({ kodeAwal }) {
                 <div className="space-y-3">
                   {/* Sumber Material */}
                   <div>
-                    <span className="text-[#66736C] block">Sumber Material:</span>
-                    <p className="font-semibold text-[#17231D] mt-0.5">
+                    <span className="text-teks-redup block">Sumber Material:</span>
+                    <p className="font-semibold text-teks mt-0.5">
                       {sumberTerpilih?.nama} ({sumberTerpilih?.penanggungJawab})
                     </p>
-                    <p className="text-[11px] text-[#66736C] mt-0.5">
+                    <p className="text-[11px] text-teks-redup mt-0.5">
                       {sumberTerpilih?.alamat}, {sumberTerpilih?.kecamatan}
                     </p>
                   </div>
 
                   {/* Berat */}
-                  <div className="pt-2 border-t border-[#E5EAE7]">
-                    <span className="text-[#66736C] block">Berat Dilaporkan Sumber:</span>
-                    <p className="text-2xl font-bold text-[#176B4D] mt-0.5">{formatKg(batchTerpilih.beratKg)}</p>
-                    <p className="text-[11px] text-[#66736C] mt-0.5">
+                  <div className="pt-2 border-t border-garis">
+                    <span className="text-teks-redup block">Berat Dilaporkan Sumber:</span>
+                    <p className="text-2xl font-bold text-brand mt-0.5">{formatKg(batchTerpilih.beratKg)}</p>
+                    <p className="text-[11px] text-teks-redup mt-0.5">
                       Ditimbang pengolah: {formatKg(batchTerpilih.beratDiterimaKg)}
                     </p>
                   </div>
 
                   {/* Kategori Residu */}
-                  <div className="pt-2 border-t border-[#E5EAE7]">
-                    <span className="text-[#66736C] block">Kategori Residu:</span>
-                    <p className="font-medium text-[#17231D] mt-0.5">
+                  <div className="pt-2 border-t border-garis">
+                    <span className="text-teks-redup block">Kategori Residu:</span>
+                    <p className="font-medium text-teks mt-0.5">
                       {cariById(kategoriMaterial, batchTerpilih.kategoriId)?.nama} — {batchTerpilih.namaMaterial}
                     </p>
                   </div>
 
                   {/* Metode & Pengolah */}
-                  <div className="pt-2 border-t border-[#E5EAE7]">
-                    <span className="text-[#66736C] block">Metode Penjemputan:</span>
-                    <p className="font-medium text-[#17231D] mt-0.5">{batchTerpilih.metode}</p>
+                  <div className="pt-2 border-t border-garis">
+                    <span className="text-teks-redup block">Metode Penjemputan:</span>
+                    <p className="font-medium text-teks mt-0.5">{batchTerpilih.metode}</p>
                   </div>
-                  <div className="pt-2 border-t border-[#E5EAE7]">
-                    <span className="text-[#66736C] block">Mitra Pengolah:</span>
-                    <p className="font-medium text-[#17231D] mt-0.5">{pengolahTerpilih?.nama ?? 'Belum ditentukan'}</p>
+                  <div className="pt-2 border-t border-garis">
+                    <span className="text-teks-redup block">Mitra Pengolah:</span>
+                    <p className="font-medium text-teks mt-0.5">{pengolahTerpilih?.nama ?? 'Belum ditentukan'}</p>
                   </div>
                 </div>
               </section>
 
               {/* Riwayat Batch (Timeline Stepper) */}
               <section aria-labelledby="timeline-heading" className="space-y-3">
-                <h3 id="timeline-heading" className="text-xs font-bold text-[#66736C] uppercase tracking-wider">
+                <h3 id="timeline-heading" className="text-xs font-bold text-teks-redup uppercase tracking-wider">
                   RIWAYAT BATCH
                 </h3>
                 <div className="relative pl-6 space-y-4">
                   {/* Connecting Line */}
-                  <div className="absolute top-2 bottom-2 left-2 w-0.5 bg-[#E5EAE7]" />
+                  <div className="absolute top-2 bottom-2 left-2 w-0.5 bg-garis" />
 
                   {batchTerpilih.riwayat.map((item) => (
                     <div key={item.waktu + item.keterangan} className="relative flex items-start gap-2.5">
                       {/* Dot indicator */}
-                      <div className="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full ring-4 ring-white bg-[#176B4D]" />
+                      <div className="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full ring-4 ring-white bg-brand" />
                       <div className="text-xs">
-                        <p className="font-bold text-[#17231D]">{item.keterangan}</p>
-                        <p className="text-[11px] text-[#66736C] mt-0.5">{formatTanggalJam(item.waktu)}</p>
+                        <p className="font-bold text-teks">{item.keterangan}</p>
+                        <p className="text-[11px] text-teks-redup mt-0.5">{formatTanggalJam(item.waktu)}</p>
                       </div>
                     </div>
                   ))}
@@ -595,8 +595,8 @@ function IsiHalamanBatch({ kodeAwal }) {
               </section>
 
               {/* Catatan peran aplikasi */}
-              <aside className="bg-[#F4F6F5] border border-[#E5EAE7] rounded-xl p-3 text-xs text-[#66736C] flex items-start gap-2">
-                <Info className="w-4 h-4 text-[#176B4D] shrink-0 mt-0.5" aria-hidden="true" />
+              <aside className="bg-latar-redup border border-garis rounded-xl p-3 text-xs text-teks-redup flex items-start gap-2">
+                <Info className="w-4 h-4 text-brand shrink-0 mt-0.5" aria-hidden="true" />
                 <p className="text-[11px] leading-relaxed">
                   Kelayakan material ditentukan oleh mitra pengolah, bukan oleh aplikasi.
                 </p>
@@ -605,12 +605,12 @@ function IsiHalamanBatch({ kodeAwal }) {
               {/* Keputusan admin */}
               {bisaDiputuskan ? (
                 <section aria-labelledby="keputusan-heading" className="space-y-3">
-                  <h3 id="keputusan-heading" className="text-xs font-bold text-[#66736C] uppercase tracking-wider">
+                  <h3 id="keputusan-heading" className="text-xs font-bold text-teks-redup uppercase tracking-wider">
                     TAWARKAN KE MITRA PENGOLAH
                   </h3>
 
                   {daftarPengolah.length === 0 ? (
-                    <p className="text-xs text-[#66736C]">Belum ada mitra pengolah terverifikasi untuk jalur ini.</p>
+                    <p className="text-xs text-teks-redup">Belum ada mitra pengolah terverifikasi untuk jalur ini.</p>
                   ) : (
                     <div role="radiogroup" aria-label="Pilih mitra pengolah" className="space-y-2">
                       {daftarPengolah.map((mitra) => {
@@ -624,20 +624,20 @@ function IsiHalamanBatch({ kodeAwal }) {
                             onClick={() => setPengolahDipilih(mitra.id)}
                             className={`w-full text-left p-3 rounded-xl border text-xs cursor-pointer transition-all flex items-start gap-2.5 ${
                               isDipilih
-                                ? 'border-[#176B4D] bg-[#EAF5F0]/60 ring-1 ring-[#176B4D]'
-                                : 'border-[#E5EAE7] bg-[#F4F6F5]/40 hover:bg-[#F4F6F5]'
+                                ? 'border-brand bg-brand-muda/60 ring-1 ring-brand'
+                                : 'border-garis bg-latar-redup/40 hover:bg-latar-redup'
                             }`}
                           >
                             <span
                               className={`w-4 h-4 rounded-full border mt-0.5 flex items-center justify-center shrink-0 ${
-                                isDipilih ? 'border-[#176B4D] bg-[#176B4D] text-white' : 'border-[#66736C] bg-white'
+                                isDipilih ? 'border-brand bg-brand text-white' : 'border-teks-redup bg-white'
                               }`}
                             >
                               {isDipilih && <Check className="w-2.5 h-2.5" aria-hidden="true" />}
                             </span>
                             <span>
-                              <span className="block font-bold text-[#17231D]">{mitra.nama}</span>
-                              <span className="block text-[11px] text-[#66736C] mt-0.5">
+                              <span className="block font-bold text-teks">{mitra.nama}</span>
+                              <span className="block text-[11px] text-teks-redup mt-0.5">
                                 {mitra.kecamatan} • Kapasitas {formatKg(mitra.kapasitasKgPerHari)}/hari
                               </span>
                             </span>
@@ -652,7 +652,7 @@ function IsiHalamanBatch({ kodeAwal }) {
                     type="button"
                     onClick={handleSetujui}
                     disabled={!pengolahValid}
-                    className="w-full bg-[#176B4D] hover:bg-[#104D38] text-white text-sm font-medium py-2.5 rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-brand hover:bg-brand-tua text-white text-sm font-medium py-2.5 rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <CheckSquare className="w-4 h-4" aria-hidden="true" />
                     <span>Setujui &amp; Tawarkan</span>
@@ -661,33 +661,33 @@ function IsiHalamanBatch({ kodeAwal }) {
                     <button
                       type="button"
                       onClick={() => bukaModal('revisi')}
-                      className="border border-[#E5EAE7] hover:bg-[#F4F6F5] text-sm font-medium py-2.5 rounded-xl text-[#17231D] flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      className="border border-garis hover:bg-latar-redup text-sm font-medium py-2.5 rounded-xl text-teks flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
-                      <FileText className="w-4 h-4 text-[#B7791F]" aria-hidden="true" />
+                      <FileText className="w-4 h-4 text-peringatan" aria-hidden="true" />
                       <span>Minta Revisi</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => bukaModal('tolak')}
-                      className="border border-[#E5EAE7] hover:bg-[#FEE2E2] text-sm font-medium py-2.5 rounded-xl text-[#C2413B] flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      className="border border-garis hover:bg-bahaya-muda text-sm font-medium py-2.5 rounded-xl text-bahaya flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
                       <XCircle className="w-4 h-4" aria-hidden="true" />
                       <span>Tolak</span>
                     </button>
                   </div>
                   {!pengolahValid && daftarPengolah.length > 0 && (
-                    <p className="text-[11px] text-[#66736C]">Pilih mitra pengolah dulu untuk menyetujui batch ini.</p>
+                    <p className="text-[11px] text-teks-redup">Pilih mitra pengolah dulu untuk menyetujui batch ini.</p>
                   )}
                 </section>
               ) : (
-                <p className="text-xs text-[#66736C] bg-[#F4F6F5] border border-[#E5EAE7] rounded-xl p-3">
+                <p className="text-xs text-teks-redup bg-latar-redup border border-garis rounded-xl p-3">
                   Batch ini berstatus <strong>{batchTerpilih.status}</strong>. Keputusan admin hanya untuk batch
                   berstatus Diajukan.
                 </p>
               )}
             </>
           ) : (
-            <div className="p-8 text-center text-[#66736C] text-xs">
+            <div className="p-8 text-center text-teks-redup text-xs">
               Pilih salah satu batch dari tabel di sebelah kiri untuk melihat rincian batch.
             </div>
           )}

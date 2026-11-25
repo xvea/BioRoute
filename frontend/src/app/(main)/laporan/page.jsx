@@ -31,8 +31,8 @@ const PILIHAN_PERAN = [
 ];
 // Label dan warna badge peran mitra.
 const PERAN = {
-  sumber: { label: 'Mitra Sumber', gaya: 'bg-[#EAF5F0] text-[#16805D]' },
-  pengolah: { label: 'Mitra Pengolah', gaya: 'bg-[#EFF6FF] text-[#2563EB]' },
+  sumber: { label: 'Mitra Sumber', gaya: 'bg-sukses-muda text-sukses' },
+  pengolah: { label: 'Mitra Pengolah', gaya: 'bg-info-muda text-info' },
 };
 
 /**
@@ -76,10 +76,10 @@ export default function LaporanPage() {
       <Toast toast={toast} />
 
       {/* Judul halaman & tombol unduh */}
-      <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#E5EAE7]">
+      <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-garis">
         <div>
-          <h1 className="text-2xl font-bold text-[#17231D] tracking-tight">Laporan Residu Organik</h1>
-          <p className="text-sm text-[#66736C] mt-1">
+          <h1 className="text-2xl font-bold text-teks tracking-tight">Laporan Residu Organik</h1>
+          <p className="text-sm text-teks-redup mt-1">
             Rekap berat residu, hasil timbang, dan kinerja mitra dari seluruh batch yang tercatat.
           </p>
         </div>
@@ -87,7 +87,7 @@ export default function LaporanPage() {
           <button
             type="button"
             onClick={handleUnduhCsv}
-            className="inline-flex items-center gap-2 border border-[#E5EAE7] bg-white hover:bg-[#F4F6F5] text-sm font-medium text-[#17231D] px-4 py-2 rounded-xl transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 border border-garis bg-white hover:bg-latar-redup text-sm font-medium text-teks px-4 py-2 rounded-xl transition-colors cursor-pointer"
           >
             <FileSpreadsheet className="w-4 h-4" aria-hidden="true" />
             <span>Unduh CSV</span>
@@ -95,7 +95,7 @@ export default function LaporanPage() {
           <button
             type="button"
             onClick={handleUnduhPdf}
-            className="inline-flex items-center gap-2 bg-[#176B4D] hover:bg-[#104D38] text-sm font-medium text-white px-4 py-2 rounded-xl transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 bg-brand hover:bg-brand-tua text-sm font-medium text-white px-4 py-2 rounded-xl transition-colors cursor-pointer"
           >
             <FileText className="w-4 h-4" aria-hidden="true" />
             <span>Unduh PDF</span>
@@ -113,21 +113,21 @@ export default function LaporanPage() {
           return (
             <article
               key={kategori.id}
-              className="p-5 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs flex flex-col justify-between"
+              className="p-5 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between"
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="uppercase text-[10px] text-[#66736C] font-bold tracking-wider">Kategori material</p>
-                  <h2 className="text-sm font-bold text-[#17231D] mt-1">{kategori.nama}</h2>
+                  <p className="uppercase text-[10px] text-teks-redup font-bold tracking-wider">Kategori material</p>
+                  <h2 className="text-sm font-bold text-teks mt-1">{kategori.nama}</h2>
                 </div>
-                <div className="p-1.5 rounded-lg bg-[#F4F6F5] text-[#176B4D]">
+                <div className="p-1.5 rounded-lg bg-latar-redup text-brand">
                   <Ikon className="w-4 h-4" aria-hidden="true" />
                 </div>
               </div>
-              <p className="text-3xl font-bold text-[#17231D] tracking-tight my-3">{formatKg(kategori.kg)}</p>
-              <div className="pt-3 border-t border-[#E5EAE7]/70 flex items-center justify-between text-xs text-[#66736C]">
+              <p className="text-3xl font-bold text-teks tracking-tight my-3">{formatKg(kategori.kg)}</p>
+              <div className="pt-3 border-t border-garis/70 flex items-center justify-between text-xs text-teks-redup">
                 <span>{formatPersen(kategori.persen)} dari total</span>
-                <span className="bg-[#F4F6F5] text-[#17231D] font-medium px-2 py-0.5 rounded border border-[#E5EAE7]">
+                <span className="bg-latar-redup text-teks font-medium px-2 py-0.5 rounded border border-garis">
                   {kategori.jumlahBatch} batch
                 </span>
               </div>
@@ -137,27 +137,26 @@ export default function LaporanPage() {
       </section>
 
       {/* Selisih berat dilaporkan vs diterima */}
-      <section className="p-6 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs space-y-5">
+      <section className="p-6 rounded-2xl bg-white border border-garis shadow-xs space-y-5">
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
           <div>
-            <h2 className="font-bold text-base text-[#17231D]">Selisih berat dilaporkan vs diterima</h2>
-            <p className="text-xs text-[#66736C] mt-0.5">
+            <h2 className="font-bold text-base text-teks">Selisih berat dilaporkan vs diterima</h2>
+            <p className="text-xs text-teks-redup mt-0.5">
               Batch yang sudah ditimbang mitra pengolah saat serah terima (kg).
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2 text-xs">
-            <span className="px-3 py-1.5 rounded-lg bg-[#F4F6F5] border border-[#E5EAE7] text-[#66736C]">
-              Toleransi: <strong className="text-[#17231D]">{formatKg(toleransiKg)}</strong>
+            <span className="px-3 py-1.5 rounded-lg bg-latar-redup border border-garis text-teks-redup">
+              Toleransi: <strong className="text-teks">{formatKg(toleransiKg)}</strong>
             </span>
-            <span className="px-3 py-1.5 rounded-lg bg-[#F4F6F5] border border-[#E5EAE7] text-[#66736C]">
-              Tingkat penerimaan:{' '}
-              <strong className="text-[#17231D]">{formatPersen(persenDiterima(daftarBatch))}</strong>
+            <span className="px-3 py-1.5 rounded-lg bg-latar-redup border border-garis text-teks-redup">
+              Tingkat penerimaan: <strong className="text-teks">{formatPersen(persenDiterima(daftarBatch))}</strong>
             </span>
             <span
               className={`px-3 py-1.5 rounded-lg border font-semibold ${
                 jumlahPerluDicek > 0
-                  ? 'bg-[#FEF3C7] border-[#B7791F]/20 text-[#B7791F]'
-                  : 'bg-[#EAF5F0] border-[#16805D]/20 text-[#16805D]'
+                  ? 'bg-peringatan-muda border-peringatan/20 text-peringatan'
+                  : 'bg-sukses-muda border-sukses/20 text-sukses'
               }`}
             >
               Perlu dicek: {jumlahPerluDicek} batch
@@ -166,7 +165,7 @@ export default function LaporanPage() {
         </div>
 
         {daftarSelisih.length === 0 ? (
-          <p className="p-8 text-center text-xs text-[#66736C] border border-dashed border-[#E5EAE7] rounded-xl">
+          <p className="p-8 text-center text-xs text-teks-redup border border-dashed border-garis rounded-xl">
             Belum ada batch yang ditimbang.
           </p>
         ) : (
@@ -197,7 +196,7 @@ export default function LaporanPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="border-b border-[#E5EAE7] text-[#66736C]">
+                  <tr className="border-b border-garis text-teks-redup">
                     <th scope="col" className="pb-2 font-medium">
                       Kode Batch
                     </th>
@@ -218,22 +217,22 @@ export default function LaporanPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#E5EAE7]/60">
+                <tbody className="divide-y divide-garis/60">
                   {daftarSelisih.map((baris) => (
                     <tr key={baris.kode}>
-                      <td className="py-2.5 font-bold text-[#17231D]">{baris.kode}</td>
-                      <td className="py-2.5 text-[#66736C]">{cariById(daftarMitra, baris.sumberId)?.nama}</td>
+                      <td className="py-2.5 font-bold text-teks">{baris.kode}</td>
+                      <td className="py-2.5 text-teks-redup">{cariById(daftarMitra, baris.sumberId)?.nama}</td>
                       <td className="py-2.5 text-right">{formatKg(baris.dilaporkanKg)}</td>
                       <td className="py-2.5 text-right">{formatKg(baris.diterimaKg)}</td>
                       <td className="py-2.5 text-right font-semibold">{formatKg(baris.selisihKg)}</td>
                       <td className="py-2.5 pl-3">
                         {baris.melebihiToleransi ? (
-                          <span className="inline-flex items-center gap-1 whitespace-nowrap px-2 py-0.5 rounded-full bg-[#FEF3C7] text-[#B7791F] font-semibold">
+                          <span className="inline-flex items-center gap-1 whitespace-nowrap px-2 py-0.5 rounded-full bg-peringatan-muda text-peringatan font-semibold">
                             <AlertTriangle className="w-3 h-3" aria-hidden="true" />
                             Melebihi toleransi
                           </span>
                         ) : (
-                          <span className="inline-flex whitespace-nowrap px-2 py-0.5 rounded-full bg-[#EAF5F0] text-[#16805D] font-semibold">
+                          <span className="inline-flex whitespace-nowrap px-2 py-0.5 rounded-full bg-sukses-muda text-sukses font-semibold">
                             Wajar
                           </span>
                         )}
@@ -248,11 +247,11 @@ export default function LaporanPage() {
       </section>
 
       {/* Rekap kinerja mitra terverifikasi */}
-      <section className="p-6 rounded-2xl bg-white border border-[#E5EAE7] shadow-xs space-y-4">
+      <section className="p-6 rounded-2xl bg-white border border-garis shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <h2 className="font-bold text-base text-[#17231D]">Rekap kinerja mitra</h2>
-            <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#F4F6F5] border border-[#E5EAE7] text-[#66736C]">
+            <h2 className="font-bold text-base text-teks">Rekap kinerja mitra</h2>
+            <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-latar-redup border border-garis text-teks-redup">
               {rekapMitra.length} mitra terverifikasi
             </span>
           </div>
@@ -260,7 +259,7 @@ export default function LaporanPage() {
             value={filterPeran}
             onChange={(e) => setFilterPeran(e.target.value)}
             aria-label="Filter peran mitra"
-            className="bg-[#F4F6F5] border border-[#E5EAE7] text-xs font-medium text-[#17231D] px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#176B4D] cursor-pointer"
+            className="bg-latar-redup border border-garis text-xs font-medium text-teks px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand cursor-pointer"
           >
             {PILIHAN_PERAN.map((pilihan) => (
               <option key={pilihan.nilai} value={pilihan.nilai}>
@@ -273,7 +272,7 @@ export default function LaporanPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-[#E5EAE7] text-[#66736C]">
+              <tr className="border-b border-garis text-teks-redup">
                 <th scope="col" className="pb-3 font-medium">
                   Mitra
                 </th>
@@ -297,12 +296,12 @@ export default function LaporanPage() {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#E5EAE7]/60">
+            <tbody className="divide-y divide-garis/60">
               {rekapTampil.map((baris) => (
                 <tr key={baris.id}>
                   <td className="py-3">
-                    <p className="font-bold text-[#17231D]">{baris.nama}</p>
-                    <p className="text-[11px] text-[#66736C]">{baris.kecamatan}</p>
+                    <p className="font-bold text-teks">{baris.nama}</p>
+                    <p className="text-[11px] text-teks-redup">{baris.kecamatan}</p>
                   </td>
                   <td className="py-3">
                     <span
@@ -313,9 +312,9 @@ export default function LaporanPage() {
                   </td>
                   <td className="py-3 text-center">{baris.jumlahBatch} batch</td>
                   <td className="py-3 text-right">{formatKg(baris.dilaporkanKg)}</td>
-                  <td className="py-3 text-right font-semibold text-[#176B4D]">{formatKg(baris.diterimaKg)}</td>
+                  <td className="py-3 text-right font-semibold text-brand">{formatKg(baris.diterimaKg)}</td>
                   <td
-                    className={`py-3 text-right ${baris.ditolakKg > 0 ? 'text-[#C2413B] font-semibold' : 'text-[#66736C]'}`}
+                    className={`py-3 text-right ${baris.ditolakKg > 0 ? 'text-bahaya font-semibold' : 'text-teks-redup'}`}
                   >
                     {formatKg(baris.ditolakKg)}
                   </td>
@@ -325,14 +324,14 @@ export default function LaporanPage() {
             </tbody>
             {/* Total dihitung dari seluruh batch, bukan menjumlah baris: satu batch muncul di baris sumber DAN di baris pengolah */}
             <tfoot>
-              <tr className="border-t-2 border-[#E5EAE7] font-bold text-[#17231D]">
+              <tr className="border-t-2 border-garis font-bold text-teks">
                 <td className="pt-3" colSpan={2}>
                   Total seluruh batch
                 </td>
                 <td className="pt-3 text-center">{daftarBatch.length} batch</td>
                 <td className="pt-3 text-right">{formatKg(totalBeratDilaporkan(daftarBatch))}</td>
-                <td className="pt-3 text-right text-[#176B4D]">{formatKg(totalBeratDiterima(daftarBatch))}</td>
-                <td className="pt-3 text-right text-[#C2413B]">{formatKg(totalBeratDitolak(daftarBatch))}</td>
+                <td className="pt-3 text-right text-brand">{formatKg(totalBeratDiterima(daftarBatch))}</td>
+                <td className="pt-3 text-right text-bahaya">{formatKg(totalBeratDitolak(daftarBatch))}</td>
                 <td className="pt-3 text-right">{formatPersen(persenDiterima(daftarBatch))}</td>
               </tr>
             </tfoot>
@@ -341,8 +340,8 @@ export default function LaporanPage() {
       </section>
 
       {/* Catatan peran aplikasi */}
-      <aside className="p-4 rounded-2xl bg-[#F4F6F5] border border-[#E5EAE7] flex items-start gap-3 text-xs text-[#66736C]">
-        <Info className="w-4 h-4 text-[#176B4D] shrink-0 mt-0.5" aria-hidden="true" />
+      <aside className="p-4 rounded-2xl bg-latar-redup border border-garis flex items-start gap-3 text-xs text-teks-redup">
+        <Info className="w-4 h-4 text-brand shrink-0 mt-0.5" aria-hidden="true" />
         <p>
           Kelayakan material ditentukan oleh mitra pengolah, bukan oleh aplikasi. Berat diterima berasal dari timbangan
           manual saat serah terima; batch Ditolak tidak dihitung sebagai berat dilaporkan.
