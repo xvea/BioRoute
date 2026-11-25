@@ -285,7 +285,7 @@ export default function AdminLoginPage() {
                   <aside
                     role="alert"
                     aria-live="assertive"
-                    className="bg-red-50 border border-red-200 rounded-xl p-3.5 flex items-start justify-between gap-3 text-bahaya"
+                    className="bg-bahaya-muda border border-bahaya/20 rounded-xl p-3.5 flex items-start justify-between gap-3 text-bahaya"
                   >
                     <div className="flex items-start gap-2.5">
                       <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-bahaya" aria-hidden="true" />

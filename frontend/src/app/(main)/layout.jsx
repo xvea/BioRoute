@@ -32,7 +32,7 @@ function AdminShell({ children }) {
       href: '/verifikasi',
       icon: ShieldCheck,
       badge: jumlahMitraMenunggu,
-      badgeColor: 'bg-red-100 text-red-600',
+      badgeColor: 'bg-bahaya-muda text-bahaya',
     },
     {
       name: 'Batch Material',

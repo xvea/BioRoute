@@ -37,8 +37,8 @@ import {
 // Warna batang grafik diambil dari src/lib/warnaGrafik.js.
 const GAYA_JALUR = [
   { warna: WARNA_JALUR[0], Ikon: Sprout, latarIkon: 'bg-brand-muda text-brand' },
-  { warna: WARNA_JALUR[1], Ikon: Bug, latarIkon: 'bg-blue-50 text-info' },
-  { warna: WARNA_JALUR[2], Ikon: Layers, latarIkon: 'bg-amber-50 text-peringatan' },
+  { warna: WARNA_JALUR[1], Ikon: Bug, latarIkon: 'bg-info-muda text-info' },
+  { warna: WARNA_JALUR[2], Ikon: Layers, latarIkon: 'bg-peringatan-muda text-peringatan' },
 ];
 
 /**
@@ -135,7 +135,7 @@ export default function DashboardPage() {
         <article className="p-5 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between hover:border-brand/30 transition-colors">
           <div className="flex items-start justify-between">
             <span className="text-xs font-medium text-teks-redup">Diterima pengolah</span>
-            <div className="p-1.5 rounded-lg bg-blue-50 text-info">
+            <div className="p-1.5 rounded-lg bg-info-muda text-info">
               <TrendingUp className="w-3.5 h-3.5" aria-hidden="true" />
             </div>
           </div>
@@ -154,7 +154,7 @@ export default function DashboardPage() {
         <article className="p-5 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between hover:border-brand/30 transition-colors">
           <div className="flex items-start justify-between">
             <span className="text-xs font-medium text-teks-redup">Ditolak</span>
-            <div className="p-1.5 rounded-lg bg-red-50 text-bahaya">
+            <div className="p-1.5 rounded-lg bg-bahaya-muda text-bahaya">
               <AlertTriangle className="w-3.5 h-3.5" aria-hidden="true" />
             </div>
           </div>
@@ -173,7 +173,7 @@ export default function DashboardPage() {
         <article className="p-5 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between hover:border-brand/30 transition-colors">
           <div className="flex items-start justify-between">
             <span className="text-xs font-medium text-teks-redup">Batch aktif</span>
-            <div className="p-1.5 rounded-lg bg-amber-50 text-peringatan">
+            <div className="p-1.5 rounded-lg bg-peringatan-muda text-peringatan">
               <Layers className="w-3.5 h-3.5" aria-hidden="true" />
             </div>
           </div>
@@ -394,7 +394,7 @@ export default function DashboardPage() {
           <div>
             <div className="flex items-center justify-between mb-1">
               <h2 className="text-base font-bold text-teks">Perlu verifikasi</h2>
-              <span className="bg-red-50 text-red-600 font-bold px-2.5 py-0.5 rounded-full text-xs">
+              <span className="bg-bahaya-muda text-bahaya font-bold px-2.5 py-0.5 rounded-full text-xs">
                 {daftarMitraMenunggu.length} menunggu
               </span>
             </div>

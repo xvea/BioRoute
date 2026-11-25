@@ -166,7 +166,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 <span
                   className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
                     status === STATUS_VERIFIKASI.MENUNGGU && jumlahPerStatus[status] > 0
-                      ? 'bg-red-50 text-red-600'
+                      ? 'bg-bahaya-muda text-bahaya'
                       : 'bg-latar-redup text-teks-redup'
                   }`}
                 >

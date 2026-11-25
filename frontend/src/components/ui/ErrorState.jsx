@@ -5,9 +5,9 @@ export default function ErrorState({ judul, pesan, onRetry }) {
     <section
       role="alert"
       aria-live="assertive"
-      className="max-w-xl mx-auto my-12 p-8 rounded-2xl bg-white border border-red-200 shadow-sm text-center"
+      className="max-w-xl mx-auto my-12 p-8 rounded-2xl bg-white border border-bahaya/20 shadow-sm text-center"
     >
-      <div className="w-12 h-12 rounded-full bg-red-50 text-bahaya flex items-center justify-center mx-auto mb-4">
+      <div className="w-12 h-12 rounded-full bg-bahaya-muda text-bahaya flex items-center justify-center mx-auto mb-4">
         <AlertTriangle className="w-6 h-6" aria-hidden="true" />
       </div>
       <h2 className="text-lg font-bold text-teks">{judul}</h2>

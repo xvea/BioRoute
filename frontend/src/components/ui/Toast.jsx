@@ -6,7 +6,7 @@ const GAYA_TOAST = {
     Ikon: CheckCircle2,
   },
   warning: {
-    kotak: 'bg-amber-50 border-amber-200 text-peringatan',
+    kotak: 'bg-peringatan-muda border-peringatan/20 text-peringatan',
     Ikon: Info,
   },
   error: {
