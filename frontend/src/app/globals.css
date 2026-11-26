@@ -46,6 +46,7 @@
 
   /* Animasi */
   --animate-fade-in: fade-in 0.25s ease-out;
+  --animate-muncul: muncul 0.2s ease-out;
 
   @keyframes fade-in {
     from {
@@ -57,6 +58,35 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  @keyframes muncul {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* Cincin fokus keyboard yang seragam; elemen dengan gaya fokus sendiri tetap memakai gayanya */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+}
+
+/* Ikuti pengaturan "kurangi animasi" di sistem operasi */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 

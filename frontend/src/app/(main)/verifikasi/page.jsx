@@ -159,7 +159,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                 role="tab"
                 aria-selected={isAktif}
                 onClick={() => gantiTab(status)}
-                className={`pb-3 inline-flex items-center gap-2 text-sm font-medium transition-all cursor-pointer ${
+                className={`pb-3 inline-flex items-center gap-2 text-sm font-medium transition cursor-pointer ${
                   isAktif ? 'text-brand font-bold border-b-2 border-brand' : 'text-teks-redup hover:text-teks'
                 }`}
               >
@@ -196,7 +196,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
                   onChange={(e) => ubahKataKunci(e.target.value)}
                   placeholder="Cari nama, penanggung jawab, atau kecamatan"
                   aria-label="Cari nama, penanggung jawab, atau kecamatan"
-                  className="w-full pl-9 pr-3.5 py-2 bg-latar-redup text-xs text-teks placeholder-teks-redup rounded-xl border border-garis focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all"
+                  className="w-full pl-9 pr-3.5 py-2 bg-latar-redup text-xs text-teks placeholder-teks-redup rounded-xl border border-garis focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition"
                 />
               </div>
 

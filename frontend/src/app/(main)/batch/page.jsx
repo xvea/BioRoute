@@ -221,7 +221,7 @@ function IsiHalamanBatch({ kodeAwal }) {
               onChange={(e) => ubahFilter('kataKunci', e.target.value)}
               placeholder="Cari kode atau sumber"
               aria-label="Cari kode atau nama sumber"
-              className="w-full pl-9 pr-3.5 py-2 bg-latar-redup text-xs text-teks placeholder-teks-redup rounded-xl border border-garis focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all"
+              className="w-full pl-9 pr-3.5 py-2 bg-latar-redup text-xs text-teks placeholder-teks-redup rounded-xl border border-garis focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition"
             />
           </div>
 
@@ -622,7 +622,7 @@ function IsiHalamanBatch({ kodeAwal }) {
                             role="radio"
                             aria-checked={isDipilih}
                             onClick={() => setPengolahDipilih(mitra.id)}
-                            className={`w-full text-left p-3 rounded-xl border text-xs cursor-pointer transition-all flex items-start gap-2.5 ${
+                            className={`w-full text-left p-3 rounded-xl border text-xs cursor-pointer transition flex items-start gap-2.5 ${
                               isDipilih
                                 ? 'border-brand bg-brand-muda/60 ring-1 ring-brand'
                                 : 'border-garis bg-latar-redup/40 hover:bg-latar-redup'
@@ -652,7 +652,7 @@ function IsiHalamanBatch({ kodeAwal }) {
                     type="button"
                     onClick={handleSetujui}
                     disabled={!pengolahValid}
-                    className="w-full bg-brand hover:bg-brand-tua text-white text-sm font-medium py-2.5 rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-brand hover:bg-brand-tua text-white text-sm font-medium py-2.5 rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <CheckSquare className="w-4 h-4" aria-hidden="true" />
                     <span>Setujui &amp; Tawarkan</span>

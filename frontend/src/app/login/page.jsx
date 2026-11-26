@@ -324,7 +324,7 @@ export default function AdminLoginPage() {
                       aria-required="true"
                       aria-invalid={Boolean(validationErrors.email)}
                       aria-describedby={validationErrors.email ? 'email-error' : undefined}
-                      className={`w-full pl-9 pr-3.5 py-2.5 bg-latar-redup text-sm text-teks placeholder-teks-redup rounded-xl border transition-all focus:outline-none focus:ring-2 ${
+                      className={`w-full pl-9 pr-3.5 py-2.5 bg-latar-redup text-sm text-teks placeholder-teks-redup rounded-xl border transition focus:outline-none focus:ring-2 ${
                         validationErrors.email
                           ? 'border-bahaya focus:border-bahaya focus:ring-bahaya'
                           : 'border-garis focus:border-brand focus:ring-brand'
@@ -363,7 +363,7 @@ export default function AdminLoginPage() {
                       aria-required="true"
                       aria-invalid={Boolean(validationErrors.password)}
                       aria-describedby={validationErrors.password ? 'password-error' : undefined}
-                      className={`w-full pl-9 pr-10 py-2.5 bg-latar-redup text-sm text-teks placeholder-teks-redup rounded-xl border transition-all focus:outline-none focus:ring-2 ${
+                      className={`w-full pl-9 pr-10 py-2.5 bg-latar-redup text-sm text-teks placeholder-teks-redup rounded-xl border transition focus:outline-none focus:ring-2 ${
                         validationErrors.password
                           ? 'border-bahaya focus:border-bahaya focus:ring-bahaya'
                           : 'border-garis focus:border-brand focus:ring-brand'
@@ -417,7 +417,7 @@ export default function AdminLoginPage() {
                   <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="w-full flex items-center justify-center gap-2 bg-brand hover:bg-brand-tua active:bg-brand-gelap text-white text-sm font-medium rounded-xl py-3 px-4 shadow-sm hover:shadow transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                    className="w-full flex items-center justify-center gap-2 bg-brand hover:bg-brand-tua active:bg-brand-gelap text-white text-sm font-medium rounded-xl py-3 px-4 shadow-sm hover:shadow transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                   >
                     {status === 'loading' ? (
                       <>

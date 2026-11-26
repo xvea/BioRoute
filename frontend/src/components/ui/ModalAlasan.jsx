@@ -30,7 +30,7 @@ export default function ModalAlasan({ judul, keterangan, labelKirim, varian = 'b
 
   return (
     <div
-      className="fixed inset-0 z-40 bg-black/40 flex items-center justify-center p-4"
+      className="fixed inset-0 z-40 bg-black/40 flex items-center justify-center p-4 animate-muncul"
       onKeyDown={(e) => {
         if (e.key === 'Escape') onBatal();
       }}
@@ -39,7 +39,7 @@ export default function ModalAlasan({ judul, keterangan, labelKirim, varian = 'b
         role="dialog"
         aria-modal="true"
         aria-labelledby="judul-modal-alasan"
-        className="bg-white rounded-2xl border border-garis shadow-xl w-full max-w-md p-6 space-y-4"
+        className="bg-white rounded-kartu border border-garis shadow-xl w-full max-w-md p-6 space-y-4 animate-fade-in"
       >
         <div>
           <h2 id="judul-modal-alasan" className="text-lg font-bold text-teks">

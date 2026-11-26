@@ -159,7 +159,7 @@ function AdminShell({ children }) {
                     <Link
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand ${
+                      className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand ${
                         isActive
                           ? 'bg-brand-muda text-brand font-semibold shadow-xs'
                           : 'text-teks-redup hover:text-teks hover:bg-latar-redup'

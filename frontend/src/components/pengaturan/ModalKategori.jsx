@@ -40,7 +40,7 @@ export default function ModalKategori({ kategoriAwal, daftarKategori, onBatal, o
 
   return (
     <div
-      className="fixed inset-0 z-40 bg-black/40 flex items-center justify-center p-4"
+      className="fixed inset-0 z-40 bg-black/40 flex items-center justify-center p-4 animate-muncul"
       onKeyDown={(e) => {
         if (e.key === 'Escape') onBatal();
       }}
@@ -49,7 +49,7 @@ export default function ModalKategori({ kategoriAwal, daftarKategori, onBatal, o
         role="dialog"
         aria-modal="true"
         aria-labelledby="judul-modal-kategori"
-        className="bg-white rounded-2xl border border-garis shadow-xl w-full max-w-md p-6"
+        className="bg-white rounded-kartu border border-garis shadow-xl w-full max-w-md p-6 animate-fade-in"
       >
         <h2 id="judul-modal-kategori" className="text-lg font-bold text-teks">
           {modeUbah ? `Ubah kategori ${kategoriAwal.id}` : 'Tambah kategori material'}

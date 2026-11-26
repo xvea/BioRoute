@@ -291,7 +291,7 @@ export default function DashboardPage() {
                     {/* Progress Bar */}
                     <div className="w-full bg-garis h-2 rounded-full overflow-hidden">
                       <div
-                        className="h-full transition-all duration-500 rounded-full"
+                        className="h-full transition-[width] duration-500 rounded-full"
                         style={{ width: `${jalur.persen}%`, backgroundColor: warna }}
                       />
                     </div>
@@ -408,7 +408,7 @@ export default function DashboardPage() {
               {daftarMitraMenunggu.map((mitra) => (
                 <div
                   key={mitra.id}
-                  className="p-3 rounded-xl border border-garis hover:border-brand/30 transition-all flex items-center justify-between gap-3 bg-latar-redup/40"
+                  className="p-3 rounded-xl border border-garis hover:border-brand/30 transition flex items-center justify-between gap-3 bg-latar-redup/40"
                 >
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
