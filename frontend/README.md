@@ -64,6 +64,7 @@ Logika aplikasi dipisah dari tampilan supaya bisa diuji tanpa browser. File test
 | `src/lib/tabel.test.js`               | Saring batch dan mitra, pagination, `halamanUntuk`                              |
 | `src/lib/validasi.test.js`            | Alasan, form kategori, parameter verifikasi                                     |
 | `src/lib/csv.test.js`                 | Penyusun CSV (escape koma/kutip, cegah rumus Excel, nama file)                  |
+| `src/lib/warnaGrafik.test.js`         | Warna grafik memakai token yang ada di `globals.css`                            |
 | `src/context/BioRouteReducer.test.js` | Aturan bisnis: keputusan batch, verifikasi mitra, kategori, jalur, parameter    |
 
 Aturan di reducer (misalnya batch hanya boleh ditawarkan ke pengolah terverifikasi dengan jalur yang sama) menjadi acuan aturan bisnis untuk API backend nanti.
@@ -83,14 +84,36 @@ frontend/
     │   ├── (main)/laporan/           ← W4
     │   ├── (main)/pengaturan/        ← W5
     │   └── api/auth/login/route.js   ← login demo (cookie JWT)
-    ├── components/ui/                ← StatusBadge, RouteBadge, Toast, ErrorState, ModalAlasan
+    ├── app/globals.css               ← token desain (warna, radius, animasi)
+    ├── components/ui/                ← Kartu, KepalaHalaman, StatusBadge, RouteBadge, Toast, ErrorState, ModalAlasan
     ├── components/pengaturan/        ← ModalKategori
     ├── context/                      ← BioRouteContext (state bersama) + BioRouteReducer (aksi)
     ├── hooks/                        ← useToast, useIsMounted
-    ├── lib/                          ← fungsi murni: format, hitung, tabel, validasi, csv (+ unit test), unduh
+    ├── lib/                          ← fungsi murni: format, hitung, tabel, validasi, csv (+ unit test), unduh, warnaGrafik
     │   └── data/                     ← data contoh: master data, mitra, batch
     └── proxy.js                      ← melindungi halaman admin (harus login)
 ```
+
+## Mengubah tampilan
+
+Warna dan gaya dasar ditulis di satu tempat, jadi revisi tampilan tidak perlu mengubah logika atau unit test.
+
+| Ingin mengubah                                | Ubah di                                                                    |
+| --------------------------------------------- | -------------------------------------------------------------------------- |
+| Warna (brand, teks, garis, sukses, bahaya, …) | Token `--color-*` di `src/app/globals.css`                                 |
+| Sudut kartu                                   | Token `--radius-kartu` di `src/app/globals.css`                            |
+| Animasi muncul (toast, modal)                 | Token `--animate-*` di `src/app/globals.css`                               |
+| Token warna yang dipakai grafik               | `src/lib/warnaGrafik.js`                                                   |
+| Gaya kartu putih di semua halaman             | `src/components/ui/Kartu.jsx`                                              |
+| Judul dan deskripsi halaman admin             | `src/components/ui/KepalaHalaman.jsx`                                      |
+| Warna badge status batch dan mitra            | `src/components/ui/StatusBadge.jsx` (memakai token, mis. `bg-sukses-muda`) |
+
+Aturan pakai:
+
+- Pakai kelas token (`bg-brand`, `text-teks-redup`, `border-garis`), **bukan** kode hex atau warna bawaan Tailwind (`red-50`, `blue-600`).
+- Tulis nama kelas utuh. Tailwind membaca teks file, jadi `bg-${warna}` tidak akan dibuat.
+- Token ditulis dengan `@theme static` agar variabel CSS-nya selalu ada untuk grafik.
+- Fokus keyboard (tombol Tab) memakai cincin hijau yang sama di semua elemen, dan semua animasi mengikuti pengaturan "kurangi animasi" di sistem operasi.
 
 ## Batasan sementara (sebelum ada backend)
 
@@ -101,5 +124,5 @@ frontend/
 
 ## Alur kerja Git
 
-- Kerjakan di branch fitur (contoh: `web/perbaikan-frontend`), lalu buat Pull Request ke `main`.
+- Kerjakan di branch fitur (contoh: `web/perbaikan-frontend`, `web/refactor-ui`), lalu buat Pull Request ke `main`.
 - Pesan commit memakai awalan: `feat:`, `fix:`, `test:`, `refactor:`, `style:`, `chore:`, `docs:`. Commit fitur dan commit test dipisah.
