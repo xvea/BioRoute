@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, LabelList } from 'recharts';
 import StatusBadge from '@/components/ui/StatusBadge';
+import Kartu from '@/components/ui/Kartu';
+import KepalaHalaman from '@/components/ui/KepalaHalaman';
 import { useBioRoute } from '@/context/BioRouteContext';
 import useIsMounted from '@/hooks/useIsMounted';
 import { STATUS_BATCH } from '@/lib/constants';
@@ -97,13 +99,11 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6 bg-white">
       {/* HEADER SECTION */}
-      <section className="pb-2">
-        <h1 className="text-2xl font-bold text-teks tracking-tight">Ringkasan Operasional</h1>
-        <p className="text-sm text-teks-redup mt-1">
-          Berat residu, status batch, dan mitra yang perlu ditindaklanjuti. Semua angka dihitung dari data batch dan
-          mitra.
-        </p>
-      </section>
+      <KepalaHalaman
+        judul="Ringkasan Operasional"
+        deskripsi="Berat residu, status batch, dan mitra yang perlu ditindaklanjuti. Semua angka dihitung dari data batch dan mitra."
+        className="pb-2"
+      />
 
       {/* METRIC CARDS ROW (4 COLUMNS GRID) */}
       <section
@@ -111,7 +111,7 @@ export default function DashboardPage() {
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5"
       >
         {/* Metric 1: Berat tercatat */}
-        <article className="p-5 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between hover:border-brand/30 transition-colors">
+        <Kartu as="article" className="p-5 flex flex-col justify-between hover:border-brand/30 transition-colors">
           <div className="flex items-start justify-between">
             <span className="text-xs font-medium text-teks-redup">Berat tercatat</span>
             <div className="p-1.5 rounded-lg bg-sukses-muda text-sukses">
@@ -129,10 +129,10 @@ export default function DashboardPage() {
           <p className="text-[11px] text-teks-redup pt-2 border-t border-garis/70 truncate">
             Batch yang ditolak tidak dihitung
           </p>
-        </article>
+        </Kartu>
 
         {/* Metric 2: Diterima pengolah */}
-        <article className="p-5 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between hover:border-brand/30 transition-colors">
+        <Kartu as="article" className="p-5 flex flex-col justify-between hover:border-brand/30 transition-colors">
           <div className="flex items-start justify-between">
             <span className="text-xs font-medium text-teks-redup">Diterima pengolah</span>
             <div className="p-1.5 rounded-lg bg-info-muda text-info">
@@ -148,10 +148,10 @@ export default function DashboardPage() {
           <p className="text-[11px] text-teks-redup pt-2 border-t border-garis/70 truncate">
             Hasil timbang manual saat serah terima
           </p>
-        </article>
+        </Kartu>
 
         {/* Metric 3: Ditolak */}
-        <article className="p-5 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between hover:border-brand/30 transition-colors">
+        <Kartu as="article" className="p-5 flex flex-col justify-between hover:border-brand/30 transition-colors">
           <div className="flex items-start justify-between">
             <span className="text-xs font-medium text-teks-redup">Ditolak</span>
             <div className="p-1.5 rounded-lg bg-bahaya-muda text-bahaya">
@@ -167,10 +167,10 @@ export default function DashboardPage() {
           <p className="text-[11px] text-teks-redup pt-2 border-t border-garis/70 truncate">
             Alasan penolakan wajib dicatat
           </p>
-        </article>
+        </Kartu>
 
         {/* Metric 4: Batch aktif */}
-        <article className="p-5 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between hover:border-brand/30 transition-colors">
+        <Kartu as="article" className="p-5 flex flex-col justify-between hover:border-brand/30 transition-colors">
           <div className="flex items-start justify-between">
             <span className="text-xs font-medium text-teks-redup">Batch aktif</span>
             <div className="p-1.5 rounded-lg bg-peringatan-muda text-peringatan">
@@ -186,13 +186,13 @@ export default function DashboardPage() {
           <p className="text-[11px] text-teks-redup pt-2 border-t border-garis/70 truncate">
             {hitungBatchPerStatus(daftarBatch, STATUS_BATCH.DIPROSES)} sedang diproses pengolah
           </p>
-        </article>
+        </Kartu>
       </section>
 
       {/* MIDDLE SECTION (7:5 DESKTOP GRID) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Card: Berat per minggu (kg) */}
-        <article className="lg:col-span-7 p-6 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between">
+        <Kartu as="article" className="lg:col-span-7 p-6 flex flex-col justify-between">
           <div>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
               <div>
@@ -256,10 +256,10 @@ export default function DashboardPage() {
               )}
             </div>
           </div>
-        </article>
+        </Kartu>
 
         {/* Right Card: Jalur pemanfaatan */}
-        <article className="lg:col-span-5 p-6 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between">
+        <Kartu as="article" className="lg:col-span-5 p-6 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <GitFork className="w-4 h-4 text-brand" aria-hidden="true" />
@@ -311,13 +311,13 @@ export default function DashboardPage() {
               pemanfaatan
             </p>
           </div>
-        </article>
+        </Kartu>
       </section>
 
       {/* BOTTOM SECTION (BATCHES & VERIFICATION) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Card: Batch terbaru (7 cols) */}
-        <article className="lg:col-span-7 p-6 rounded-2xl bg-white border border-garis shadow-xs">
+        <Kartu as="article" className="lg:col-span-7 p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <h2 className="text-base font-bold text-teks">Batch terbaru</h2>
@@ -387,10 +387,10 @@ export default function DashboardPage() {
               </tbody>
             </table>
           </div>
-        </article>
+        </Kartu>
 
         {/* Right Card: Perlu verifikasi (5 cols) */}
-        <article className="lg:col-span-5 p-6 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between">
+        <Kartu as="article" className="lg:col-span-5 p-6 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-1">
               <h2 className="text-base font-bold text-teks">Perlu verifikasi</h2>
@@ -439,7 +439,7 @@ export default function DashboardPage() {
               Kelayakan material ditentukan oleh mitra pengolah, bukan oleh aplikasi.
             </p>
           </aside>
-        </article>
+        </Kartu>
       </section>
     </div>
   );

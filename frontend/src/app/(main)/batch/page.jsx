@@ -30,6 +30,8 @@ import { saringBatch, ambilHalaman, halamanUntuk } from '@/lib/tabel';
 import { csvBatch, namaFileUnduhan } from '@/lib/csv';
 import { unduhCsv } from '@/lib/unduh';
 import ModalAlasan from '@/components/ui/ModalAlasan';
+import Kartu from '@/components/ui/Kartu';
+import KepalaHalaman from '@/components/ui/KepalaHalaman';
 // Jumlah baris tabel per halaman.
 const PER_HALAMAN = 5;
 // Filter awal: teks kosong berarti "semua".
@@ -164,47 +166,45 @@ function IsiHalamanBatch({ kodeAwal }) {
       )}
 
       {/* PAGE HEADER & METRIC KPI CARDS */}
-      <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-1">
-        <div>
-          <h1 className="text-2xl font-bold text-teks tracking-tight">Batch Material</h1>
-          <p className="text-sm text-teks-redup mt-0.5">
-            Tinjau batch yang diajukan mitra sumber: setujui dan tawarkan ke pengolah, minta revisi, atau tolak.
-          </p>
-        </div>
+      <KepalaHalaman
+        judul="Batch Material"
+        deskripsi="Tinjau batch yang diajukan mitra sumber: setujui dan tawarkan ke pengolah, minta revisi, atau tolak."
+        className="pb-1"
+        aksi={
+          /* Top Right Metric KPI Cards */
+          <div className="flex items-center gap-3 shrink-0">
+            {/* Card 1: Berat tercatat */}
+            <Kartu as="article" className="p-3.5 flex items-center gap-3 min-w-[140px]">
+              <div className="p-2 rounded-xl bg-brand-muda text-brand">
+                <Scale className="w-4 h-4" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold text-teks-redup tracking-wider uppercase leading-tight">
+                  BERAT TERCATAT
+                </p>
+                <p className="text-xl font-bold text-teks leading-tight mt-0.5">
+                  {formatKg(totalBeratDilaporkan(daftarBatch))}
+                </p>
+              </div>
+            </Kartu>
 
-        {/* Top Right Metric KPI Cards */}
-        <div className="flex items-center gap-3 shrink-0">
-          {/* Card 1: Berat tercatat */}
-          <article className="p-3.5 rounded-2xl bg-white border border-garis shadow-xs flex items-center gap-3 min-w-[140px]">
-            <div className="p-2 rounded-xl bg-brand-muda text-brand">
-              <Scale className="w-4 h-4" aria-hidden="true" />
-            </div>
-            <div>
-              <p className="text-[10px] font-bold text-teks-redup tracking-wider uppercase leading-tight">
-                BERAT TERCATAT
-              </p>
-              <p className="text-xl font-bold text-teks leading-tight mt-0.5">
-                {formatKg(totalBeratDilaporkan(daftarBatch))}
-              </p>
-            </div>
-          </article>
-
-          {/* Card 2: Menunggu keputusan admin */}
-          <article className="p-3.5 rounded-2xl bg-white border border-garis shadow-xs flex items-center gap-3 min-w-[140px]">
-            <div className="p-2 rounded-xl bg-info-muda text-info">
-              <ShieldCheck className="w-4 h-4" aria-hidden="true" />
-            </div>
-            <div>
-              <p className="text-[10px] font-bold text-teks-redup tracking-wider uppercase leading-tight">
-                MENUNGGU KEPUTUSAN
-              </p>
-              <p className="text-xl font-bold text-teks leading-tight mt-0.5">
-                {hitungBatchPerStatus(daftarBatch, STATUS_BATCH.DIAJUKAN)} batch
-              </p>
-            </div>
-          </article>
-        </div>
-      </section>
+            {/* Card 2: Menunggu keputusan admin */}
+            <Kartu as="article" className="p-3.5 flex items-center gap-3 min-w-[140px]">
+              <div className="p-2 rounded-xl bg-info-muda text-info">
+                <ShieldCheck className="w-4 h-4" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold text-teks-redup tracking-wider uppercase leading-tight">
+                  MENUNGGU KEPUTUSAN
+                </p>
+                <p className="text-xl font-bold text-teks leading-tight mt-0.5">
+                  {hitungBatchPerStatus(daftarBatch, STATUS_BATCH.DIAJUKAN)} batch
+                </p>
+              </div>
+            </Kartu>
+          </div>
+        }
+      />
 
       {/* FILTER CONTROLS & ACTIVE CHIPS BAR */}
       <section aria-label="Filter Kontrol Batch" className="space-y-3">
@@ -323,7 +323,7 @@ function IsiHalamanBatch({ kodeAwal }) {
       {/* TWO-COLUMN SPLIT LAYOUT (7:5 DESKTOP GRID) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* LEFT COLUMN: BATCH LIST TABLE (lg:col-span-7) */}
-        <section className="lg:col-span-7 bg-white border border-garis rounded-2xl p-5 shadow-sm flex flex-col justify-between min-h-[580px]">
+        <Kartu as="section" className="lg:col-span-7 p-5 flex flex-col justify-between min-h-[580px]">
           <div>
             {/* Table Header Section */}
             <div className="flex items-center justify-between pb-3 mb-2">
@@ -496,10 +496,10 @@ function IsiHalamanBatch({ kodeAwal }) {
               </button>
             </div>
           </footer>
-        </section>
+        </Kartu>
 
         {/* RIGHT COLUMN: BATCH DETAIL PANEL (lg:col-span-5) */}
-        <aside className="lg:col-span-5 bg-white border border-garis rounded-2xl p-6 shadow-sm flex flex-col gap-5">
+        <Kartu as="aside" className="lg:col-span-5 p-6 flex flex-col gap-5">
           {batchTerpilih ? (
             <>
               {/* Header Row: kode batch & status */}
@@ -691,7 +691,7 @@ function IsiHalamanBatch({ kodeAwal }) {
               Pilih salah satu batch dari tabel di sebelah kiri untuk melihat rincian batch.
             </div>
           )}
-        </aside>
+        </Kartu>
       </div>
     </div>
   );

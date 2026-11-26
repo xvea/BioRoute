@@ -19,6 +19,8 @@ import {
 import StatusBadge from '@/components/ui/StatusBadge';
 import Toast from '@/components/ui/Toast';
 import ModalAlasan from '@/components/ui/ModalAlasan';
+import Kartu from '@/components/ui/Kartu';
+import KepalaHalaman from '@/components/ui/KepalaHalaman';
 import useToast from '@/hooks/useToast';
 import { useBioRoute } from '@/context/BioRouteContext';
 import { JENIS_AKSI } from '@/context/BioRouteReducer';
@@ -139,12 +141,11 @@ function IsiHalamanVerifikasi({ idAwal }) {
       )}
 
       {/* Judul halaman */}
-      <section className="pb-1">
-        <h1 className="text-2xl font-bold text-teks tracking-tight">Verifikasi Mitra</h1>
-        <p className="text-sm text-teks-redup mt-1">
-          Periksa identitas, lokasi, dan kapasitas mitra sebelum akunnya diaktifkan.
-        </p>
-      </section>
+      <KepalaHalaman
+        judul="Verifikasi Mitra"
+        deskripsi="Periksa identitas, lokasi, dan kapasitas mitra sebelum akunnya diaktifkan."
+        className="pb-1"
+      />
 
       {/* Tab status (angka dihitung dari state) */}
       <nav aria-label="Status verifikasi mitra" className="border-b border-garis">
@@ -181,7 +182,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
       {/* Dua kolom: tabel (kiri) dan detail mitra (kanan) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Kolom kiri: tabel mitra */}
-        <section className="lg:col-span-7 rounded-2xl bg-white border border-garis shadow-xs p-5 flex flex-col justify-between min-h-[480px]">
+        <Kartu as="section" className="lg:col-span-7 p-5 flex flex-col justify-between min-h-[480px]">
           <div>
             {/* Pencarian & urutan */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4">
@@ -359,10 +360,10 @@ function IsiHalamanVerifikasi({ idAwal }) {
               </button>
             </div>
           </footer>
-        </section>
+        </Kartu>
 
         {/* Kolom kanan: detail mitra terpilih */}
-        <aside className="lg:col-span-5 rounded-2xl bg-white border border-garis shadow-xs p-6 space-y-6">
+        <Kartu as="aside" className="lg:col-span-5 p-6 space-y-6">
           {!mitraTerpilih ? (
             <p className="text-sm text-teks-redup text-center py-10">Pilih mitra di tabel untuk melihat detailnya.</p>
           ) : (
@@ -530,7 +531,7 @@ function IsiHalamanVerifikasi({ idAwal }) {
               )}
             </>
           )}
-        </aside>
+        </Kartu>
       </div>
     </div>
   );

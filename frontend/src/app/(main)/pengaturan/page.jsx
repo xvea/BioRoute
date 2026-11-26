@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Layers, GitFork, Scale, Package, Plus, Sprout, Archive, Utensils, Bug, Pencil, Info } from 'lucide-react';
 import Toast from '@/components/ui/Toast';
 import ModalKategori from '@/components/pengaturan/ModalKategori';
+import Kartu from '@/components/ui/Kartu';
+import KepalaHalaman from '@/components/ui/KepalaHalaman';
 import useToast from '@/hooks/useToast';
 import { useBioRoute } from '@/context/BioRouteContext';
 import { JENIS_AKSI } from '@/context/BioRouteReducer';
@@ -140,16 +142,15 @@ export default function PengaturanPage() {
       )}
 
       {/* Judul halaman */}
-      <section className="pb-1">
-        <h1 className="text-2xl font-bold text-teks tracking-tight">Pengaturan Master Data</h1>
-        <p className="text-sm text-teks-redup mt-1">
-          Kelola kategori material, jalur pemanfaatan, dan parameter verifikasi yang dipakai di seluruh aplikasi.
-        </p>
-      </section>
+      <KepalaHalaman
+        judul="Pengaturan Master Data"
+        deskripsi="Kelola kategori material, jalur pemanfaatan, dan parameter verifikasi yang dipakai di seluruh aplikasi."
+        className="pb-1"
+      />
 
       {/* Kartu ringkasan (dihitung dari state) */}
       <section aria-label="Ringkasan pengaturan" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <article className="p-4 rounded-2xl bg-white border border-garis shadow-xs">
+        <Kartu as="article" className="p-4">
           <div className="flex items-center justify-between text-xs text-teks-redup">
             <span>Kategori aktif</span>
             <Layers className="w-4 h-4" aria-hidden="true" />
@@ -158,8 +159,8 @@ export default function PengaturanPage() {
             {jumlahKategoriAktif}{' '}
             <span className="text-xs font-medium text-teks-redup">dari {kategoriMaterial.length} kategori</span>
           </p>
-        </article>
-        <article className="p-4 rounded-2xl bg-white border border-garis shadow-xs">
+        </Kartu>
+        <Kartu as="article" className="p-4">
           <div className="flex items-center justify-between text-xs text-teks-redup">
             <span>Jalur aktif</span>
             <GitFork className="w-4 h-4" aria-hidden="true" />
@@ -168,15 +169,15 @@ export default function PengaturanPage() {
             {jumlahJalurAktif}{' '}
             <span className="text-xs font-medium text-teks-redup">dari {jalurPemanfaatan.length} jalur</span>
           </p>
-        </article>
-        <article className="p-4 rounded-2xl bg-white border border-garis shadow-xs">
+        </Kartu>
+        <Kartu as="article" className="p-4">
           <div className="flex items-center justify-between text-xs text-teks-redup">
             <span>Toleransi selisih</span>
             <Scale className="w-4 h-4" aria-hidden="true" />
           </div>
           <p className="text-2xl font-bold text-teks mt-1">{formatKg(parameterVerifikasi.toleransiSelisihKg)}</p>
-        </article>
-        <article className="p-4 rounded-2xl bg-white border border-garis shadow-xs">
+        </Kartu>
+        <Kartu as="article" className="p-4">
           <div className="flex items-center justify-between text-xs text-teks-redup">
             <span>Satuan baku</span>
             <Package className="w-4 h-4" aria-hidden="true" />
@@ -184,11 +185,11 @@ export default function PengaturanPage() {
           <p className="text-2xl font-bold text-teks mt-1">
             Kilogram <span className="text-xs font-medium text-teks-redup">(kg)</span>
           </p>
-        </article>
+        </Kartu>
       </section>
 
       {/* Tabel kategori material */}
-      <section className="rounded-2xl bg-white border border-garis shadow-xs overflow-hidden">
+      <Kartu as="section" className="overflow-hidden">
         <div className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h2 className="text-base font-bold text-teks">Kategori material organik</h2>
@@ -282,10 +283,10 @@ export default function PengaturanPage() {
             </tbody>
           </table>
         </div>
-      </section>
+      </Kartu>
 
       {/* Kartu jalur pemanfaatan */}
-      <section className="rounded-2xl bg-white border border-garis shadow-xs p-6 space-y-5">
+      <Kartu as="section" className="p-6 space-y-5">
         <div>
           <h2 className="text-base font-bold text-teks">Jalur pemanfaatan</h2>
           <p className="text-xs text-teks-redup mt-0.5">
@@ -355,10 +356,10 @@ export default function PengaturanPage() {
             );
           })}
         </div>
-      </section>
+      </Kartu>
 
       {/* Form parameter verifikasi */}
-      <section className="rounded-2xl bg-white border border-garis shadow-xs p-6">
+      <Kartu as="section" className="p-6">
         <form onSubmit={handleSimpanParameter} noValidate className="space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
@@ -435,7 +436,7 @@ export default function PengaturanPage() {
             </div>
           </div>
         </form>
-      </section>
+      </Kartu>
 
       {/* Catatan peran aplikasi */}
       <aside className="p-4 rounded-2xl bg-latar-redup border border-garis flex items-start gap-3 text-xs text-teks-redup">

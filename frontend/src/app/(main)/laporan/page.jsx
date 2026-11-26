@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Sprout, Archive, Utensils, Layers, FileSpreadsheet, FileText, AlertTriangle, Info } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import Toast from '@/components/ui/Toast';
+import Kartu from '@/components/ui/Kartu';
+import KepalaHalaman from '@/components/ui/KepalaHalaman';
 import useToast from '@/hooks/useToast';
 import useIsMounted from '@/hooks/useIsMounted';
 import { useBioRoute } from '@/context/BioRouteContext';
@@ -77,32 +79,31 @@ export default function LaporanPage() {
       <Toast toast={toast} />
 
       {/* Judul halaman & tombol unduh */}
-      <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-garis">
-        <div>
-          <h1 className="text-2xl font-bold text-teks tracking-tight">Laporan Residu Organik</h1>
-          <p className="text-sm text-teks-redup mt-1">
-            Rekap berat residu, hasil timbang, dan kinerja mitra dari seluruh batch yang tercatat.
-          </p>
-        </div>
-        <div className="print:hidden flex items-center gap-2 shrink-0">
-          <button
-            type="button"
-            onClick={handleUnduhCsv}
-            className="inline-flex items-center gap-2 border border-garis bg-white hover:bg-latar-redup text-sm font-medium text-teks px-4 py-2 rounded-xl transition-colors cursor-pointer"
-          >
-            <FileSpreadsheet className="w-4 h-4" aria-hidden="true" />
-            <span>Unduh CSV</span>
-          </button>
-          <button
-            type="button"
-            onClick={handleUnduhPdf}
-            className="inline-flex items-center gap-2 bg-brand hover:bg-brand-tua text-sm font-medium text-white px-4 py-2 rounded-xl transition-colors cursor-pointer"
-          >
-            <FileText className="w-4 h-4" aria-hidden="true" />
-            <span>Unduh PDF</span>
-          </button>
-        </div>
-      </section>
+      <KepalaHalaman
+        judul="Laporan Residu Organik"
+        deskripsi="Rekap berat residu, hasil timbang, dan kinerja mitra dari seluruh batch yang tercatat."
+        className="pb-4 border-b border-garis"
+        aksi={
+          <div className="print:hidden flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={handleUnduhCsv}
+              className="inline-flex items-center gap-2 border border-garis bg-white hover:bg-latar-redup text-sm font-medium text-teks px-4 py-2 rounded-xl transition-colors cursor-pointer"
+            >
+              <FileSpreadsheet className="w-4 h-4" aria-hidden="true" />
+              <span>Unduh CSV</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleUnduhPdf}
+              className="inline-flex items-center gap-2 bg-brand hover:bg-brand-tua text-sm font-medium text-white px-4 py-2 rounded-xl transition-colors cursor-pointer"
+            >
+              <FileText className="w-4 h-4" aria-hidden="true" />
+              <span>Unduh PDF</span>
+            </button>
+          </div>
+        }
+      />
 
       {/* Kartu per kategori material */}
       <section
@@ -112,10 +113,7 @@ export default function LaporanPage() {
         {ringkasanKategori.map((kategori, index) => {
           const Ikon = IKON_KATEGORI[index % IKON_KATEGORI.length];
           return (
-            <article
-              key={kategori.id}
-              className="p-5 rounded-2xl bg-white border border-garis shadow-xs flex flex-col justify-between"
-            >
+            <Kartu as="article" key={kategori.id} className="p-5 flex flex-col justify-between">
               <div className="flex items-start justify-between">
                 <div>
                   <p className="uppercase text-[10px] text-teks-redup font-bold tracking-wider">Kategori material</p>
@@ -132,13 +130,13 @@ export default function LaporanPage() {
                   {kategori.jumlahBatch} batch
                 </span>
               </div>
-            </article>
+            </Kartu>
           );
         })}
       </section>
 
       {/* Selisih berat dilaporkan vs diterima */}
-      <section className="p-6 rounded-2xl bg-white border border-garis shadow-xs space-y-5">
+      <Kartu as="section" className="p-6 space-y-5">
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
           <div>
             <h2 className="font-bold text-base text-teks">Selisih berat dilaporkan vs diterima</h2>
@@ -250,10 +248,10 @@ export default function LaporanPage() {
             </div>
           </div>
         )}
-      </section>
+      </Kartu>
 
       {/* Rekap kinerja mitra terverifikasi */}
-      <section className="p-6 rounded-2xl bg-white border border-garis shadow-xs space-y-4">
+      <Kartu as="section" className="p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <h2 className="font-bold text-base text-teks">Rekap kinerja mitra</h2>
@@ -343,7 +341,7 @@ export default function LaporanPage() {
             </tfoot>
           </table>
         </div>
-      </section>
+      </Kartu>
 
       {/* Catatan peran aplikasi */}
       <aside className="p-4 rounded-2xl bg-latar-redup border border-garis flex items-start gap-3 text-xs text-teks-redup">

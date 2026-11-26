@@ -11,14 +11,6 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-/*
- * Token desain BioRoute (sumber: DESIGN3_web.md).
- * Tailwind otomatis membuat kelas dari setiap --color-*, mis. --color-teks-redup → text-teks-redup, bg-teks-redup, border-teks-redup.
- * Untuk mengganti warna di seluruh aplikasi, cukup ubah nilainya di sini.
- * "static" = semua token selalu ditulis sebagai variabel CSS (mis. var(--color-brand)), walaupun belum ada kelas yang memakainya.
- * Ini perlu karena warna grafik (src/lib/warnaGrafik.js) membaca token lewat variabel CSS, bukan lewat kelas.
- */
-
 @theme static {
   /* Warna brand (hijau BioRoute) */
   --color-brand: #176b4d;
@@ -48,6 +40,9 @@
   --color-bahaya-muda: #fee2e2;
   --color-info: #2563eb;
   --color-info-muda: #eff6ff;
+
+  /* Sudut kartu */
+  --radius-kartu: 1rem;
 
   /* Animasi */
   --animate-fade-in: fade-in 0.25s ease-out;
